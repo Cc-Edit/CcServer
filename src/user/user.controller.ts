@@ -6,6 +6,7 @@ import {
   Put,
   Param,
   Body,
+  NotFoundException,
 } from '@nestjs/common';
 import { UserDto } from './dto/user';
 import { UserService } from './user.service';
@@ -32,6 +33,7 @@ export class UserController {
 
   @Get()
   async findAll(): Promise<User[]> {
+    // throw new NotFoundException(); // 抛出异常
     return this.userService.findAll();
   }
 
