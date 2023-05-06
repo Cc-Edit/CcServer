@@ -7,7 +7,7 @@ import { User, UserDocument } from './schemas/user.schema';
 @Injectable()
 export class UsersService {
   constructor(
-    @InjectConnection() private connection: Connection, // mongo 连接对象
+    @InjectConnection('users') private connection: Connection, // mongo 连接对象
     @InjectModel('User') private userModel: Model<UserDocument>,
   ) {}
 
