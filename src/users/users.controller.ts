@@ -10,13 +10,13 @@ import {
   NotFoundException,
 } from '@nestjs/common';
 import { UserDto } from './dto/user';
-import { UserService } from './user.service';
+import { UsersService } from './users.service';
 import { User } from './interfaces/user';
 import { ValidationPipe } from './pipe/validate.pipe';
 
 @Controller('user')
-export class UserController {
-  constructor(private userService: UserService) {}
+export class UsersController {
+  constructor(private userService: UsersService) {}
 
   @Post()
   @UsePipes(ValidationPipe)
