@@ -11,7 +11,7 @@ import { User, UserSchema } from './schemas/user.schema';
   imports: [
     MongooseModule.forFeature(
       [{ name: User.name, schema: UserSchema }],
-      'users',
+      'Users',
     ),
   ], // 导入模块
 })

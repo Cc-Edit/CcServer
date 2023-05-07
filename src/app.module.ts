@@ -17,16 +17,16 @@ import { getDir } from './lib/utils/common';
     MongooseModule.forRoot(
       process.env.DATABASE_URI + '/design?authSource=admin',
       {
-        connectionName: 'design',
+        connectionName: 'Design',
       },
     ),
     MongooseModule.forRoot(
       process.env.DATABASE_URI + '/users?authSource=admin',
       {
-        connectionName: 'users',
+        connectionName: 'Users',
       },
     ),
-    // UsersModule,
+    UsersModule,
     AuthModule,
   ],
   providers: [AuthService],
