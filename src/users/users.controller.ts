@@ -7,11 +7,10 @@ import {
   Param,
   Body,
   UsePipes,
-  NotFoundException,
 } from '@nestjs/common';
 import { UserDto } from './dto/user';
 import { UsersService } from './users.service';
-import { User } from './interfaces/user';
+import { User } from './schemas/user.schema';
 import { ValidationPipe } from './pipe/validate.pipe';
 
 @Controller('user')
