@@ -10,7 +10,7 @@ import { User, UserSchema } from './schemas/user.schema';
   exports: [UsersService], // 共享模块
   imports: [
     MongooseModule.forFeature(
-      [{ name: User.name, schema: UserSchema }],
+      [{ name: User.name, schema: UserSchema,  }],
       'Users',
     ),
   ], // 导入模块

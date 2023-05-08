@@ -45,4 +45,15 @@ export class User extends Document {
   status: typeof UserStatus; // 用户状态
 }
 
-export const UserSchema = SchemaFactory.createForClass(User);
+const schema = SchemaFactory.createForClass(User);
+schema.pre(['updateOne', 'save'], (next) => {
+  console.log('find方法  执行之前，这里代码会执行');
+  next();
+});
+
+schema.post(['updateOne', 'save'], (next) => {
+  console.log('find方法  执行之后，这里代码会执行');
+  next();
+});
+
+export const UserSchema = schema;
