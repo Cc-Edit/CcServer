@@ -40,9 +40,9 @@ export class User extends Document {
 
   @Prop({ required: true })
   role: number; // 角色
-
-  @Prop({ required: true })
-  status: typeof UserStatus; // 用户状态
+  //
+  // @Prop({ required: true })
+  // status: typeof UserStatus; // 用户状态
 }
 
 const schema = SchemaFactory.createForClass(User);

@@ -1,4 +1,10 @@
-import { IsString, IsNotEmpty, Length, IsInt, Matches, IsNumber } from 'class-validator';
+import {
+  IsString,
+  IsNotEmpty,
+  Length,
+  Matches,
+  IsNumber,
+} from 'class-validator';
 import { UserStatus } from '../schemas/user.schema';
 
 export class UserDto {
@@ -58,6 +64,6 @@ export class UserDto {
 
   @IsNumber()
   readonly role: string;
-
-  readonly status: typeof UserStatus;
+  //
+  // readonly status: typeof UserStatus;
 }
