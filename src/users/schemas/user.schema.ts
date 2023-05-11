@@ -8,10 +8,16 @@ export enum UserStatus {
   Expired,
   Open,
 }
-
+export enum UserRole {
+  Admin,
+  User,
+}
 @Schema()
 export class User extends Document {
-  @Prop({ required: true })
+  @Prop({
+    required: true,
+    trim: true,
+  })
   name: string; // 用户名
 
   @Prop({ required: true })
@@ -38,11 +44,11 @@ export class User extends Document {
   @Prop({ required: true })
   updateDate: number; // 最后更新时间
 
-  @Prop({ required: true })
-  role: number; // 角色
-  //
-  // @Prop({ required: true })
-  // status: typeof UserStatus; // 用户状态
+  @Prop({ required: true, enum: UserRole })
+  role: number; // 用户角色
+
+  @Prop({ required: true, enum: UserStatus })
+  status: number; // 用户状态
 }
 
 const schema = SchemaFactory.createForClass(User);

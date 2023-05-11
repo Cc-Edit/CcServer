@@ -17,6 +17,7 @@ export class ValidationPipe implements PipeTransform<any> {
     const object = plainToInstance(metatype, value);
     const errors = await validate(object);
     if (errors.length > 0) {
+      console.log(JSON.stringify(errors));
       throw new BadRequestException('参数格式不正确');
     }
     return value;

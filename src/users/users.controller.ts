@@ -8,10 +8,13 @@ import {
   Body,
   UsePipes,
 } from '@nestjs/common';
-import { UserDto } from './dto/user';
+import { UserCreateDto } from './dto/user';
 import { UsersService } from './users.service';
 import { User } from './schemas/user.schema';
-import { ValidationPipe } from './pipe/validate.pipe';
+import { ValidationPipe } from '../lib/pipe/validate.pipe';
+import { getRandomString } from '../lib/utils/common';
+import * as md5 from 'crypto-js/md5';
+import { v4 as UuidV4 } from 'uuid';
 
 @Controller('user')
 export class UsersController {
@@ -19,9 +22,18 @@ export class UsersController {
 
   @Post()
   @UsePipes(ValidationPipe)
-  async create(@Body() user: UserDto) {
+  async create(@Body() user: UserCreateDto) {
+    user.avatar = user.avatar ?? '';
+    user.uuid = UuidV4();
+    // 密码加盐
+    user.salt = getRandomString();
+    user.password = md5(`${user.salt}${user.password}`).toString();
+    user.createDate = new Date().getTime();
+    user.updateDate = new Date().getTime();
+    user.role = 1;
+    user.status = 3;
     console.log(user);
-    this.userService.create(user);
+    // this.userService.create(user);
   }
 
   @Delete(':id')
@@ -30,7 +42,7 @@ export class UsersController {
   }
 
   @Put(':id')
-  update(@Param('id') id: string, @Body() user: UserDto) {
+  update(@Param('id') id: string, @Body() user: UserCreateDto) {
     return `This action updates a #${id} user`;
   }
 
