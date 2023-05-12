@@ -33,7 +33,7 @@ export class UsersController {
     user.role = 1;
     user.status = 3;
     console.log(user);
-    // this.userService.create(user);
+    this.userService.create(user);
   }
 
   @Delete(':id')
