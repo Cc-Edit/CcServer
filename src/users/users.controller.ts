@@ -23,7 +23,6 @@ export class UsersController {
   @Post()
   @UsePipes(ValidationPipe)
   async create(@Body() user: UserCreateDto) {
-    user.avatar = user.avatar ?? '';
     user.uuid = UuidV4();
     // 密码加盐
     user.salt = getRandomString();
@@ -32,7 +31,6 @@ export class UsersController {
     user.updateDate = new Date().getTime();
     user.role = 1;
     user.status = 3;
-    console.log(user);
     this.userService.create(user);
   }
 

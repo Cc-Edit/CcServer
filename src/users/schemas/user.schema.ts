@@ -52,14 +52,18 @@ export class User extends Document {
 }
 
 const schema = SchemaFactory.createForClass(User);
-schema.pre(['updateOne', 'save'], (next) => {
-  console.log('find方法  执行之前，这里代码会执行');
+
+schema.pre(['updateOne', 'save', 'findOneAndUpdate'], function (next) {
+  console.log('updateOne、save之前，补充默认值');
+  const that = this as User;
+  if (that.avatar) that.avatar = '';
   next();
 });
 
-schema.post(['updateOne', 'save'], (next) => {
-  console.log('find方法  执行之后，这里代码会执行');
-  next();
+schema.post(['updateOne', 'save', 'findOneAndUpdate'], function () {
+  console.log('updateOne、save、findOneAndUpdate之后，更新数据更新时间字段值');
+  const that = this as User;
+  that.updateDate = new Date().getTime();
 });
 
 export const UserSchema = schema;
