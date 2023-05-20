@@ -1,13 +1,7 @@
-import {
-  Controller,
-  Get,
-  Post,
-  Body,
-  UsePipes
-} from '@nestjs/common';
+import { Controller, Get, Post, Body, UsePipes } from '@nestjs/common';
 import { UserCreateDto } from './dto/user';
 import { UsersService } from './users.service';
-import { UserStatus } from "./schemas/user.schema";
+import { UserStatus } from './schemas/user.schema';
 import { ValidationPipe } from '../lib/pipe/validate.pipe';
 import { getRandomString } from '../lib/utils/common';
 import * as md5 from 'crypto-js/md5';
@@ -64,14 +58,16 @@ export class UsersController {
 
   @Post('delete')
   async remove(@Body('uuid') uuid: string) {
-    const users = await this.userService.findBy([{
-      uuid
-    }]);
-    if (users && users.length > 0){
-      users.forEach(item => {
+    const users = await this.userService.findBy([
+      {
+        uuid,
+      },
+    ]);
+    if (users && users.length > 0) {
+      users.forEach((item) => {
         item.status = UserStatus.Delete;
         item.save();
-      })
+      });
     }
     return {
       isOk: true,
