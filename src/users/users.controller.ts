@@ -23,6 +23,32 @@ export class UsersController {
   @Post()
   @UsePipes(ValidationPipe)
   async create(@Body() user: UserCreateDto) {
+    // 判断用户是否重复
+    let findUsers = await this.userService.findBy([{ name: user.name }]);
+    if (findUsers.length > 0) {
+      return {
+        isOk: false,
+        message: '用户名已存在',
+        data: {},
+      };
+    }
+    findUsers = await this.userService.findBy([{ phone: user.phone }]);
+    if (findUsers.length > 0) {
+      return {
+        isOk: false,
+        message: '手机号已注册',
+        data: {},
+      };
+    }
+    findUsers = await this.userService.findBy([{ email: user.email }]);
+    if (findUsers.length > 0) {
+      return {
+        isOk: false,
+        message: '邮箱已注册',
+        data: {},
+      };
+    }
+
     user.uuid = UuidV4();
     // 密码加盐
     user.salt = getRandomString();
@@ -32,6 +58,11 @@ export class UsersController {
     user.role = 1;
     user.status = 3;
     this.userService.create(user);
+    return {
+      isOk: true,
+      message: '用户创建成功',
+      data: {},
+    };
   }
 
   @Delete(':id')

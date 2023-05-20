@@ -19,4 +19,14 @@ export class UsersService {
   async findAll(): Promise<User[]> {
     return this.userModel.find().exec();
   }
+
+  async findBy(
+    queryArr: {
+      name?: string;
+      phone?: string;
+      email?: string;
+    }[],
+  ): Promise<User[]> {
+    return this.userModel.find({ $or: queryArr }).exec();
+  }
 }
