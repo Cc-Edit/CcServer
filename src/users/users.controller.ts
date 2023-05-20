@@ -20,7 +20,7 @@ import { v4 as UuidV4 } from 'uuid';
 export class UsersController {
   constructor(private userService: UsersService) {}
 
-  @Post()
+  @Post('creat')
   @UsePipes(ValidationPipe)
   async create(@Body() user: UserCreateDto) {
     // 判断用户是否重复
