@@ -1,7 +1,7 @@
 import { Controller, Get, Post, Body, UsePipes } from '@nestjs/common';
 import { UserCreateDto } from './dto/user';
 import { UsersService } from './users.service';
-import { UserStatus } from './schemas/user.schema';
+import { User, UserStatus } from "./schemas/user.schema";
 import { ValidationPipe } from '../lib/pipe/validate.pipe';
 import { getRandomString } from '../lib/utils/common';
 import * as md5 from 'crypto-js/md5';
@@ -58,11 +58,7 @@ export class UsersController {
 
   @Post('delete')
   async remove(@Body('uuid') uuid: string) {
-    const users = await this.userService.findBy([
-      {
-        uuid,
-      },
-    ]);
+    const users = await this.userService.findByUuid(uuid);
     if (users && users.length > 0) {
       users.forEach((item) => {
         item.status = UserStatus.Delete;
@@ -77,8 +73,31 @@ export class UsersController {
   }
 
   @Post('update')
-  update(@Body() user: UserCreateDto) {
-    return `This action updates a #${user.uuid} user`;
+  async update(@Body() user: UserCreateDto) {
+    const { uuid } = user;
+    if (!uuid){
+      return {
+        isOk: false,
+        message: '用户uuid不能为空',
+        data: {},
+      };
+    }
+    const users = await this.userService.findByUuid(uuid);
+    if (users.length === 0) {
+      return {
+        isOk: false,
+        message: '用户不存在',
+        data: {},
+      };
+    }
+    const oldUser = users.shift();
+    Object.assign(oldUser, user);
+    await oldUser.save();
+    return {
+      isOk: true,
+      message: '更新成功',
+      data: {},
+    };
   }
 
   @Get('findAll')
@@ -95,11 +114,7 @@ export class UsersController {
     return {
       isOk: true,
       message: 'success',
-      data: await this.userService.findBy([
-        {
-          uuid,
-        },
-      ]),
+      data: await this.userService.findByUuid(uuid)
     };
   }
 }

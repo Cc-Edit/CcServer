@@ -22,6 +22,12 @@ export class UsersService {
     }).exec();
   }
 
+  async findByUuid(uuid: string): Promise<User[]> {
+    return this.UserModel.find({ $or: [{
+        uuid
+      }] }).exec();
+  }
+
   async findBy(
     queryArr: {
       name?: string;
