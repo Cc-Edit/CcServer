@@ -18,8 +18,8 @@ export class UsersService {
 
   async findAll(): Promise<User[]> {
     return this.UserModel.find({
-        status: UserStatus.Open,
-      }).exec();
+      status: UserStatus.Open,
+    }).exec();
   }
 
   async findBy(

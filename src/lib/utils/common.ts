@@ -41,7 +41,7 @@ export function getDir(dirPath: string, options?: DirOption): string[] {
 export function getRandomString(len = 6): string {
   const str = 'ABCDEFGHJKMNPQRSTWXYZabcdefhijkmnprstwxyz2345678';
   let result = '';
-  for (let i = 0; i < len; i++){
+  for (let i = 0; i < len; i++) {
     result += str.charAt(Math.floor(Math.random() * str.length));
   }
   return result;
