@@ -2,15 +2,12 @@ import {
   Controller,
   Get,
   Post,
-  Delete,
-  Put,
-  Param,
   Body,
-  UsePipes, Query
-} from "@nestjs/common";
+  UsePipes
+} from '@nestjs/common';
 import { UserCreateDto } from './dto/user';
 import { UsersService } from './users.service';
-import { User } from './schemas/user.schema';
+import { UserStatus } from "./schemas/user.schema";
 import { ValidationPipe } from '../lib/pipe/validate.pipe';
 import { getRandomString } from '../lib/utils/common';
 import * as md5 from 'crypto-js/md5';
@@ -66,8 +63,21 @@ export class UsersController {
   }
 
   @Post('delete')
-  remove(@Body('uuid') uuid: string) {
-    return `This action removes a #${uuid} user`;
+  async remove(@Body('uuid') uuid: string) {
+    const users = await this.userService.findBy([{
+      uuid
+    }]);
+    if (users && users.length > 0){
+      users.forEach(item => {
+        item.status = UserStatus.Delete;
+        item.save();
+      })
+    }
+    return {
+      isOk: true,
+      message: '删除成功',
+      data: {},
+    };
   }
 
   @Post('update')
