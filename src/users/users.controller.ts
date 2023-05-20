@@ -6,8 +6,8 @@ import {
   Put,
   Param,
   Body,
-  UsePipes,
-} from '@nestjs/common';
+  UsePipes, Query
+} from "@nestjs/common";
 import { UserCreateDto } from './dto/user';
 import { UsersService } from './users.service';
 import { User } from './schemas/user.schema';
@@ -66,13 +66,13 @@ export class UsersController {
   }
 
   @Post('delete')
-  remove(@Param('id') id: string) {
-    return `This action removes a #${id} user`;
+  remove(@Body('uuid') uuid: string) {
+    return `This action removes a #${uuid} user`;
   }
 
-  @Put(':id')
-  update(@Param('id') id: string, @Body() user: UserCreateDto) {
-    return `This action updates a #${id} user`;
+  @Post('update')
+  update(@Body() user: UserCreateDto) {
+    return `This action updates a #${user.uuid} user`;
   }
 
   @Get('findAll')
@@ -84,8 +84,8 @@ export class UsersController {
     };
   }
 
-  @Get('findByUuid/:uuid')
-  async findByUuid(@Param('uuid') uuid: string) {
+  @Post('findByUuid')
+  async findByUuid(@Body('uuid') uuid: string) {
     return {
       isOk: true,
       message: 'success',
