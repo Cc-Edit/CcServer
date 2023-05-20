@@ -1,7 +1,7 @@
 import { Controller, Get, Post, Body, UsePipes } from '@nestjs/common';
 import { UserCreateDto } from './dto/user';
 import { UsersService } from './users.service';
-import { User, UserStatus } from "./schemas/user.schema";
+import { User, UserStatus } from './schemas/user.schema';
 import { ValidationPipe } from '../lib/pipe/validate.pipe';
 import { getRandomString } from '../lib/utils/common';
 import * as md5 from 'crypto-js/md5';
@@ -75,7 +75,7 @@ export class UsersController {
   @Post('update')
   async update(@Body() user: UserCreateDto) {
     const { uuid } = user;
-    if (!uuid){
+    if (!uuid) {
       return {
         isOk: false,
         message: '用户uuid不能为空',
@@ -114,7 +114,7 @@ export class UsersController {
     return {
       isOk: true,
       message: 'success',
-      data: await this.userService.findByUuid(uuid)
+      data: await this.userService.findByUuid(uuid),
     };
   }
 }
