@@ -2,22 +2,24 @@ import { Injectable } from '@nestjs/common';
 import { InjectModel, InjectConnection } from '@nestjs/mongoose';
 import { Model, Connection } from 'mongoose';
 import { UserCreateDto } from './dto/user';
-import { User, UserDocument } from './schemas/user.schema';
+import { User, UserDocument, UserStatus } from './schemas/user.schema';
 
 @Injectable()
 export class UsersService {
   constructor(
     @InjectConnection('Users') private connection: Connection, // mongo 连接对象
-    @InjectModel(User.name, 'Users') private userModel: Model<UserDocument>,
+    @InjectModel(User.name, 'Users') private UserModel: Model<UserDocument>,
   ) {}
 
   async create(createUserDto: UserCreateDto): Promise<User> {
-    const createdCat = new this.userModel(createUserDto);
+    const createdCat = new this.UserModel(createUserDto);
     return createdCat.save();
   }
 
   async findAll(): Promise<User[]> {
-    return this.userModel.find().exec();
+    return this.UserModel.find({
+        status: UserStatus.Open,
+      }).exec();
   }
 
   async findBy(
@@ -25,8 +27,9 @@ export class UsersService {
       name?: string;
       phone?: string;
       email?: string;
+      uuid?: string;
     }[],
   ): Promise<User[]> {
-    return this.userModel.find({ $or: queryArr }).exec();
+    return this.UserModel.find({ $or: queryArr }).exec();
   }
 }

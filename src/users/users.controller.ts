@@ -65,7 +65,7 @@ export class UsersController {
     };
   }
 
-  @Delete(':id')
+  @Post('delete')
   remove(@Param('id') id: string) {
     return `This action removes a #${id} user`;
   }
@@ -75,14 +75,25 @@ export class UsersController {
     return `This action updates a #${id} user`;
   }
 
-  @Get()
-  async findAll(): Promise<User[]> {
-    // throw new NotFoundException(); // 抛出异常
-    return this.userService.findAll();
+  @Get('findAll')
+  async findAll() {
+    return {
+      isOk: true,
+      message: 'success',
+      data: await this.userService.findAll(),
+    };
   }
 
-  @Get(':id')
-  findOne(@Param('id') id: string) {
-    return `This action returns a #${id} user`;
+  @Get('findByUuid/:uuid')
+  async findByUuid(@Param('uuid') uuid: string) {
+    return {
+      isOk: true,
+      message: 'success',
+      data: await this.userService.findBy([
+        {
+          uuid,
+        },
+      ]),
+    };
   }
 }
