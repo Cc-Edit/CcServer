@@ -4,6 +4,8 @@ import { ConfigModule } from '@nestjs/config';
 import { UsersModule } from './users/users.module';
 import { AuthModule } from './auth/auth.module';
 import { getDir } from './lib/utils/common';
+import { APP_GUARD } from '@nestjs/core';
+import { AuthGuard } from '@nestjs/passport';
 
 @Module({
   imports: [
@@ -28,6 +30,11 @@ import { getDir } from './lib/utils/common';
     UsersModule,
     AuthModule,
   ],
-  providers: [],
+  providers: [
+    {
+      provide: APP_GUARD,
+      useClass: AuthModule,
+    },
+  ],
 })
 export class ApplicationModule {}
