@@ -74,7 +74,7 @@ export class UsersController {
 
   @Post('update')
   async update(@Body() user: UserCreateDto) {
-    const { uuid, name, phone, email, password, role, status } = user
+    const { uuid, name, phone, email, password, role, status } = user;
     if (!uuid) {
       return {
         isOk: false,
@@ -94,12 +94,12 @@ export class UsersController {
     let newUser = await this.userService.find({
       $and: [
         {
-          name
+          name,
         },
         {
-          uuid: { $not: { $eq: oldUser.uuid } }
-        }
-      ]
+          uuid: { $not: { $eq: oldUser.uuid } },
+        },
+      ],
     });
     if (newUser.length > 0) {
       return {
@@ -111,12 +111,12 @@ export class UsersController {
     newUser = await this.userService.find({
       $and: [
         {
-          phone
+          phone,
         },
         {
-          uuid: { $not: { $eq: oldUser.uuid } }
-        }
-      ]
+          uuid: { $not: { $eq: oldUser.uuid } },
+        },
+      ],
     });
     if (newUser.length > 0) {
       return {
@@ -128,12 +128,12 @@ export class UsersController {
     newUser = await this.userService.find({
       $and: [
         {
-          email
+          email,
         },
         {
-          uuid: { $not: { $eq: oldUser.uuid } }
-        }
-      ]
+          uuid: { $not: { $eq: oldUser.uuid } },
+        },
+      ],
     });
     if (newUser.length > 0) {
       return {
@@ -143,7 +143,7 @@ export class UsersController {
       };
     }
 
-    Object.assign(oldUser, user);
+    Object.assign(oldUser, { uuid, name, phone, email, password, role, status });
     await oldUser.save();
     return {
       isOk: true,
