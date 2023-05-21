@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { InjectModel, InjectConnection } from '@nestjs/mongoose';
-import { Model, Connection } from 'mongoose';
+import { Model, Connection, FilterQuery } from "mongoose";
 import { UserCreateDto } from './dto/user';
 import { User, UserDocument, UserStatus } from './schemas/user.schema';
 
@@ -41,5 +41,9 @@ export class UsersService {
     }[],
   ): Promise<User[]> {
     return this.UserModel.find({ $or: queryArr }).exec();
+  }
+
+  async find(query: FilterQuery<any>): Promise<User[]> {
+    return this.UserModel.find(query).exec();
   }
 }

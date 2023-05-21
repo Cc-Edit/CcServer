@@ -74,7 +74,7 @@ export class UsersController {
 
   @Post('update')
   async update(@Body() user: UserCreateDto) {
-    const { uuid } = user;
+    const { uuid, name, phone, email, password, role, status } = user
     if (!uuid) {
       return {
         isOk: false,
@@ -91,6 +91,58 @@ export class UsersController {
       };
     }
     const oldUser = users.shift();
+    let newUser = await this.userService.find({
+      $and: [
+        {
+          name
+        },
+        {
+          uuid: { $not: { $eq: oldUser.uuid } }
+        }
+      ]
+    });
+    if (newUser.length > 0) {
+      return {
+        isOk: false,
+        message: '用户名已存在',
+        data: {},
+      };
+    }
+    newUser = await this.userService.find({
+      $and: [
+        {
+          phone
+        },
+        {
+          uuid: { $not: { $eq: oldUser.uuid } }
+        }
+      ]
+    });
+    if (newUser.length > 0) {
+      return {
+        isOk: false,
+        message: '手机号已注册',
+        data: {},
+      };
+    }
+    newUser = await this.userService.find({
+      $and: [
+        {
+          email
+        },
+        {
+          uuid: { $not: { $eq: oldUser.uuid } }
+        }
+      ]
+    });
+    if (newUser.length > 0) {
+      return {
+        isOk: false,
+        message: '邮箱已注册',
+        data: {},
+      };
+    }
+
     Object.assign(oldUser, user);
     await oldUser.save();
     return {
