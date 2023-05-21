@@ -5,6 +5,7 @@ specifiers:
   '@nestjs/common': ^9.0.0
   '@nestjs/config': ^2.3.1
   '@nestjs/core': ^9.0.0
+  '@nestjs/jwt': ^10.0.3
   '@nestjs/mongoose': ^9.2.2
   '@nestjs/passport': ^9.0.3
   '@nestjs/platform-express': ^9.0.0
@@ -13,6 +14,7 @@ specifiers:
   '@types/express': ^4.17.13
   '@types/jest': 29.5.0
   '@types/node': 18.15.11
+  '@types/passport-jwt': ^3.0.8
   '@types/passport-local': ^1.0.35
   '@types/supertest': ^2.0.11
   '@typescript-eslint/eslint-plugin': ^5.0.0
@@ -27,6 +29,7 @@ specifiers:
   jest: 29.5.0
   mongoose: ^7.1.0
   passport: ^0.6.0
+  passport-jwt: ^4.0.1
   passport-local: ^1.0.0
   prettier: ^2.3.2
   reflect-metadata: ^0.1.13
@@ -44,6 +47,7 @@ dependencies:
   '@nestjs/common': registry.npmmirror.com/@nestjs/common/9.4.0_j3td4gnlgk75ora6o6suo62byy
   '@nestjs/config': registry.npmmirror.com/@nestjs/config/2.3.1_4k3epc74gc2u2qkv5yznawsx6m
   '@nestjs/core': registry.npmmirror.com/@nestjs/core/9.4.0_s52inwjga72fw7w7ilq4rk5hru
+  '@nestjs/jwt': registry.npmmirror.com/@nestjs/jwt/10.0.3_@nestjs+common@9.4.0
   '@nestjs/mongoose': registry.npmmirror.com/@nestjs/mongoose/9.2.2_hovzhkv2qko6dul6j4wm32pumq
   '@nestjs/passport': registry.npmmirror.com/@nestjs/passport/9.0.3_xygznos57mh4mi6h22se6rwjhq
   '@nestjs/platform-express': registry.npmmirror.com/@nestjs/platform-express/9.4.0_gqkob5jndcfeb3wjw72wbdwyne
@@ -52,6 +56,7 @@ dependencies:
   crypto-js: registry.npmmirror.com/crypto-js/4.1.1
   mongoose: registry.npmmirror.com/mongoose/7.1.0
   passport: registry.npmmirror.com/passport/0.6.0
+  passport-jwt: registry.npmmirror.com/passport-jwt/4.0.1
   passport-local: registry.npmmirror.com/passport-local/1.0.0
   reflect-metadata: registry.npmmirror.com/reflect-metadata/0.1.13
   rxjs: registry.npmmirror.com/rxjs/7.8.1
@@ -64,6 +69,7 @@ devDependencies:
   '@types/express': registry.npmmirror.com/@types/express/4.17.17
   '@types/jest': registry.npmmirror.com/@types/jest/29.5.0
   '@types/node': registry.npmmirror.com/@types/node/18.15.11
+  '@types/passport-jwt': registry.npmmirror.com/@types/passport-jwt/3.0.8
   '@types/passport-local': registry.npmmirror.com/@types/passport-local/1.0.35
   '@types/supertest': registry.npmmirror.com/@types/supertest/2.0.12
   '@typescript-eslint/eslint-plugin': registry.npmmirror.com/@typescript-eslint/eslint-plugin/5.59.1_jsr5owskg7irefkzbmq6cipclm
@@ -1184,6 +1190,19 @@ packages:
     transitivePeerDependencies:
       - encoding
 
+  registry.npmmirror.com/@nestjs/jwt/10.0.3_@nestjs+common@9.4.0:
+    resolution: {integrity: sha512-WO8MI3uEMOFKpbO+SAg6l4aRCr+9KvaL+raFMZaXuEUDphXek6pqdox+4tex9242pNSJUA0trfAMaiy/yVrXQg==, registry: https://registry.npm.taobao.org/, tarball: https://registry.npmmirror.com/@nestjs/jwt/-/jwt-10.0.3.tgz}
+    id: registry.npmmirror.com/@nestjs/jwt/10.0.3
+    name: '@nestjs/jwt'
+    version: 10.0.3
+    peerDependencies:
+      '@nestjs/common': ^8.0.0 || ^9.0.0
+    dependencies:
+      '@nestjs/common': registry.npmmirror.com/@nestjs/common/9.4.0_j3td4gnlgk75ora6o6suo62byy
+      '@types/jsonwebtoken': registry.npmmirror.com/@types/jsonwebtoken/9.0.1
+      jsonwebtoken: registry.npmmirror.com/jsonwebtoken/9.0.0
+    dev: false
+
   registry.npmmirror.com/@nestjs/mongoose/9.2.2_hovzhkv2qko6dul6j4wm32pumq:
     resolution: {integrity: sha512-szNuSUCwwbQSSeiTh8+tZ9fHV4nuzHwBDROb0hX0s7crwY15TunCfwyKbB2XjqkEQWUAasDeCBuKOJSL9N6tTg==, registry: https://registry.npm.taobao.org/, tarball: https://registry.npmmirror.com/@nestjs/mongoose/-/mongoose-9.2.2.tgz}
     id: registry.npmmirror.com/@nestjs/mongoose/9.2.2
@@ -1528,6 +1547,13 @@ packages:
     version: 7.0.11
     dev: true
 
+  registry.npmmirror.com/@types/jsonwebtoken/9.0.1:
+    resolution: {integrity: sha512-c5ltxazpWabia/4UzhIoaDcIza4KViOQhdbjRlfcIGVnsE3c3brkz9Z+F/EeJIECOQP7W7US2hNE930cWWkPiw==, registry: https://registry.npm.taobao.org/, tarball: https://registry.npmmirror.com/@types/jsonwebtoken/-/jsonwebtoken-9.0.1.tgz}
+    name: '@types/jsonwebtoken'
+    version: 9.0.1
+    dependencies:
+      '@types/node': registry.npmmirror.com/@types/node/18.15.11
+
   registry.npmmirror.com/@types/mime/1.3.2:
     resolution: {integrity: sha512-YATxVxgRqNH6nHEIsvg6k2Boc1JHI9ZbH5iWFFv/MTkchz3b1ieGDa5T0a9RznNdI0KhVbdbWSN+KWWrQZRxTw==, registry: https://registry.npm.taobao.org/, tarball: https://registry.npmmirror.com/@types/mime/-/mime-1.3.2.tgz}
     name: '@types/mime'
@@ -1549,6 +1575,16 @@ packages:
     resolution: {integrity: sha512-//oorEZjL6sbPcKUaCdIGlIUeH26mgzimjBB77G6XRgnDl/L5wOnpyBGRe/Mmf5CVW3PwEBE1NjiMZ/ssFh4wA==, registry: https://registry.npm.taobao.org/, tarball: https://registry.npmmirror.com/@types/parse-json/-/parse-json-4.0.0.tgz}
     name: '@types/parse-json'
     version: 4.0.0
+    dev: true
+
+  registry.npmmirror.com/@types/passport-jwt/3.0.8:
+    resolution: {integrity: sha512-VKJZDJUAHFhPHHYvxdqFcc5vlDht8Q2pL1/ePvKAgqRThDaCc84lSYOTQmnx3+JIkDlN+2KfhFhXIzlcVT+Pcw==, registry: https://registry.npm.taobao.org/, tarball: https://registry.npmmirror.com/@types/passport-jwt/-/passport-jwt-3.0.8.tgz}
+    name: '@types/passport-jwt'
+    version: 3.0.8
+    dependencies:
+      '@types/express': registry.npmmirror.com/@types/express/4.17.17
+      '@types/jsonwebtoken': registry.npmmirror.com/@types/jsonwebtoken/9.0.1
+      '@types/passport-strategy': registry.npmmirror.com/@types/passport-strategy/0.2.35
     dev: true
 
   registry.npmmirror.com/@types/passport-local/1.0.35:
@@ -2391,6 +2427,12 @@ packages:
     engines: {node: '>=14.20.1'}
     dev: false
 
+  registry.npmmirror.com/buffer-equal-constant-time/1.0.1:
+    resolution: {integrity: sha512-zRpUiDwd/xk6ADqPMATG8vc9VPrkck7T07OIx0gnjmJAnHnTVXNQG3vfvWNuiZIkwu9KrKdA1iJKfsfTVxE6NA==, registry: https://registry.npm.taobao.org/, tarball: https://registry.npmmirror.com/buffer-equal-constant-time/-/buffer-equal-constant-time-1.0.1.tgz}
+    name: buffer-equal-constant-time
+    version: 1.0.1
+    dev: false
+
   registry.npmmirror.com/buffer-from/1.1.2:
     resolution: {integrity: sha512-E+XQCRwSbaaiChtv6k6Dwgc+bx+Bs6vuKJHHl5kox/BaKbhiXzqQOwK4cO22yElGp2OCmjwVhT3HmxgyPGnJfQ==, registry: https://registry.npm.taobao.org/, tarball: https://registry.npmmirror.com/buffer-from/-/buffer-from-1.1.2.tgz}
     name: buffer-from
@@ -2904,6 +2946,14 @@ packages:
     name: dotenv
     version: 16.0.3
     engines: {node: '>=12'}
+    dev: false
+
+  registry.npmmirror.com/ecdsa-sig-formatter/1.0.11:
+    resolution: {integrity: sha512-nagl3RYrbNv6kQkeJIpt6NJZy8twLB/2vtz6yN9Z4vRKHN4/QZJIEbqohALSgwKdnksuY3k5Addp5lg8sVoVcQ==, registry: https://registry.npm.taobao.org/, tarball: https://registry.npmmirror.com/ecdsa-sig-formatter/-/ecdsa-sig-formatter-1.0.11.tgz}
+    name: ecdsa-sig-formatter
+    version: 1.0.11
+    dependencies:
+      safe-buffer: registry.npmmirror.com/safe-buffer/5.2.1
     dev: false
 
   registry.npmmirror.com/ee-first/1.1.1:
@@ -4586,6 +4636,37 @@ packages:
       graceful-fs: registry.npmmirror.com/graceful-fs/4.2.11
     dev: true
 
+  registry.npmmirror.com/jsonwebtoken/9.0.0:
+    resolution: {integrity: sha512-tuGfYXxkQGDPnLJ7SibiQgVgeDgfbPq2k2ICcbgqW8WxWLBAxKQM/ZCu/IT8SOSwmaYl4dpTFCW5xZv7YbbWUw==, registry: https://registry.npm.taobao.org/, tarball: https://registry.npmmirror.com/jsonwebtoken/-/jsonwebtoken-9.0.0.tgz}
+    name: jsonwebtoken
+    version: 9.0.0
+    engines: {node: '>=12', npm: '>=6'}
+    dependencies:
+      jws: registry.npmmirror.com/jws/3.2.2
+      lodash: registry.npmmirror.com/lodash/4.17.21
+      ms: registry.npmmirror.com/ms/2.1.3
+      semver: registry.npmmirror.com/semver/7.5.0
+    dev: false
+
+  registry.npmmirror.com/jwa/1.4.1:
+    resolution: {integrity: sha512-qiLX/xhEEFKUAJ6FiBMbes3w9ATzyk5W7Hvzpa/SLYdxNtng+gcurvrI7TbACjIXlsJyr05/S1oUhZrc63evQA==, registry: https://registry.npm.taobao.org/, tarball: https://registry.npmmirror.com/jwa/-/jwa-1.4.1.tgz}
+    name: jwa
+    version: 1.4.1
+    dependencies:
+      buffer-equal-constant-time: registry.npmmirror.com/buffer-equal-constant-time/1.0.1
+      ecdsa-sig-formatter: registry.npmmirror.com/ecdsa-sig-formatter/1.0.11
+      safe-buffer: registry.npmmirror.com/safe-buffer/5.2.1
+    dev: false
+
+  registry.npmmirror.com/jws/3.2.2:
+    resolution: {integrity: sha512-YHlZCB6lMTllWDtSPHz/ZXTsi8S00usEV6v1tjq8tOUZzw7DpSDWVXjXDre6ed1w/pd495ODpHZYSdkRTsa0HA==, registry: https://registry.npm.taobao.org/, tarball: https://registry.npmmirror.com/jws/-/jws-3.2.2.tgz}
+    name: jws
+    version: 3.2.2
+    dependencies:
+      jwa: registry.npmmirror.com/jwa/1.4.1
+      safe-buffer: registry.npmmirror.com/safe-buffer/5.2.1
+    dev: false
+
   registry.npmmirror.com/kareem/2.5.1:
     resolution: {integrity: sha512-7jFxRVm+jD+rkq3kY0iZDJfsO2/t4BBPeEb2qKn2lR/9KhuksYk5hxzfRYWMPV8P/x2d0kHD306YyWLzjjH+uA==, registry: https://registry.npm.taobao.org/, tarball: https://registry.npmmirror.com/kareem/-/kareem-2.5.1.tgz}
     name: kareem
@@ -4695,7 +4776,6 @@ packages:
     engines: {node: '>=10'}
     dependencies:
       yallist: registry.npmmirror.com/yallist/4.0.0
-    dev: true
 
   registry.npmmirror.com/lru-cache/9.1.1:
     resolution: {integrity: sha512-65/Jky17UwSb0BuB9V+MyDpsOtXKmYwzhyl+cOa9XUiI4uV2Ouy/2voFP3+al0BjZbJgMBD8FojMpAf+Z+qn4A==, registry: https://registry.npm.taobao.org/, tarball: https://registry.npmmirror.com/lru-cache/-/lru-cache-9.1.1.tgz}
@@ -5218,6 +5298,15 @@ packages:
     version: 1.3.3
     engines: {node: '>= 0.8'}
 
+  registry.npmmirror.com/passport-jwt/4.0.1:
+    resolution: {integrity: sha512-UCKMDYhNuGOBE9/9Ycuoyh7vP6jpeTp/+sfMJl7nLff/t6dps+iaeE0hhNkKN8/HZHcJ7lCdOyDxHdDoxoSvdQ==, registry: https://registry.npm.taobao.org/, tarball: https://registry.npmmirror.com/passport-jwt/-/passport-jwt-4.0.1.tgz}
+    name: passport-jwt
+    version: 4.0.1
+    dependencies:
+      jsonwebtoken: registry.npmmirror.com/jsonwebtoken/9.0.0
+      passport-strategy: registry.npmmirror.com/passport-strategy/1.0.0
+    dev: false
+
   registry.npmmirror.com/passport-local/1.0.0:
     resolution: {integrity: sha512-9wCE6qKznvf9mQYYbgJ3sVOHmCWoUNMVFoZzNoznmISbhnNNPhN9xfY3sLmScHMetEJeoY7CXwfhCe7argfQow==, registry: https://registry.npm.taobao.org/, tarball: https://registry.npmmirror.com/passport-local/-/passport-local-1.0.0.tgz}
     name: passport-local
@@ -5707,7 +5796,6 @@ packages:
     hasBin: true
     dependencies:
       lru-cache: registry.npmmirror.com/lru-cache/6.0.0
-    dev: true
 
   registry.npmmirror.com/send/0.18.0:
     resolution: {integrity: sha512-qqWzuOjSFOuqPjFe4NOsMLafToQQwBSOEpS+FwEt3A2V3vKubTquT3vmLTQpFgMXp8AlFWFuP1qKaJZOtPpVXg==, registry: https://registry.npm.taobao.org/, tarball: https://registry.npmmirror.com/send/-/send-0.18.0.tgz}
@@ -6640,7 +6728,6 @@ packages:
     resolution: {integrity: sha512-3wdGidZyq5PB084XLES5TpOSRA3wjXAlIWMhum2kRcv/41Sn2emQ0dycQW4uZXLejwKvg6EsvbdlVL+FYEct7A==, registry: https://registry.npm.taobao.org/, tarball: https://registry.npmmirror.com/yallist/-/yallist-4.0.0.tgz}
     name: yallist
     version: 4.0.0
-    dev: true
 
   registry.npmmirror.com/yaml/1.10.2:
     resolution: {integrity: sha512-r3vXyErRCYJ7wg28yvBY5VSoAF8ZvlcW9/BwUzEtUsjvX/DKs24dIkuwjtuprwJJHsbyUbLApepYTR1BN4uHrg==, registry: https://registry.npm.taobao.org/, tarball: https://registry.npmmirror.com/yaml/-/yaml-1.10.2.tgz}
