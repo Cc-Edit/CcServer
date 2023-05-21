@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { InjectModel, InjectConnection } from '@nestjs/mongoose';
-import { Model, Connection, FilterQuery, Condition } from "mongoose";
+import { Model, Connection, FilterQuery, Condition } from 'mongoose';
 import { UserCreateDto } from './dto/user';
 import { User, UserDocument, UserStatus } from './schemas/user.schema';
 
