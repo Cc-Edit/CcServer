@@ -143,7 +143,15 @@ export class UsersController {
       };
     }
 
-    Object.assign(oldUser, { uuid, name, phone, email, password, role, status });
+    Object.assign(oldUser, {
+      uuid,
+      name,
+      phone,
+      email,
+      password,
+      role,
+      status,
+    });
     await oldUser.save();
     return {
       isOk: true,
