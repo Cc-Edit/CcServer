@@ -1,7 +1,7 @@
 import { Controller, Get, Post, Body, UsePipes } from '@nestjs/common';
 import { UserCreateDto } from './dto/user';
 import { UsersService } from './users.service';
-import { User, UserStatus } from './schemas/user.schema';
+import { UserStatus } from './schemas/user.schema';
 import { ValidationPipe } from '../lib/pipe/validate.pipe';
 import { getRandomString } from '../lib/utils/common';
 import * as md5 from 'crypto-js/md5';
@@ -48,7 +48,7 @@ export class UsersController {
     user.updateDate = new Date().getTime();
     user.role = 1;
     user.status = 3;
-    this.userService.create(user);
+    await this.userService.create(user);
     return {
       isOk: true,
       message: '用户创建成功',
