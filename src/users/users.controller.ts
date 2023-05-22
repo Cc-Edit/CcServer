@@ -148,7 +148,7 @@ export class UsersController {
       name,
       phone,
       email,
-      password,
+      password: md5(`${oldUser.salt}${password}`).toString(),
       role,
       status,
     });
