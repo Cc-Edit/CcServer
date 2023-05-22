@@ -7,18 +7,12 @@ import { AppConfig } from '../config/app.config';
 
 @Module({
   imports: [
-    MongooseModule.forRoot(
-      AppConfig.Base.DB.URI + '/design?authSource=admin',
-      {
-        connectionName: 'Design',
-      },
-    ),
-    MongooseModule.forRoot(
-      AppConfig.Base.DB.URI + '/users?authSource=admin',
-      {
-        connectionName: 'Users',
-      },
-    ),
+    MongooseModule.forRoot(AppConfig.Base.DB.URI + '/design?authSource=admin', {
+      connectionName: 'Design',
+    }),
+    MongooseModule.forRoot(AppConfig.Base.DB.URI + '/users?authSource=admin', {
+      connectionName: 'Users',
+    }),
     UsersModule,
     AuthModule,
   ],
