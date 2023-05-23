@@ -73,6 +73,7 @@ export class UsersController {
   }
 
   @Post('update')
+  @UsePipes(ValidationPipe)
   async update(@Body() user: UserCreateDto) {
     const { uuid, name, phone, email, password, role, status } = user;
     if (!uuid) {
