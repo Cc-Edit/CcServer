@@ -1,5 +1,17 @@
 import * as fs from 'fs';
 import * as path from 'path';
+import { readFileSync } from 'fs';
+
+// 项目根路径
+const Pwd = process.cwd();
+
+/**
+ * 读取文件内容
+ * @param path: 文件地址， 相对于项目根路径
+ * */
+export function extractKey(path: string) {
+  return readFileSync(`${Pwd}${path}`).toString();
+}
 
 /**
  * 获取文件夹下的所有文件路径

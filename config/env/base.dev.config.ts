@@ -8,7 +8,11 @@ const Config = {
   },
   PORT: 8080,
   JWT: {
-    SECRET: 'AAAABBBBCCCCDDDD'
+    SECRET: 'AAAABBBBCCCCDDDD',
+    OPTIONS: {
+      expiresIn: '3d',
+      signingAlgorithm: 'RS256',
+    },
   }
 };
 Config.DB.URI = `mongodb://${Config.DB.USER}:${Config.DB.PASSWORD}@${Config.DB.IP}:${Config.DB.PORT}`;
