@@ -17,7 +17,7 @@ export class User extends Document {
   @Prop({
     required: true,
     trim: true,
-    comment: '用户名'
+    comment: '用户名',
   })
   name: string;
 
