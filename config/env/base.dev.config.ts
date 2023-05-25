@@ -6,7 +6,10 @@ const Config = {
     PORT: 27017,
     URI: ''
   },
-  PORT: 8080,
+  APP: {
+    prefix: '/api',
+    port: 8080,
+  },
   JWT: {
     SECRET: 'AAAABBBBCCCCDDDD',
     OPTIONS: {

@@ -17,38 +17,39 @@ export class User extends Document {
   @Prop({
     required: true,
     trim: true,
+    comment: '用户名'
   })
-  name: string; // 用户名
+  name: string;
 
-  @Prop({ required: true })
-  phone: string; // 手机号
+  @Prop({ required: true, comment: '手机号' })
+  phone: string;
 
-  @Prop()
-  email: string; // 邮箱
+  @Prop({ comment: '邮箱' })
+  email: string;
 
-  @Prop()
-  avatar: string; // 头像
+  @Prop({ comment: '头像' })
+  avatar: string;
 
-  @Prop({ required: true })
-  password: string; // 密码
+  @Prop({ required: true, comment: '密码' })
+  password: string;
 
-  @Prop({ required: true })
-  salt: string; // 盐
+  @Prop({ required: true, comment: '盐' })
+  salt: string;
 
-  @Prop({ required: true })
-  uuid: string; // 用户id
+  @Prop({ required: true, comment: '用户id' })
+  uuid: string;
 
-  @Prop({ required: true })
-  createDate: number; // 创建时间
+  @Prop({ required: true, comment: '创建时间' })
+  createDate: number;
 
-  @Prop({ required: true })
-  updateDate: number; // 最后更新时间
+  @Prop({ required: true, comment: '最后更新时间' })
+  updateDate: number;
 
-  @Prop({ required: true, enum: UserRole })
-  role: number; // 用户角色
+  @Prop({ required: true, enum: UserRole, comment: '用户角色' })
+  role: number;
 
-  @Prop({ required: true, enum: UserStatus })
-  status: number; // 用户状态
+  @Prop({ required: true, enum: UserStatus, comment: '用户状态' })
+  status: number;
 }
 
 const schema = SchemaFactory.createForClass(User);

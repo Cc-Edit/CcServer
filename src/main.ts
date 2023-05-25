@@ -2,6 +2,7 @@ import { NestFactory } from '@nestjs/core';
 import { LoggerMiddleware } from './lib/middleware/logger.middleware';
 import { AuthGuard } from './lib/guard/auth.guard';
 import { ApplicationModule } from './app.module';
+import { AppConfig } from '../config/app.config';
 
 async function bootstrap() {
   const app = await NestFactory.create(ApplicationModule, {
@@ -13,6 +14,6 @@ async function bootstrap() {
   app.use(LoggerMiddleware); // 全局 logger
   app.useGlobalGuards(new AuthGuard()); // 全局路由守卫
 
-  await app.listen(8080);
+  await app.listen(AppConfig.Base.APP.PORT);
 }
 bootstrap();
