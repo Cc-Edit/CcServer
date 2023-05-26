@@ -14,12 +14,12 @@ const Config = {
   },
   JWT: {
     HEADER_KEY: 't',
-    SECRET: 'AAAABBBBCCCCDDDD',
+    SECRET: '4a06595b-c385-eeb7-0a58-ad81dec0278e',
     publicKey: extractKey('/config/cert/jwt.public.pem'),
     privateKey: extractKey('/config/cert/jwt.private.pem'),
     OPTIONS: {
-      expiresIn: '3d',
-      algorithm: 'RS256',
+      expiresIn: '1d',
+      algorithm: 'HS256',
     },
   }
 };
