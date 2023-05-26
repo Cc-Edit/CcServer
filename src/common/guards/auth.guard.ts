@@ -24,16 +24,13 @@ export class JwtAuthGuard extends AuthGuard('jwt') {
   }
 
   async canActivate(ctx: ExecutionContext): Promise<boolean> {
-    // 函数，类 是否允许 无 token 访问
     const allowAnon = this.reflector.getAllAndOverride<boolean>(ALLOW_ANON, [
       ctx.getHandler(),
       ctx.getClass(),
     ]);
     if (allowAnon) return true;
     const req = ctx.switchToHttp().getRequest();
-    // const res = ctx.switchToHttp().getResponse()
     const accessToken = req.get(AppConfig.Base.JWT.HEADER_KEY);
-    console.log('canactivate', accessToken);
     if (!accessToken) throw new UnauthorizedException('请先登录');
     const payload = this.authService.verify(accessToken);
     if (!payload) throw new UnauthorizedException('当前登录已过期，请重新登录');
