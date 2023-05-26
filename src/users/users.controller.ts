@@ -143,16 +143,10 @@ export class UsersController {
         data: {},
       };
     }
-
-    Object.assign(oldUser, {
-      uuid,
-      name,
-      phone,
-      email,
-      password: md5(`${oldUser.salt}${password}`).toString(),
-      role,
-      status,
-    });
+    if (password) {
+      user.password = md5(`${oldUser.salt}${password}`).toString();
+    }
+    Object.assign(oldUser, user);
     await oldUser.save();
     return {
       isOk: true,
