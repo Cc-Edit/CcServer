@@ -1,3 +1,5 @@
+import { extractKey } from "../../src/lib/utils/common";
+
 const Config = {
   DB: {
     USER: 'root',
@@ -12,9 +14,11 @@ const Config = {
   },
   JWT: {
     SECRET: 'AAAABBBBCCCCDDDD',
+    publicKey: extractKey('/config/cert/jwt.public.pem'),
+    privateKey: extractKey('/config/cert/jwt.private.pem'),
     OPTIONS: {
       expiresIn: '3d',
-      signingAlgorithm: 'RS256',
+      algorithm: 'RS256',
     },
   }
 };

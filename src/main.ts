@@ -14,6 +14,6 @@ async function bootstrap() {
   app.use(LoggerMiddleware); // 全局 logger
   app.useGlobalGuards(new AuthGuard()); // 全局路由守卫
 
-  await app.listen(AppConfig.Base.APP.PORT);
+  await app.listen(AppConfig.Base.APP.port);
 }
 bootstrap();
