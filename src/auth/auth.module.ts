@@ -13,7 +13,7 @@ import { AppConfig } from '../../config/app.config';
     PassportModule.register({ defaultStrategy: 'jwt' }),
     JwtModule.register({
       signOptions: AppConfig.Base.JWT.OPTIONS,
-      secret: AppConfig.Base.JWT.SECRET
+      secret: AppConfig.Base.JWT.SECRET,
     }),
     UsersModule,
   ],
