@@ -13,6 +13,7 @@ const Config = {
     port: 8080,
   },
   JWT: {
+    HEADER_KEY: 't',
     SECRET: 'AAAABBBBCCCCDDDD',
     publicKey: extractKey('/config/cert/jwt.public.pem'),
     privateKey: extractKey('/config/cert/jwt.private.pem'),
