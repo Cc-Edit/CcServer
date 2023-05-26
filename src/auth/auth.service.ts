@@ -1,4 +1,4 @@
-import { Injectable, UnauthorizedException } from "@nestjs/common";
+import { Injectable, UnauthorizedException } from '@nestjs/common';
 import { UserService } from '../user/user.service';
 import { JwtService } from '@nestjs/jwt';
 import * as md5 from 'crypto-js/md5';
@@ -43,8 +43,8 @@ export class AuthService {
   async verify(token: string) {
     try {
       return this.jwtService.verify(token);
-    }catch (e) {
-      return null
+    } catch (e) {
+      return null;
     }
   }
 }

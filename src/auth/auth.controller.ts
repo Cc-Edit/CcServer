@@ -1,7 +1,14 @@
-import { Controller, UseGuards, Post, Request, Get, Body } from "@nestjs/common";
+import {
+  Controller,
+  UseGuards,
+  Post,
+  Request,
+  Get,
+  Body,
+} from '@nestjs/common';
 import { AuthService } from './auth.service';
 import { LoginUser } from './dto/login-user.dto';
-import { AllowAnon } from '../common/decorators/allow-anon.decorator'
+import { AllowAnon } from '../common/decorators/allow-anon.decorator';
 
 @Controller('auth')
 export class AuthController {
