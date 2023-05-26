@@ -24,12 +24,12 @@ export class AuthController {
     };
   }
 
-  @Get('getProfile')
-  getProfile(@Request() req) {
+  @Get('logout')
+  async logout(@Request() req) {
     return {
       isOk: true,
-      message: '登录成功',
-      data: req.user,
+      message: '注销成功',
+      data: {}
     };
   }
 }
