@@ -29,7 +29,7 @@ export class AuthController {
     return {
       isOk: true,
       message: '注销成功',
-      data: {}
+      data: {},
     };
   }
 }
