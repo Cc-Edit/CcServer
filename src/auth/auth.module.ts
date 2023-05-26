@@ -14,7 +14,7 @@ import { AppConfig } from '../../config/app.config';
     JwtModule.register({
       signOptions: AppConfig.Base.JWT.OPTIONS,
       privateKey: AppConfig.Base.JWT.privateKey,
-      publicKey: AppConfig.Base.JWT.publicKey
+      publicKey: AppConfig.Base.JWT.publicKey,
     }),
     UsersModule,
   ],
