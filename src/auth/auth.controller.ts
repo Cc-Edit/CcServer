@@ -1,23 +1,22 @@
-import { Controller, UseGuards, Post, Request, Get } from '@nestjs/common';
-import { LocalAuthGuard } from './local-auth.guard';
-import { AuthGuard } from '@nestjs/passport';
+import { Controller, UseGuards, Post, Request, Get, Body } from "@nestjs/common";
 import { AuthService } from './auth.service';
+import { LoginUser } from './dto/login-user.dto';
+import { AllowAnon } from '../common/decorators/allow-anon.decorator'
 
 @Controller('auth')
 export class AuthController {
   constructor(private readonly authService: AuthService) {}
 
-  @UseGuards(LocalAuthGuard)
+  @AllowAnon()
   @Post('login')
-  async login(@Request() req) {
+  async login(@Body() userLogin: LoginUser) {
     return {
       isOk: true,
       message: '登录成功',
-      data: await this.authService.login(req.user),
+      data: await this.authService.login(userLogin),
     };
   }
 
-  @UseGuards(AuthGuard('jwt'))
   @Get('getProfile')
   getProfile(@Request() req) {
     return {

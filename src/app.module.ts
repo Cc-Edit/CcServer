@@ -1,9 +1,11 @@
 import { Module } from '@nestjs/common';
 import { MongooseModule } from '@nestjs/mongoose';
-import { UsersModule } from './users/users.module';
+import { UserModule } from './user/user.module';
 import { AuthModule } from './auth/auth.module';
 import { APP_GUARD } from '@nestjs/core';
 import { AppConfig } from '../config/app.config';
+
+import { JwtAuthGuard } from './common/guards/auth.guard'
 
 @Module({
   imports: [
@@ -13,13 +15,13 @@ import { AppConfig } from '../config/app.config';
     MongooseModule.forRoot(AppConfig.Base.DB.URI + '/users?authSource=admin', {
       connectionName: 'Users',
     }),
-    UsersModule,
+    UserModule,
     AuthModule,
   ],
   providers: [
     {
       provide: APP_GUARD,
-      useClass: AuthModule,
+      useClass: JwtAuthGuard,
     },
   ],
 })

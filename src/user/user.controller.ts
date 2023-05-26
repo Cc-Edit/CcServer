@@ -1,6 +1,6 @@
 import { Controller, Get, Post, Body, UsePipes } from '@nestjs/common';
-import { UserCreateDto } from './dto/user';
-import { UsersService } from './users.service';
+import { UserCreate } from './dto/user-create';
+import { UserService } from './user.service';
 import { UserStatus } from './schemas/user.schema';
 import { ValidationPipe } from '../lib/pipe/validate.pipe';
 import { getRandomString } from '../lib/utils/common';
@@ -8,12 +8,12 @@ import * as md5 from 'crypto-js/md5';
 import { v4 as UuidV4 } from 'uuid';
 
 @Controller('user')
-export class UsersController {
-  constructor(private userService: UsersService) {}
+export class UserController {
+  constructor(private userService: UserService) {}
 
   @Post('creat')
   @UsePipes(ValidationPipe)
-  async create(@Body() user: UserCreateDto) {
+  async create(@Body() user: UserCreate) {
     // 判断用户是否重复
     let findUsers = await this.userService.findBy([{ name: user.name }]);
     if (findUsers.length > 0) {
@@ -74,7 +74,7 @@ export class UsersController {
 
   @Post('update')
   @UsePipes(ValidationPipe)
-  async update(@Body() user: UserCreateDto) {
+  async update(@Body() user: UserCreate) {
     const { uuid, name, phone, email, password, role, status } = user;
     if (!uuid) {
       return {

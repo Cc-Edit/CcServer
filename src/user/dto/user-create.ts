@@ -1,7 +1,7 @@
 import { IsString, IsNotEmpty, Length, Matches } from 'class-validator';
 
-export class UserCreateDto {
-  @IsString()
+export class UserCreate {
+  @IsString({ message: '类型错误' })
   @IsNotEmpty({
     message: '用户名不能为空',
   })
@@ -13,7 +13,7 @@ export class UserCreateDto {
   })
   name: string;
 
-  @IsString()
+  @IsString({ message: '类型错误' })
   @IsNotEmpty({
     message: '手机号不能为空',
   })
@@ -22,7 +22,7 @@ export class UserCreateDto {
   })
   phone: string;
 
-  @IsString()
+  @IsString({ message: '类型错误' })
   @Matches(
     /^[a-zA-Z0-9_.-]+@[a-zA-Z0-9-]+(\\.[a-zA-Z0-9-]+)*\.[a-zA-Z0-9]{2,6}$/,
     {
@@ -31,7 +31,7 @@ export class UserCreateDto {
   )
   email: string;
 
-  @IsString()
+  @IsString({ message: '类型错误' })
   @Matches(
     /^(?=.*[a-zA-Z])(?=.*[0-9])(?=.*[._~!@#$^&*])[A-Za-z0-9._~!@#$^&*]{6,}$/,
     {
