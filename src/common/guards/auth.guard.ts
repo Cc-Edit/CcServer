@@ -8,7 +8,7 @@ import {
 } from '@nestjs/common';
 import { AppConfig } from '../../../config/app.config';
 
-import { ALLOW_ANON } from "../decorators/allow-access.decorator";
+import { ALLOW_ANON } from '../decorators/allow-access.decorator';
 
 import { AuthService } from '../../auth/auth.service';
 
