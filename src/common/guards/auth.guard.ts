@@ -32,7 +32,7 @@ export class JwtAuthGuard extends AuthGuard('jwt') {
     const req = ctx.switchToHttp().getRequest();
     const accessToken = req.get(AppConfig.Base.JWT.HEADER_KEY);
     if (!accessToken) throw new UnauthorizedException('请先登录');
-    const payload = this.authService.verify(accessToken);
+    const payload = await this.authService.verify(accessToken);
     if (!payload) throw new UnauthorizedException('当前登录已过期，请重新登录');
     return this.activate(ctx);
   }

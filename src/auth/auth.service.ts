@@ -63,6 +63,12 @@ export class AuthService {
    * token 校验
    * */
   async verify(token: string) {
+    const isDisabled = await this.AuthModel.exists({
+      token,
+    });
+    if (isDisabled) {
+      return null;
+    }
     try {
       return this.jwtService.verifyAsync(token);
     } catch (e) {
