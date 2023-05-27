@@ -1,14 +1,14 @@
 import {
   Controller,
-  UseGuards,
   Post,
-  Request,
+  Headers,
   Get,
   Body,
 } from '@nestjs/common';
 import { AuthService } from './auth.service';
 import { LoginUser } from './dto/login-user.dto';
 import { AllowAnon } from '../common/decorators/allow-anon.decorator';
+import { AppConfig } from '../../config/app.config';
 
 @Controller('auth')
 export class AuthController {
@@ -25,10 +25,11 @@ export class AuthController {
   }
 
   @Get('logout')
-  async logout(@Request() req) {
+  async logout(@Headers(AppConfig.Base.JWT.HEADER_KEY) token: string) {
+    const auth = await this.authService.logout(token);
     return {
       isOk: true,
-      message: '注销成功',
+      message: auth ? '注销成功' : '已注销',
       data: {},
     };
   }

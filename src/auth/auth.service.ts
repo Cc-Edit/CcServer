@@ -2,10 +2,15 @@ import { Injectable, UnauthorizedException } from '@nestjs/common';
 import { UserService } from '../user/user.service';
 import { JwtService } from '@nestjs/jwt';
 import * as md5 from 'crypto-js/md5';
+import { Auth, AuthDocument } from "./schemas/auth.schema";
+import { InjectConnection, InjectModel } from "@nestjs/mongoose";
+import { Connection, Model } from "mongoose";
 
 @Injectable()
 export class AuthService {
   constructor(
+    @InjectConnection('Users') private connection: Connection, // mongo 连接对象
+    @InjectModel(Auth.name, 'Users') private AuthModel: Model<AuthDocument>,
     private readonly usersService: UserService,
     private readonly jwtService: JwtService,
   ) {}
@@ -33,8 +38,25 @@ export class AuthService {
     }
     const payload = { username: loginUser.username, uuid: loginUser.uuid };
     return {
-      access_token: this.jwtService.sign(payload),
+      access_token: await this.jwtService.signAsync(payload),
     };
+  }
+
+  async logout(token: string) {
+    const isDisabled = await this.AuthModel.exists({
+      token
+    });
+    if(isDisabled){
+      return null
+    }
+    const tokenDate = this.jwtService.decode(token);
+    const disabledToken = new this.AuthModel({
+      token,
+      cancelDate: new Date().getTime(),
+      iat: tokenDate['iat'] * 1000,
+      exp: tokenDate['exp'] * 1000,
+    })
+    return disabledToken.save();
   }
 
   /**
@@ -42,7 +64,7 @@ export class AuthService {
    * */
   async verify(token: string) {
     try {
-      return this.jwtService.verify(token);
+      return this.jwtService.verifyAsync(token);
     } catch (e) {
       return null;
     }

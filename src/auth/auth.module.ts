@@ -6,6 +6,8 @@ import { JwtStrategy } from './jwt.strategy';
 import { AuthController } from './auth.controller';
 import { JwtModule } from '@nestjs/jwt';
 import { AppConfig } from '../../config/app.config';
+import { Auth, AuthSchema } from './schemas/auth.schema';
+import { MongooseModule } from "@nestjs/mongoose";
 
 @Module({
   imports: [
@@ -14,6 +16,10 @@ import { AppConfig } from '../../config/app.config';
       signOptions: AppConfig.Base.JWT.OPTIONS,
       secret: AppConfig.Base.JWT.SECRET,
     }),
+    MongooseModule.forFeature(
+      [{ name: Auth.name, schema: AuthSchema }],
+      'Users',
+    ),
     UserModule,
   ],
   providers: [AuthService, JwtStrategy],
