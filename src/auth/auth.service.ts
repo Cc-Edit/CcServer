@@ -62,18 +62,18 @@ export class AuthService {
   async cleanExpireToken() {
     const now = new Date().getTime();
     const expireTokens = await this.AuthModel.find({
-      $or:[
+      $or: [
         {
           exp: {
-            $lte: now
-          }
+            $lte: now,
+          },
         },
         {
-          exp: null
-        }
-      ]
+          exp: null,
+        },
+      ],
     }).exec();
-    console.log(expireTokens)
+    console.log(expireTokens);
   }
   /**
    * token 校验

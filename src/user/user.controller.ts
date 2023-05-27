@@ -60,7 +60,7 @@ export class UserController {
   async remove(@Body('uuid') uuid: string) {
     const oldUser = await this.userService.findByUuid(uuid);
     if (oldUser) {
-      oldUser.status = UserStatus.Delete
+      oldUser.status = UserStatus.Delete;
       await oldUser.save();
     }
     return {

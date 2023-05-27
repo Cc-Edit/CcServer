@@ -23,7 +23,7 @@ export class UserService {
   }
 
   async findByUuid(uuid: string): Promise<User> {
-    return this.UserModel.findOne( {
+    return this.UserModel.findOne({
       uuid,
     });
   }
