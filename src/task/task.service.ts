@@ -1,12 +1,10 @@
 import { Injectable, Logger } from '@nestjs/common';
 import { Cron } from '@nestjs/schedule';
-import { AuthService } from "../auth/auth.service";
+import { AuthService } from '../auth/auth.service';
 
 @Injectable()
 export class TaskService {
-  constructor(
-    private readonly authService: AuthService
-  ) {}
+  constructor(private readonly authService: AuthService) {}
 
   private readonly logger = new Logger(TaskService.name);
 
