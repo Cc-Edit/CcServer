@@ -1,5 +1,6 @@
 import { NestFactory } from '@nestjs/core';
 import helmet from 'helmet';
+import rateLimit from 'express-rate-limit';
 import { LoggerMiddleware } from './lib/middleware/logger.middleware';
 import { AuthGuard } from './lib/guard/auth.guard';
 import { ApplicationModule } from './app.module';
@@ -11,6 +12,14 @@ async function bootstrap() {
     abortOnError: false, // 阻止程序异常退出
     logger: ['log', 'error', 'warn', 'debug'],
   });
+
+  // 设置访问频率
+  app.use(
+    rateLimit({
+      windowMs: 10 * 60 * 1000, // 10分钟
+      max: 1000, // 限制15分钟内最多只能访问1000次
+    }),
+  )
 
   // 设置 api 访问前缀
   app.setGlobalPrefix(AppConfig.Base.APP.prefix);
