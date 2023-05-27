@@ -2,14 +2,13 @@ import { Reflector } from '@nestjs/core';
 import { AuthGuard } from '@nestjs/passport';
 import {
   ExecutionContext,
-  ForbiddenException,
   Inject,
   Injectable,
   UnauthorizedException,
 } from '@nestjs/common';
 import { AppConfig } from '../../../config/app.config';
 
-import { ALLOW_ANON } from '../decorators/allow-anon.decorator';
+import { ALLOW_ANON } from "../decorators/allow-access.decorator";
 
 import { AuthService } from '../../auth/auth.service';
 
@@ -24,11 +23,11 @@ export class JwtAuthGuard extends AuthGuard('jwt') {
   }
 
   async canActivate(ctx: ExecutionContext): Promise<boolean> {
-    const allowAnon = this.reflector.getAllAndOverride<boolean>(ALLOW_ANON, [
+    const allowAccess = this.reflector.getAllAndOverride<boolean>(ALLOW_ANON, [
       ctx.getHandler(),
       ctx.getClass(),
     ]);
-    if (allowAnon) return true;
+    if (allowAccess) return true;
     const req = ctx.switchToHttp().getRequest();
     const accessToken = req.get(AppConfig.Base.JWT.HEADER_KEY);
     if (!accessToken) throw new UnauthorizedException('请先登录');
