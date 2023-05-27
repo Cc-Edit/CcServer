@@ -58,12 +58,10 @@ export class UserController {
 
   @Post('delete')
   async remove(@Body('uuid') uuid: string) {
-    const users = await this.userService.findByUuid(uuid);
-    if (users && users.length > 0) {
-      users.forEach((item) => {
-        item.status = UserStatus.Delete;
-        item.save();
-      });
+    const oldUser = await this.userService.findByUuid(uuid);
+    if (oldUser) {
+      oldUser.status = UserStatus.Delete
+      await oldUser.save();
     }
     return {
       isOk: true,
@@ -75,7 +73,7 @@ export class UserController {
   @Post('update')
   @UsePipes(ValidationPipe)
   async update(@Body() user: UserCreate) {
-    const { uuid, name, phone, email, password, role, status } = user;
+    const { uuid, name, phone, email, password } = user;
     if (!uuid) {
       return {
         isOk: false,
@@ -83,15 +81,14 @@ export class UserController {
         data: {},
       };
     }
-    const users = await this.userService.findByUuid(uuid);
-    if (users.length === 0) {
+    const oldUser = await this.userService.findByUuid(uuid);
+    if (!oldUser) {
       return {
         isOk: false,
         message: '用户不存在',
         data: {},
       };
     }
-    const oldUser = users.shift();
     let newUser = await this.userService.find({
       $and: [
         {
