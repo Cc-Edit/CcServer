@@ -1,4 +1,5 @@
 import { NestFactory } from '@nestjs/core';
+import { SwaggerModule, DocumentBuilder } from '@nestjs/swagger';
 import helmet from 'helmet';
 import rateLimit from 'express-rate-limit';
 import { LoggerMiddleware } from './lib/middleware/logger.middleware';
@@ -22,7 +23,7 @@ async function bootstrap() {
   );
 
   // 设置 api 访问前缀
-  app.setGlobalPrefix(AppConfig.Base.APP.prefix);
+  app.setGlobalPrefix(AppConfig.APP.prefix);
 
   // web 安全，防常见漏洞
   // 注意： 开发环境如果开启 nest static module 需要将 crossOriginResourcePolicy 设置为 false 否则 静态资源 跨域不可访问
@@ -33,10 +34,21 @@ async function bootstrap() {
       crossOriginResourcePolicy: false,
     }),
   );
+  // 全局 logger
+  app.use(LoggerMiddleware);
 
-  app.use(LoggerMiddleware); // 全局 logger
-  app.useGlobalGuards(new AuthGuard()); // 全局路由守卫
+  // 全局路由守卫
+  app.useGlobalGuards(new AuthGuard());
 
-  await app.listen(AppConfig.Base.APP.port);
+  // swagger 配置
+  const options = new DocumentBuilder()
+    .setTitle(AppConfig.SWAGGER.title)
+    .setDescription(AppConfig.SWAGGER.description)
+    .setVersion(AppConfig.SWAGGER.version)
+    .addTag(AppConfig.SWAGGER.tag)
+    .build();
+  const document = SwaggerModule.createDocument(app, options);
+  SwaggerModule.setup(AppConfig.SWAGGER.path, app, document);
+  await app.listen(AppConfig.APP.port);
 }
 bootstrap();

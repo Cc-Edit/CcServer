@@ -15,6 +15,4 @@ switch (ENV) {
 }
 
 // Custom application configuration
-export const AppConfig = {
-  Base: Config,
-};
+export const AppConfig = Config;

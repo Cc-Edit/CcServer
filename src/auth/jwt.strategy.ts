@@ -7,9 +7,9 @@ import { AppConfig } from '../../config/app.config';
 export class JwtStrategy extends PassportStrategy(Strategy) {
   constructor() {
     super({
-      jwtFromRequest: ExtractJwt.fromHeader(AppConfig.Base.JWT.HEADER_KEY),
+      jwtFromRequest: ExtractJwt.fromHeader(AppConfig.JWT.header_key),
       ignoreExpiration: false,
-      secretOrKey: AppConfig.Base.JWT.SECRET,
+      secretOrKey: AppConfig.JWT.secret,
     });
   }
 

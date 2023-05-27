@@ -13,8 +13,8 @@ import { MongooseModule } from '@nestjs/mongoose';
   imports: [
     PassportModule.register({ defaultStrategy: 'jwt' }),
     JwtModule.register({
-      signOptions: AppConfig.Base.JWT.OPTIONS,
-      secret: AppConfig.Base.JWT.SECRET,
+      signOptions: AppConfig.JWT.options,
+      secret: AppConfig.JWT.secret,
     }),
     MongooseModule.forFeature(
       [{ name: Auth.name, schema: AuthSchema }],

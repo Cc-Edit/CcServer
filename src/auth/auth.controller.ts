@@ -19,7 +19,7 @@ export class AuthController {
   }
 
   @Get('logout')
-  async logout(@Headers(AppConfig.Base.JWT.HEADER_KEY) token: string) {
+  async logout(@Headers(AppConfig.JWT.header_key) token: string) {
     const auth = await this.authService.logout(token);
     return {
       isOk: true,
