@@ -85,7 +85,8 @@ export class AuthService {
       return null;
     }
     try {
-      return this.jwtService.verifyAsync(token);
+      const payload = await this.jwtService.verifyAsync(token);
+      return payload;
     } catch (e) {
       return null;
     }
