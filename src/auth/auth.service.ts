@@ -2,9 +2,9 @@ import { Injectable, UnauthorizedException } from '@nestjs/common';
 import { UserService } from '../user/user.service';
 import { JwtService } from '@nestjs/jwt';
 import * as md5 from 'crypto-js/md5';
-import { Auth, AuthDocument } from "./schemas/auth.schema";
-import { InjectConnection, InjectModel } from "@nestjs/mongoose";
-import { Connection, Model } from "mongoose";
+import { Auth, AuthDocument } from './schemas/auth.schema';
+import { InjectConnection, InjectModel } from '@nestjs/mongoose';
+import { Connection, Model } from 'mongoose';
 
 @Injectable()
 export class AuthService {
@@ -44,10 +44,10 @@ export class AuthService {
 
   async logout(token: string) {
     const isDisabled = await this.AuthModel.exists({
-      token
+      token,
     });
-    if(isDisabled){
-      return null
+    if (isDisabled) {
+      return null;
     }
     const tokenDate = this.jwtService.decode(token);
     const disabledToken = new this.AuthModel({
@@ -55,7 +55,7 @@ export class AuthService {
       cancelDate: new Date().getTime(),
       iat: tokenDate['iat'] * 1000,
       exp: tokenDate['exp'] * 1000,
-    })
+    });
     return disabledToken.save();
   }
 

@@ -5,7 +5,7 @@ export type AuthDocument = Auth & Document;
 
 export enum TokenStatus {
   Enabled,
-  Disable
+  Disable,
 }
 
 @Schema()
@@ -16,7 +16,12 @@ export class Auth extends Document {
   })
   token: string;
 
-  @Prop({ required: true, enum: TokenStatus, default:TokenStatus.Disable, comment: 'token状态' })
+  @Prop({
+    required: true,
+    enum: TokenStatus,
+    default: TokenStatus.Disable,
+    comment: 'token状态',
+  })
   status: number;
 
   @Prop({ required: true, comment: '注销时间' })

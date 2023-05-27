@@ -7,7 +7,7 @@ import { AuthController } from './auth.controller';
 import { JwtModule } from '@nestjs/jwt';
 import { AppConfig } from '../../config/app.config';
 import { Auth, AuthSchema } from './schemas/auth.schema';
-import { MongooseModule } from "@nestjs/mongoose";
+import { MongooseModule } from '@nestjs/mongoose';
 
 @Module({
   imports: [
