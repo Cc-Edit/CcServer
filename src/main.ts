@@ -8,7 +8,7 @@ async function bootstrap() {
   const app = await NestFactory.create(ApplicationModule, {
     cors: false,
     abortOnError: false, // 阻止程序异常退出
-    logger: ['error', 'warn'],
+    logger: ['log', 'error', 'warn', 'debug'],
   });
 
   app.use(LoggerMiddleware); // 全局 logger
