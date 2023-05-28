@@ -162,7 +162,7 @@ export class PageController {
         };
       }
     } else {
-      target = RootId
+      target = RootId;
     }
     const originFile = origin.split(',');
     if (originFile.length === 0) {

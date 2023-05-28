@@ -64,10 +64,10 @@ export class PageService {
   async move(originFileId: string[], targetFolder: string) {
     const originFiles = await this.PageModel.find({
       uuid: {
-        $in: originFileId
-      }
+        $in: originFileId,
+      },
     }).exec();
-    for (let file of originFiles) {
+    for (const file of originFiles) {
       file.title = await this.getAvailableTitle(file.title, targetFolder);
       file.parent = targetFolder;
       await file.save();
@@ -77,9 +77,9 @@ export class PageService {
   async getAvailableTitle(title: string, parent: string, index = 0) {
     const isExist = await this.PageModel.findOne({ title, parent });
     if (isExist) {
-      const newTitle = `${ title }_副本${ index === 0 ? '': index }`
-      return this.getAvailableTitle(newTitle, parent,  ++index);
-    }else{
+      const newTitle = `${title}_副本${index === 0 ? '' : index}`;
+      return this.getAvailableTitle(newTitle, parent, ++index);
+    } else {
       return title;
     }
   }
