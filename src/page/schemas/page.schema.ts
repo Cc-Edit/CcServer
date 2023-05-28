@@ -20,10 +20,10 @@ export enum FileType {
   Page, // 页面
   Folder, // 文件夹
 }
-
+export const RootId = 'root';
 @Schema()
 export class Page extends Document {
-  @Prop({ required: true, enum: PageStatus, comment: '名称' })
+  @Prop({ required: true, enum: FileType, comment: '文件类型' })
   type: string;
 
   @Prop({
@@ -36,7 +36,7 @@ export class Page extends Document {
   @Prop({ required: true, comment: '唯一id' })
   uuid: string;
 
-  @Prop({ required: true, comment: '父级文件夹' })
+  @Prop({ required: true, default: RootId, comment: '父级文件夹' })
   parent?: string;
 
   @Prop({ comment: '封面' })

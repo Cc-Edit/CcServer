@@ -1,7 +1,6 @@
 import { Controller, Get, Post, Body, UsePipes } from '@nestjs/common';
 import { UserCreate } from './dto/user-create';
 import { UserService } from './user.service';
-import { UserStatus } from './schemas/user.schema';
 import { ValidationPipe } from '../lib/pipe/validate.pipe';
 import * as md5 from 'crypto-js/md5';
 

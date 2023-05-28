@@ -42,11 +42,12 @@ export class PageService {
     return null;
   }
 
-  async findAll(): Promise<Page[]> {
+  async findAll(uuid: string): Promise<Page[]> {
     return this.PageModel.find({
       status: {
         $ne: PageStatus.Delete,
       },
+      parent: uuid
     }).exec();
   }
 
@@ -54,10 +55,6 @@ export class PageService {
     return this.PageModel.findOne({
       uuid,
     });
-  }
-
-  async findBy(queryArr: Condition<any>): Promise<Page[]> {
-    return this.PageModel.find({ $or: queryArr }).exec();
   }
 
   async find(query: FilterQuery<any>): Promise<Page[]> {
