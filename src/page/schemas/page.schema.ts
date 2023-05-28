@@ -13,6 +13,7 @@ export enum PublishStatus {
   Published, // 已发布
   HasUpdate, // 有更新
   Offline, // 下线
+  None, // 未发布
 }
 
 export enum FileType {
