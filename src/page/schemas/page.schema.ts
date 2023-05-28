@@ -36,10 +36,10 @@ export class Page extends Document {
   parent?: string;
 
   @Prop({ comment: '封面' })
-  cover?: string
+  cover?: string;
 
   @Prop({ required: true, comment: '创建者uuid' })
-  createUser: string
+  createUser: string;
 
   @Prop({ required: true, comment: '创建时间' })
   createDate: number;
@@ -49,7 +49,7 @@ export class Page extends Document {
 
   // 页面独有属性
   @Prop({ enum: PublishStatus, comment: '发布状态' })
-  publish?: boolean
+  publish?: boolean;
 
   @Prop({ enum: PageStatus, comment: '页面状态' })
   status?: number;

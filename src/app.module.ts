@@ -28,7 +28,7 @@ import { JwtAuthGuard } from './common/guards/auth.guard';
     {
       provide: APP_GUARD,
       useClass: JwtAuthGuard,
-    }
+    },
   ],
   controllers: [],
 })
