@@ -150,6 +150,36 @@ export class PageController {
     };
   }
 
+  @Post('move')
+  async move(@Body('origin') origin: string, @Body('target') target: string) {
+    if (target) {
+      const current = await this.pageService.findByUuid(target);
+      if (current.type !== FileType.Folder) {
+        return {
+          isOk: false,
+          message: '目标必须是文件夹',
+          data: {},
+        };
+      }
+    } else {
+      target = RootId
+    }
+    const originFile = origin.split(',');
+    if (originFile.length === 0) {
+      return {
+        isOk: false,
+        message: '没有要移动的文件',
+        data: {},
+      };
+    }
+    await this.pageService.move(originFile, target);
+    return {
+      isOk: true,
+      message: '操作完成',
+      data: {},
+    };
+  }
+
   @Post('getPage')
   async getPage(@Body('uuid') uuid: string) {
     return {

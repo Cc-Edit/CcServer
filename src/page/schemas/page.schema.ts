@@ -24,7 +24,7 @@ export const RootId = 'root';
 @Schema()
 export class Page extends Document {
   @Prop({ required: true, enum: FileType, comment: '文件类型' })
-  type: string;
+  type: number;
 
   @Prop({
     required: true,
