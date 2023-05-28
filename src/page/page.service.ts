@@ -1,8 +1,8 @@
 import { Injectable } from '@nestjs/common';
-import { InjectModel } from "@nestjs/mongoose";
-import { Model } from "mongoose";
-import { Page, PageDocument } from "./schemas/page.schema";
-import { PageCreate } from "./dto/page-create";
+import { InjectModel } from '@nestjs/mongoose';
+import { Model } from 'mongoose';
+import { Page, PageDocument } from './schemas/page.schema';
+import { PageCreate } from './dto/page-create';
 
 @Injectable()
 export class PageService {
@@ -14,5 +14,4 @@ export class PageService {
     const newPage = new this.PageModel(createPage);
     return newPage.save();
   }
-
 }

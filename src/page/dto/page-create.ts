@@ -1,8 +1,4 @@
-import {
-  IsString,
-  IsNotEmpty,
-  Equals, Length
-} from "class-validator";
+import { IsString, IsNotEmpty, Equals, Length } from 'class-validator';
 import { ApiProperty } from '@nestjs/swagger';
 import { FileType } from '../schemas/page.schema';
 export class PageCreate {
