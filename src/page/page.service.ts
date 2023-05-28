@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
-import { Condition, FilterQuery, Model } from "mongoose";
+import { Condition, FilterQuery, Model } from 'mongoose';
 import {
   Page,
   PageDocument,
@@ -17,7 +17,10 @@ export class PageService {
     @InjectModel(Page.name, 'Users') private PageModel: Model<PageDocument>,
   ) {}
 
-  async create(createData: PageCreate | FolderCreate, createUser: string): Promise<Page> {
+  async create(
+    createData: PageCreate | FolderCreate,
+    createUser: string,
+  ): Promise<Page> {
     const newPage = new this.PageModel({
       ...createData,
       createUser,
@@ -29,7 +32,7 @@ export class PageService {
     return newPage.save();
   }
 
-  async delete(deleteUUid: string){
+  async delete(deleteUUid: string) {
     const page = await this.findByUuid(deleteUUid);
     if (page) {
       page.status = PageStatus.Delete;
@@ -42,7 +45,7 @@ export class PageService {
   async findAll(): Promise<Page[]> {
     return this.PageModel.find({
       status: {
-        $ne: PageStatus.Delete
+        $ne: PageStatus.Delete,
       },
     }).exec();
   }
