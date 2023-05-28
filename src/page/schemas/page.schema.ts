@@ -32,6 +32,9 @@ export class Page extends Document {
   })
   title: string;
 
+  @Prop({ required: true, comment: '唯一id' })
+  uuid: string;
+
   @Prop({ required: true, comment: '父级文件夹' })
   parent?: string;
 
