@@ -1,9 +1,9 @@
-import { Body, Controller, Get, Post, UsePipes, Request } from "@nestjs/common";
+import { Body, Controller, Get, Post, UsePipes, Request } from '@nestjs/common';
 import { PageService } from './page.service';
 import { ValidationPipe } from '../lib/pipe/validate.pipe';
-import { PageCreate } from "./dto/page-create";
-import { FolderCreate } from "./dto/folder-create";
-import { PageStatus, FileType, RootId } from "./schemas/page.schema";
+import { PageCreate } from './dto/page-create';
+import { FolderCreate } from './dto/folder-create';
+import { PageStatus, FileType, RootId } from './schemas/page.schema';
 
 @Controller('page')
 export class PageController {
@@ -14,23 +14,23 @@ export class PageController {
   async create(@Body() page: PageCreate, @Request() req) {
     const { uuid: currentUser } = req.user || {};
     // 判断用户是否重复
-    let findPage = await this.pageService.find({
+    const findPage = await this.pageService.find({
       $and: [
         {
-          type: FileType.Page
+          type: FileType.Page,
         },
         {
           status: {
-            $ne: PageStatus.Delete
-          }
+            $ne: PageStatus.Delete,
+          },
         },
         {
-          title: page.title
+          title: page.title,
         },
         {
-          parent: page.parent || RootId
-        }
-      ]
+          parent: page.parent || RootId,
+        },
+      ],
     });
     if (!currentUser) {
       return {
@@ -59,23 +59,23 @@ export class PageController {
   async createFolder(@Body() folder: FolderCreate, @Request() req) {
     const { uuid: currentUser } = req.user || {};
     // 判断用户是否重复
-    let findFolder = await this.pageService.find({
+    const findFolder = await this.pageService.find({
       $and: [
         {
-          type: FileType.Folder
+          type: FileType.Folder,
         },
         {
           status: {
-            $ne: PageStatus.Delete
-          }
+            $ne: PageStatus.Delete,
+          },
         },
         {
-          title: folder.title
+          title: folder.title,
         },
         {
-          parent: folder.parent || RootId
-        }
-      ]
+          parent: folder.parent || RootId,
+        },
+      ],
     });
     if (!currentUser) {
       return {

@@ -47,7 +47,7 @@ export class PageService {
       status: {
         $ne: PageStatus.Delete,
       },
-      parent: uuid
+      parent: uuid,
     }).exec();
   }
 
