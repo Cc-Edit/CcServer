@@ -1,11 +1,15 @@
 import { Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
-import { Model, Schema } from "mongoose";
-import { Page, PageDocument, PublishStatus, PageStatus } from './schemas/page.schema';
+import { Model, Schema } from 'mongoose';
+import {
+  Page,
+  PageDocument,
+  PublishStatus,
+  PageStatus,
+} from './schemas/page.schema';
 import { PageCreate } from './dto/page-create';
 import { FolderCreate } from './dto/folder-create';
 import { v4 as UuidV4 } from 'uuid';
-
 
 @Injectable()
 export class PageService {
@@ -24,5 +28,4 @@ export class PageService {
     });
     return newPage.save();
   }
-
 }
