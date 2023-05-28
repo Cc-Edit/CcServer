@@ -3,9 +3,7 @@ import { UserCreate } from './dto/user-create';
 import { UserService } from './user.service';
 import { UserStatus } from './schemas/user.schema';
 import { ValidationPipe } from '../lib/pipe/validate.pipe';
-import { getRandomString } from '../lib/utils/common';
 import * as md5 from 'crypto-js/md5';
-import { v4 as UuidV4 } from 'uuid';
 
 @Controller('user')
 export class UserController {
@@ -39,15 +37,6 @@ export class UserController {
         data: {},
       };
     }
-
-    user.uuid = UuidV4();
-    // 密码加盐
-    user.salt = getRandomString();
-    user.password = md5(`${user.salt}${user.password}`).toString();
-    user.createDate = new Date().getTime();
-    user.updateDate = new Date().getTime();
-    user.role = 1;
-    user.status = 3;
     await this.userService.create(user);
     return {
       isOk: true,
@@ -58,21 +47,17 @@ export class UserController {
 
   @Post('delete')
   async remove(@Body('uuid') uuid: string) {
-    const oldUser = await this.userService.findByUuid(uuid);
-    if (oldUser) {
-      oldUser.status = UserStatus.Delete;
-      await oldUser.save();
-    }
+    const deleteUser = await this.userService.delete(uuid);
     return {
       isOk: true,
-      message: '删除成功',
+      message: deleteUser ? '删除成功' : '用户不存在',
       data: {},
     };
   }
 
   @Post('update')
   @UsePipes(ValidationPipe)
-  async update(@Body() user: UserCreate) {
+  async update(@Body() user: UserCreate & { uuid: string }) {
     const { uuid, name, phone, email, password } = user;
     if (!uuid) {
       return {

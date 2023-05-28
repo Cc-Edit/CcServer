@@ -60,9 +60,4 @@ export class UserCreate {
 
   @ApiProperty({ description: '用户状态', required: false })
   status?: number;
-
-  salt?: string;
-  uuid?: string;
-  createDate?: number;
-  updateDate?: number;
 }

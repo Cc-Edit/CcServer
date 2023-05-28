@@ -1,5 +1,6 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import { Document } from 'mongoose';
+import { User } from "../../user/schemas/user.schema";
 
 export type PageDocument = Page & Document;
 
@@ -60,5 +61,11 @@ export class Page extends Document {
 }
 
 const schema = SchemaFactory.createForClass(Page);
+
+schema.post(['updateOne', 'save', 'findOneAndUpdate'], function () {
+  console.log('updateOne、save、findOneAndUpdate之后，更新数据更新时间字段值');
+  const that = this as Page;
+  that.updateDate = new Date().getTime();
+});
 
 export const PageSchema = schema;

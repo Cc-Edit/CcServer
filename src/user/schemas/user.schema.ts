@@ -45,10 +45,10 @@ export class User extends Document {
   @Prop({ required: true, comment: '最后更新时间' })
   updateDate: number;
 
-  @Prop({ required: true, enum: UserRole, comment: '用户角色' })
+  @Prop({ required: true, enum: UserRole, default:UserRole.User, comment: '用户角色' })
   role: number;
 
-  @Prop({ required: true, enum: UserStatus, comment: '用户状态' })
+  @Prop({ required: true, enum: UserStatus, default:UserStatus.Open, comment: '用户状态' })
   status: number;
 }
 

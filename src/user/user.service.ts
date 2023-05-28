@@ -2,7 +2,10 @@ import { Injectable } from '@nestjs/common';
 import { InjectModel, InjectConnection } from '@nestjs/mongoose';
 import { Model, Connection, FilterQuery, Condition } from 'mongoose';
 import { UserCreate } from './dto/user-create';
-import { User, UserDocument, UserStatus } from './schemas/user.schema';
+import { User, UserDocument, UserStatus, UserRole } from './schemas/user.schema';
+import { v4 as UuidV4 } from 'uuid';
+import * as md5 from 'crypto-js/md5';
+import { getRandomString } from '../lib/utils/common';
 
 @Injectable()
 export class UserService {
@@ -12,8 +15,26 @@ export class UserService {
   ) {}
 
   async create(createUser: UserCreate): Promise<User> {
-    const newUser = new this.UserModel(createUser);
+    const salt = getRandomString();
+    const password = md5(`${salt}${createUser.password}`).toString()
+    const newUser = new this.UserModel({
+      ...createUser,
+      uuid: UuidV4(),
+      password,
+      createDate: new Date().getTime(),
+      updateDate: new Date().getTime()
+    });
     return newUser.save();
+  }
+
+  async delete(uuid: string) {
+    const user = await this.findByUuid(uuid);
+    if (user) {
+      user.status = UserStatus.Delete;
+      await user.save();
+      return user;
+    }
+    return null;
   }
 
   async findAll(): Promise<User[]> {
