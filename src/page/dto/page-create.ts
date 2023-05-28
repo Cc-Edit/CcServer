@@ -1,6 +1,7 @@
 import { IsString, IsNotEmpty, Equals, Length } from 'class-validator';
 import { ApiProperty } from '@nestjs/swagger';
 import { FileType } from '../schemas/page.schema';
+
 export class PageCreate {
   @ApiProperty({ description: '类型', required: true })
   @IsNotEmpty({
