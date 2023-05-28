@@ -23,22 +23,21 @@ export class AuthService {
     ]);
     if (users.length === 0) return null;
     const user = users.shift();
-    const { password, salt, ...result } = user;
+    const { password, salt } = user;
     if (password === md5(`${salt}${pass}`).toString()) {
-      return result;
+      return { uuid: user.uuid };
     } else {
       return null;
     }
   }
 
   async login(user: any) {
-    const loginUser = await this.validateUser(user.username, user.password);
-    if (!loginUser) {
+    const payload = await this.validateUser(user.username, user.password);
+    if (!payload) {
       throw new UnauthorizedException('验证失败，用户名密码不匹配');
     }
-    const payload = { username: loginUser.username, uuid: loginUser.uuid };
     return {
-      access_token: await this.jwtService.signAsync(payload),
+      access_token: this.jwtService.sign(payload),
     };
   }
 
