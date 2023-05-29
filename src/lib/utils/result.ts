@@ -1,28 +1,28 @@
-import { ApiProperty } from '@nestjs/swagger'
+import { ApiProperty } from '@nestjs/swagger';
 export class ResultData {
   constructor(code = 200, isOk = true, msg?: string, data?: any) {
-    this.code = code
-    this.isOk = isOk
-    this.msg = msg || 'ok'
-    this.data = data || null
+    this.code = code;
+    this.isOk = isOk;
+    this.msg = msg || 'ok';
+    this.data = data || null;
   }
 
   @ApiProperty({ type: 'number', default: 200 })
-  code: number
+  code: number;
 
   @ApiProperty({ type: 'boolean', default: true })
-  isOk: boolean
+  isOk: boolean;
 
   @ApiProperty({ type: 'string', default: 'ok' })
-  msg?: string
+  msg?: string;
 
-  data?: any
+  data?: any;
 
   static success(data?: any, msg?: string) {
-    return new ResultData(200, true, msg || 'success', data)
+    return new ResultData(200, true, msg || 'success', data);
   }
 
-  static fail(msg?: string, code?: number, data?: any ): ResultData {
-    return new ResultData(code || 200, false, msg || 'fail', data)
+  static fail(msg?: string, code?: number, data?: any): ResultData {
+    return new ResultData(code || 200, false, msg || 'fail', data);
   }
 }

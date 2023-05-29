@@ -23,7 +23,7 @@ export class UserController {
     }
     findUsers = await this.userService.findBy([{ email: user.email }]);
     if (findUsers.length > 0) {
-      return ResultData.fail( '邮箱已注册');
+      return ResultData.fail('邮箱已注册');
     }
     await this.userService.create(user);
     return ResultData.success({}, '用户创建成功');
@@ -39,11 +39,11 @@ export class UserController {
   async update(@Body() user: UserCreate) {
     const { uuid, name, phone, email, password } = user;
     if (!uuid) {
-      return ResultData.fail( '用户uuid不能为空');
+      return ResultData.fail('用户uuid不能为空');
     }
     const oldUser = await this.userService.findByUuid(uuid);
     if (!oldUser) {
-      return ResultData.fail( '用户不存在');
+      return ResultData.fail('用户不存在');
     }
     let newUser = await this.userService.find({
       $and: [
@@ -56,7 +56,7 @@ export class UserController {
       ],
     });
     if (newUser.length > 0) {
-      return ResultData.fail( '用户名已存在');
+      return ResultData.fail('用户名已存在');
     }
     newUser = await this.userService.find({
       $and: [
@@ -69,7 +69,7 @@ export class UserController {
       ],
     });
     if (newUser.length > 0) {
-      return ResultData.fail( '手机号已注册');
+      return ResultData.fail('手机号已注册');
     }
     newUser = await this.userService.find({
       $and: [
@@ -82,7 +82,7 @@ export class UserController {
       ],
     });
     if (newUser.length > 0) {
-      return ResultData.fail( '邮箱已注册');
+      return ResultData.fail('邮箱已注册');
     }
     if (password) {
       user.password = md5(`${oldUser.salt}${password}`).toString();

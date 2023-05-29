@@ -95,7 +95,10 @@ export class PageController {
   @Post('delete')
   async remove(@Body('uuid') uuid: string) {
     const deleteUser = await this.pageService.delete(uuid);
-    return ResultData.success({}, deleteUser ? '删除成功' : '页面/文件夹不存在');
+    return ResultData.success(
+      {},
+      deleteUser ? '删除成功' : '页面/文件夹不存在',
+    );
   }
 
   @Get('getFolder')

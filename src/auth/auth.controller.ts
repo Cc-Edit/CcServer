@@ -3,7 +3,7 @@ import { AuthService } from './auth.service';
 import { LoginUser } from './dto/login-user.dto';
 import { AllowAccess } from '../common/decorators/allow-access.decorator';
 import { AppConfig } from '../../config/app.config';
-import { ResultData } from "../lib/utils/result";
+import { ResultData } from '../lib/utils/result';
 
 @Controller('auth')
 export class AuthController {
@@ -12,7 +12,10 @@ export class AuthController {
   @AllowAccess()
   @Post('login')
   async login(@Body() userLogin: LoginUser) {
-    return ResultData.success(await this.authService.login(userLogin), '登录成功');
+    return ResultData.success(
+      await this.authService.login(userLogin),
+      '登录成功',
+    );
   }
 
   @Get('logout')
