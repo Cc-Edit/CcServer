@@ -1,9 +1,9 @@
-import Path from 'path';
-import Log4js from 'log4js';
-import Util from 'util';
-import dayjs from 'dayjs'; // 处理时间的工具
-import { get as getStack } from 'stack-trace';
-import chalk from 'chalk';
+import * as Path from 'path';
+import * as Util from 'util';
+import * as dayjs from 'dayjs'; // 处理时间的工具
+import * as StackTrace from 'stacktrace-js'
+import * as chalk from 'chalk';
+import * as Log4js from 'log4js';
 import { AppConfig } from '../../../config/app.config';
 
 // 日志级别
@@ -28,9 +28,8 @@ export class ContextTrace {
     public readonly columnNumber?: number,
   ) {}
 }
-
 Log4js.addLayout('CcServer', (logConfig: any) => {
-  return (logEvent: Log4js.LoggingEvent): string => {
+  return (logEvent): string => {
     let moduleName = '';
     let position = '';
 
@@ -204,14 +203,14 @@ export class Logger {
   }
 
   // 日志追踪，可以追溯到哪个文件、第几行第几列
-  static getStackTrace(): string {
-    const stackList = getStack();
-    const stackInfo = stackList[0];
+  static getStackTrace(deep = 2): string {
+    const stackList = StackTrace.getSync();
+    const stackInfo = stackList[deep];
 
-    const lineNumber: number = stackInfo.getLineNumber();
-    const columnNumber: number = stackInfo.getColumnNumber();
-    const fileName: string = stackInfo.getFileName();
-    const basename: string = Path.basename(fileName);
-    return `${basename}(line: ${lineNumber}, column: ${columnNumber}): \n`;
+    const lineNumber: number = stackInfo.lineNumber
+    const columnNumber: number = stackInfo.columnNumber
+    const fileName: string = stackInfo.fileName
+    const basename: string = Path.basename(fileName)
+    return `${basename}(line: ${lineNumber}, column: ${columnNumber}): \n`
   }
 }

@@ -1,6 +1,6 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import { Document } from 'mongoose';
-
+import { Logger } from '../../lib/logger/logger.util';
 export type PageDocument = Page & Document;
 
 export enum PageStatus {
@@ -62,7 +62,7 @@ export class Page extends Document {
 const schema = SchemaFactory.createForClass(Page);
 
 schema.post(['updateOne', 'save', 'findOneAndUpdate'], function () {
-  console.log('updateOne、save、findOneAndUpdate之后，更新数据更新时间字段值');
+  Logger.log('updateOne、save、findOneAndUpdate之后，更新数据更新时间字段值')
   const that = this as Page;
   that.updateDate = new Date().getTime();
 });
