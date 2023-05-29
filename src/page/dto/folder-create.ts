@@ -22,11 +22,15 @@ export class FolderCreate {
   })
   title: string;
 
-  @ApiProperty({ description: '上级目录', required: true })
+  @ApiProperty({ description: '上级目录', required: false })
   @IsString({ message: '类型错误' })
   parent?: string;
 
-  @ApiProperty({ description: '封面地址', required: true })
+  @ApiProperty({ description: '封面地址', required: false })
   @IsString({ message: '类型错误' })
   cover?: string;
+
+  @ApiProperty({ description: '更新目标uuid', required: false })
+  @IsString({ message: '类型错误' })
+  uuid?: string;
 }

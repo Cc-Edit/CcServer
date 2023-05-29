@@ -101,7 +101,7 @@ export class PageController {
 
   @Post('update')
   @UsePipes(ValidationPipe)
-  async update(@Body() page: (PageCreate | FolderCreate) & { uuid: string }) {
+  async update(@Body() page: PageCreate | FolderCreate ) {
     const { uuid, title, cover, parent } = page;
     if (!uuid) {
       return {

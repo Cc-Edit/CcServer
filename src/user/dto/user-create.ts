@@ -60,4 +60,8 @@ export class UserCreate {
 
   @ApiProperty({ description: '用户状态', required: false })
   status?: number;
+
+  @ApiProperty({ description: '更新uuid', required: false })
+  @IsString({ message: '类型错误' })
+  uuid?: string;
 }

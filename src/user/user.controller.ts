@@ -1,4 +1,5 @@
 import { Controller, Get, Post, Body, UsePipes } from '@nestjs/common';
+import { ApiOperation } from '@nestjs/swagger';
 import { UserCreate } from './dto/user-create';
 import { UserService } from './user.service';
 import { ValidationPipe } from '../lib/pipe/validate.pipe';
@@ -9,6 +10,7 @@ export class UserController {
   constructor(private userService: UserService) {}
 
   @Post('creat')
+  @ApiOperation({ summary: '创建用户' })
   @UsePipes(ValidationPipe)
   async create(@Body() user: UserCreate) {
     // 判断用户是否重复
@@ -56,7 +58,7 @@ export class UserController {
 
   @Post('update')
   @UsePipes(ValidationPipe)
-  async update(@Body() user: UserCreate & { uuid: string }) {
+  async update(@Body() user: UserCreate) {
     const { uuid, name, phone, email, password } = user;
     if (!uuid) {
       return {

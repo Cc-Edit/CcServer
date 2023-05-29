@@ -6,6 +6,7 @@ import { LoggerMiddleware } from './lib/middleware/logger.middleware';
 import { AuthGuard } from './lib/guard/auth.guard';
 import { ApplicationModule } from './app.module';
 import { AppConfig } from '../config/app.config';
+import { mw as requestIpMw } from 'request-ip'
 
 async function bootstrap() {
   const app = await NestFactory.create(ApplicationModule, {
@@ -39,6 +40,9 @@ async function bootstrap() {
 
   // 全局路由守卫
   app.useGlobalGuards(new AuthGuard());
+
+  // 获取真实 ip
+  app.use(requestIpMw({ attributeName: 'ip' }))
 
   // swagger 配置
   const options = new DocumentBuilder()
