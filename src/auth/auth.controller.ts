@@ -3,6 +3,7 @@ import { AuthService } from './auth.service';
 import { LoginUser } from './dto/login-user.dto';
 import { AllowAccess } from '../common/decorators/allow-access.decorator';
 import { AppConfig } from '../../config/app.config';
+import { ResultData } from "../lib/utils/result";
 
 @Controller('auth')
 export class AuthController {
@@ -11,20 +12,12 @@ export class AuthController {
   @AllowAccess()
   @Post('login')
   async login(@Body() userLogin: LoginUser) {
-    return {
-      isOk: true,
-      message: '登录成功',
-      data: await this.authService.login(userLogin),
-    };
+    return ResultData.success(await this.authService.login(userLogin), '登录成功');
   }
 
   @Get('logout')
   async logout(@Headers(AppConfig.JWT.header_key) token: string) {
     const auth = await this.authService.logout(token);
-    return {
-      isOk: true,
-      message: auth ? '注销成功' : '已注销',
-      data: {},
-    };
+    return ResultData.success({}, auth ? '注销成功' : '已注销');
   }
 }

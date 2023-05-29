@@ -3,6 +3,7 @@ import { PageService } from './page.service';
 import { PageCreate } from './dto/page-create';
 import { FolderCreate } from './dto/folder-create';
 import { PageStatus, FileType, RootId } from './schemas/page.schema';
+import { ResultData } from '../lib/utils/result';
 
 @Controller('page')
 export class PageController {
@@ -31,25 +32,13 @@ export class PageController {
       ],
     });
     if (!currentUser) {
-      return {
-        isOk: false,
-        message: '登录消息已失效',
-        data: {},
-      };
+      return ResultData.fail('登录消息已失效');
     }
     if (findPage.length > 0) {
-      return {
-        isOk: false,
-        message: '页面已存在',
-        data: {},
-      };
+      return ResultData.fail('页面已存在');
     }
     await this.pageService.create(page, currentUser);
-    return {
-      isOk: true,
-      message: '页面创建成功',
-      data: {},
-    };
+    return ResultData.success({}, '页面创建成功');
   }
 
   @Post('creatFolder')
@@ -75,44 +64,24 @@ export class PageController {
       ],
     });
     if (!currentUser) {
-      return {
-        isOk: false,
-        message: '登录消息已失效',
-        data: {},
-      };
+      return ResultData.fail('登录消息已失效');
     }
     if (findFolder.length > 0) {
-      return {
-        isOk: false,
-        message: '文件夹已存在',
-        data: {},
-      };
+      return ResultData.fail('文件夹已存在');
     }
     await this.pageService.create(folder, currentUser);
-    return {
-      isOk: true,
-      message: '文件夹创建成功',
-      data: {},
-    };
+    return ResultData.success({}, '文件夹创建成功');
   }
 
   @Post('update')
   async update(@Body() page: PageCreate | FolderCreate) {
     const { uuid, title, cover, parent } = page;
     if (!uuid) {
-      return {
-        isOk: false,
-        message: '参数uuid不能为空',
-        data: {},
-      };
+      return ResultData.fail('参数uuid不能为空');
     }
     const current = await this.pageService.findByUuid(uuid);
     if (!current) {
-      return {
-        isOk: false,
-        message: '目标不存在',
-        data: {},
-      };
+      return ResultData.fail('目标不存在');
     }
     Object.assign(current, {
       title,
@@ -120,30 +89,18 @@ export class PageController {
       parent,
     });
     await current.save();
-    return {
-      isOk: true,
-      message: '更新成功',
-      data: {},
-    };
+    return ResultData.success({}, '更新成功');
   }
 
   @Post('delete')
   async remove(@Body('uuid') uuid: string) {
     const deleteUser = await this.pageService.delete(uuid);
-    return {
-      isOk: true,
-      message: deleteUser ? '删除成功' : '页面/文件夹不存在',
-      data: {},
-    };
+    return ResultData.success({}, deleteUser ? '删除成功' : '页面/文件夹不存在');
   }
 
   @Get('getFolder')
   async getFolder(@Body('uuid') uuid: string) {
-    return {
-      isOk: true,
-      message: 'success',
-      data: await this.pageService.findAll(uuid),
-    };
+    return ResultData.success(await this.pageService.findAll(uuid));
   }
 
   @Post('move')
@@ -151,37 +108,21 @@ export class PageController {
     if (target) {
       const current = await this.pageService.findByUuid(target);
       if (current.type !== FileType.Folder) {
-        return {
-          isOk: false,
-          message: '目标必须是文件夹',
-          data: {},
-        };
+        return ResultData.fail('目标必须是文件夹');
       }
     } else {
       target = RootId;
     }
     const originFile = origin.split(',');
     if (originFile.length === 0) {
-      return {
-        isOk: false,
-        message: '没有要移动的文件',
-        data: {},
-      };
+      return ResultData.fail('没有要移动的文件');
     }
     await this.pageService.move(originFile, target);
-    return {
-      isOk: true,
-      message: '操作完成',
-      data: {},
-    };
+    return ResultData.success({}, '操作完成');
   }
 
   @Post('getPage')
   async getPage(@Body('uuid') uuid: string) {
-    return {
-      isOk: true,
-      message: 'success',
-      data: await this.pageService.findByUuid(uuid),
-    };
+    return ResultData.success(await this.pageService.findByUuid(uuid));
   }
 }

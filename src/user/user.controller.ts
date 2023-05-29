@@ -3,6 +3,7 @@ import { ApiOperation } from '@nestjs/swagger';
 import { UserCreate } from './dto/user-create';
 import { UserService } from './user.service';
 import * as md5 from 'crypto-js/md5';
+import { ResultData } from '../lib/utils/result';
 
 @Controller('user')
 export class UserController {
@@ -14,63 +15,35 @@ export class UserController {
     // 判断用户是否重复
     let findUsers = await this.userService.findBy([{ name: user.name }]);
     if (findUsers.length > 0) {
-      return {
-        isOk: false,
-        message: '用户名已存在',
-        data: {},
-      };
+      return ResultData.fail('用户名已存在');
     }
     findUsers = await this.userService.findBy([{ phone: user.phone }]);
     if (findUsers.length > 0) {
-      return {
-        isOk: false,
-        message: '手机号已注册',
-        data: {},
-      };
+      return ResultData.fail('手机号已注册');
     }
     findUsers = await this.userService.findBy([{ email: user.email }]);
     if (findUsers.length > 0) {
-      return {
-        isOk: false,
-        message: '邮箱已注册',
-        data: {},
-      };
+      return ResultData.fail( '邮箱已注册');
     }
     await this.userService.create(user);
-    return {
-      isOk: true,
-      message: '用户创建成功',
-      data: {},
-    };
+    return ResultData.success({}, '用户创建成功');
   }
 
   @Post('delete')
   async remove(@Body('uuid') uuid: string) {
     const deleteUser = await this.userService.delete(uuid);
-    return {
-      isOk: true,
-      message: deleteUser ? '删除成功' : '用户不存在',
-      data: {},
-    };
+    return ResultData.success({}, deleteUser ? '删除成功' : '用户不存在');
   }
 
   @Post('update')
   async update(@Body() user: UserCreate) {
     const { uuid, name, phone, email, password } = user;
     if (!uuid) {
-      return {
-        isOk: false,
-        message: '用户uuid不能为空',
-        data: {},
-      };
+      return ResultData.fail( '用户uuid不能为空');
     }
     const oldUser = await this.userService.findByUuid(uuid);
     if (!oldUser) {
-      return {
-        isOk: false,
-        message: '用户不存在',
-        data: {},
-      };
+      return ResultData.fail( '用户不存在');
     }
     let newUser = await this.userService.find({
       $and: [
@@ -83,11 +56,7 @@ export class UserController {
       ],
     });
     if (newUser.length > 0) {
-      return {
-        isOk: false,
-        message: '用户名已存在',
-        data: {},
-      };
+      return ResultData.fail( '用户名已存在');
     }
     newUser = await this.userService.find({
       $and: [
@@ -100,11 +69,7 @@ export class UserController {
       ],
     });
     if (newUser.length > 0) {
-      return {
-        isOk: false,
-        message: '手机号已注册',
-        data: {},
-      };
+      return ResultData.fail( '手机号已注册');
     }
     newUser = await this.userService.find({
       $and: [
@@ -117,39 +82,23 @@ export class UserController {
       ],
     });
     if (newUser.length > 0) {
-      return {
-        isOk: false,
-        message: '邮箱已注册',
-        data: {},
-      };
+      return ResultData.fail( '邮箱已注册');
     }
     if (password) {
       user.password = md5(`${oldUser.salt}${password}`).toString();
     }
     Object.assign(oldUser, user);
     await oldUser.save();
-    return {
-      isOk: true,
-      message: '更新成功',
-      data: {},
-    };
+    return ResultData.success({}, '更新成功');
   }
 
   @Get('findAll')
   async findAll() {
-    return {
-      isOk: true,
-      message: 'success',
-      data: await this.userService.findAll(),
-    };
+    return ResultData.success(await this.userService.findAll());
   }
 
   @Post('findByUuid')
   async findByUuid(@Body('uuid') uuid: string) {
-    return {
-      isOk: true,
-      message: 'success',
-      data: await this.userService.findByUuid(uuid),
-    };
+    return ResultData.success(await this.userService.findByUuid(uuid));
   }
 }
