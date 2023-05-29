@@ -1,4 +1,12 @@
-import { Controller, Get, Post, Query, UseInterceptors, UploadedFiles, Request } from "@nestjs/common";
+import {
+  Controller,
+  Get,
+  Post,
+  Query,
+  UseInterceptors,
+  UploadedFiles,
+  Request,
+} from '@nestjs/common';
 import { FilesInterceptor } from '@nestjs/platform-express';
 import { ApiOperation } from '@nestjs/swagger';
 import { OssService } from './oss.service';
@@ -11,8 +19,11 @@ export class OssController {
 
   @Post('upload')
   @ApiOperation({ summary: '文件上传,返回 url 地址' })
-  @UseInterceptors(FilesInterceptor('files', 10, ))
-  async uploadFile(@UploadedFiles() files: Array<Express.Multer.File>, @Request() req): Promise<ResultData> {
+  @UseInterceptors(FilesInterceptor('files', 10))
+  async uploadFile(
+    @UploadedFiles() files: Array<Express.Multer.File>,
+    @Request() req,
+  ): Promise<ResultData> {
     const { uuid: currentUser } = req.user || {};
     return await this.ossService.create(files, currentUser);
   }

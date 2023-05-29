@@ -1,7 +1,7 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import { Document } from 'mongoose';
-import { Logger } from "../../lib/logger/logger.util";
-import { User } from "../../user/schemas/user.schema";
+import { Logger } from '../../lib/logger/logger.util';
+import { User } from '../../user/schemas/user.schema';
 
 export type OssDocument = Oss & Document;
 
