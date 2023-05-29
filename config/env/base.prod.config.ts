@@ -11,6 +11,7 @@ const Config = {
   APP: {
     prefix: '/api',
     port: 8080,
+    logDir: '/Users/wenqiang/Documents/work/personal/gitHub/CcServer/logs'
   },
   JWT: {
     header_key: 't',

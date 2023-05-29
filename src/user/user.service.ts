@@ -2,12 +2,7 @@ import { Injectable } from '@nestjs/common';
 import { InjectModel, InjectConnection } from '@nestjs/mongoose';
 import { Model, Connection, FilterQuery, Condition } from 'mongoose';
 import { UserCreate } from './dto/user-create';
-import {
-  User,
-  UserDocument,
-  UserStatus,
-  UserRole,
-} from './schemas/user.schema';
+import { User, UserDocument, UserStatus } from './schemas/user.schema';
 import { v4 as UuidV4 } from 'uuid';
 import * as md5 from 'crypto-js/md5';
 import { getRandomString } from '../lib/utils/common';
