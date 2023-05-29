@@ -31,6 +31,6 @@ export class OssController {
   @Get('list')
   @ApiOperation({ summary: '查询文件上传列表' })
   async findList(@Query() search: FindOss): Promise<ResultData> {
-    return ResultData.success({ search }, '成功');
+    return await this.ossService.findList(search);
   }
 }
