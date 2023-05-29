@@ -13,6 +13,9 @@ const Config = {
     port: 8080,
     logDir: '/Users/wenqiang/Documents/work/personal/gitHub/CcServer/logs'
   },
+  OSS: {
+    RootPath: '/Users/wenqiang/Documents/work/personal/gitHub/CcServer/static'
+  },
   JWT: {
     header_key: 't',
     secret: '4a06595b-c385-eeb7-0a58-ad81dec0278e',

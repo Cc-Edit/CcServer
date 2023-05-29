@@ -18,7 +18,7 @@ import { MongooseModule } from '@nestjs/mongoose';
     }),
     MongooseModule.forFeature(
       [{ name: Auth.name, schema: AuthSchema }],
-      'Users',
+      'ccServer',
     ),
     UserModule,
   ],

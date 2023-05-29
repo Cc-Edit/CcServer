@@ -13,11 +13,8 @@ import { JwtAuthGuard } from './common/guards/auth.guard';
 @Module({
   imports: [
     ScheduleModule.forRoot(),
-    MongooseModule.forRoot(AppConfig.DB.url + '/design?authSource=admin', {
-      connectionName: 'Design',
-    }),
-    MongooseModule.forRoot(AppConfig.DB.url + '/users?authSource=admin', {
-      connectionName: 'Users',
+    MongooseModule.forRoot(AppConfig.DB.url + '/ccServer?authSource=admin', {
+      connectionName: 'ccServer',
     }),
     UserModule,
     AuthModule,

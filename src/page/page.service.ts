@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
-import { Condition, FilterQuery, Model } from 'mongoose';
+import { FilterQuery, Model } from 'mongoose';
 import {
   Page,
   PageDocument,
@@ -14,7 +14,7 @@ import { v4 as UuidV4 } from 'uuid';
 @Injectable()
 export class PageService {
   constructor(
-    @InjectModel(Page.name, 'Users') private PageModel: Model<PageDocument>,
+    @InjectModel(Page.name, 'ccServer') private PageModel: Model<PageDocument>,
   ) {}
 
   async create(

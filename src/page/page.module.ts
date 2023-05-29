@@ -11,7 +11,7 @@ import { Page, PageSchema } from './schemas/page.schema';
   imports: [
     MongooseModule.forFeature(
       [{ name: Page.name, schema: PageSchema }],
-      'Users',
+      'ccServer',
     ),
   ], // 导入模块
 })

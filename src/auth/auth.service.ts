@@ -9,8 +9,8 @@ import { Connection, Model } from 'mongoose';
 @Injectable()
 export class AuthService {
   constructor(
-    @InjectConnection('Users') private connection: Connection, // mongo 连接对象
-    @InjectModel(Auth.name, 'Users') private AuthModel: Model<AuthDocument>,
+    @InjectConnection('ccServer') private connection: Connection, // mongo 连接对象
+    @InjectModel(Auth.name, 'ccServer') private AuthModel: Model<AuthDocument>,
     private readonly usersService: UserService,
     private readonly jwtService: JwtService,
   ) {}

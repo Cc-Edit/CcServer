@@ -12,7 +12,6 @@ import { AuthGuard } from './lib/guard/auth.guard';
 import { ApplicationModule } from './app.module';
 import { AppConfig } from '../config/app.config';
 import { mw as requestIpMw } from 'request-ip';
-import * as chalk from 'chalk';
 
 async function bootstrap() {
   const app = await NestFactory.create(ApplicationModule, {

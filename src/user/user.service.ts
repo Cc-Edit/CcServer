@@ -10,8 +10,8 @@ import { getRandomString } from '../lib/utils/common';
 @Injectable()
 export class UserService {
   constructor(
-    @InjectConnection('Users') private connection: Connection, // mongo 连接对象
-    @InjectModel(User.name, 'Users') private UserModel: Model<UserDocument>,
+    @InjectConnection('ccServer') private connection: Connection, // mongo 连接对象
+    @InjectModel(User.name, 'ccServer') private UserModel: Model<UserDocument>,
   ) {}
 
   async create(createUser: UserCreate): Promise<User> {
@@ -20,6 +20,7 @@ export class UserService {
     const newUser = new this.UserModel({
       ...createUser,
       uuid: UuidV4(),
+      salt,
       password,
       createDate: new Date().getTime(),
       updateDate: new Date().getTime(),
