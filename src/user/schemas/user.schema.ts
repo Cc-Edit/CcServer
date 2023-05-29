@@ -66,14 +66,14 @@ export class User extends Document {
 const schema = SchemaFactory.createForClass(User);
 
 schema.pre(['updateOne', 'save', 'findOneAndUpdate'], function (next) {
-  Logger.log('updateOne、save之前，补充默认值');
+  Logger.info('updateOne、save之前，补充默认值');
   const that = this as User;
   if (that.avatar) that.avatar = '';
   next();
 });
 
 schema.post(['updateOne', 'save', 'findOneAndUpdate'], function () {
-  Logger.log('updateOne、save、findOneAndUpdate之后，更新数据更新时间字段值');
+  Logger.info('updateOne、save、findOneAndUpdate之后，更新数据更新时间字段值');
   const that = this as User;
   that.updateDate = new Date().getTime();
 });

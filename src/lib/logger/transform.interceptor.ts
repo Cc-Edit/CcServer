@@ -23,7 +23,6 @@ export class TransformInterceptor implements NestInterceptor {
     Response data: ${JSON.stringify(data.data)}
 .....................................................`;
         Logger.info(logFormat);
-        Logger.access(logFormat);
         return data;
       }),
     );
