@@ -15,7 +15,7 @@ async function bootstrap() {
   const app = await NestFactory.create(ApplicationModule, {
     cors: false,
     abortOnError: false, // 阻止程序异常退出
-    logger: ["log", "error", "warn", "debug"]
+    logger: ['log', 'error', 'warn', 'debug'],
   });
 
   // 设置访问频率
