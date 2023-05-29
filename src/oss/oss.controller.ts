@@ -5,13 +5,16 @@ import {
   Query,
   UseInterceptors,
   UploadedFiles,
-  Request,
-} from '@nestjs/common';
+  Request, Body,
+  StreamableFile
+} from "@nestjs/common";
 import { FilesInterceptor } from '@nestjs/platform-express';
 import { ApiOperation } from '@nestjs/swagger';
 import { OssService } from './oss.service';
 import { FindOss } from './dto/find-oss';
 import { ResultData } from '../lib/utils/result';
+import { AppConfig } from "../../config/app.config";
+import { createReadStream } from 'fs';
 
 @Controller('oss')
 export class OssController {
@@ -32,5 +35,16 @@ export class OssController {
   @ApiOperation({ summary: '查询文件上传列表' })
   async findList(@Query() search: FindOss): Promise<ResultData> {
     return await this.ossService.findList(search);
+  }
+
+  @Get('download')
+  async getFile(@Body('uuid') uuid: string) {
+    const file = await this.ossService.getFile(uuid);
+    if (!file) {
+      return ResultData.fail('文件不存在');
+    }
+    const path = `${AppConfig.OSS.RootPath}${file.location}`;
+    const fileStream = createReadStream(path);
+    return new StreamableFile(fileStream);
   }
 }

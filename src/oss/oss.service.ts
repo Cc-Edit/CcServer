@@ -59,4 +59,10 @@ export class OssService {
     }).exec();
     return ResultData.success(fileList);
   }
+
+  async getFile(uuid: string): Promise<Oss> {
+    return this.OssModel.findOne({
+      uuid,
+    });
+  }
 }
