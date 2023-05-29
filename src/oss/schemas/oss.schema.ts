@@ -1,5 +1,7 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import { Document } from 'mongoose';
+import { Logger } from "../../lib/logger/logger.util";
+import { User } from "../../user/schemas/user.schema";
 
 export type OssDocument = Oss & Document;
 
@@ -13,9 +15,15 @@ export enum OssStatus {
 export class Oss extends Document {
   @Prop({
     required: true,
-    comment: '文件名',
+    comment: '原始文件名',
   })
   name: string;
+
+  @Prop({
+    required: true,
+    comment: 'oss文件名',
+  })
+  ossName: string;
 
   @Prop({
     required: true,
@@ -60,5 +68,11 @@ export class Oss extends Document {
 }
 
 const schema = SchemaFactory.createForClass(Oss);
+
+schema.post(['updateOne', 'save', 'findOneAndUpdate'], function () {
+  Logger.info('updateOne、save、findOneAndUpdate之后，更新数据更新时间字段值');
+  const that = this as Oss;
+  that.updateDate = new Date().getTime();
+});
 
 export const OssSchema = schema;
