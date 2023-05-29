@@ -14,17 +14,15 @@ export class HttpExceptionsFilter implements ExceptionFilter {
     const request = ctx.getRequest();
     const status = exception.getStatus();
     const exceptionResponse = exception.getResponse();
-    const logFormat = `-----------------------------------------------------------------------
-        Request original url: ${request.originalUrl}
-        Method: ${request.method}
-        IP: ${request.ip}
-        Status code: ${status}
-        Response: ${
-          exception.toString() +
-          `（${exceptionResponse?.message || exception.message}）`
-        }
-        -----------------------------------------------------------------------
-        `;
+    const logFormat =
+`.....................................................
+    Request original url: ${request.originalUrl} - Method: ${request.method}
+    IP: ${request.ip} - Status code: ${status}
+    Response: ${
+      exception.toString() +
+      `（${exceptionResponse?.message || exception.message}）`
+    }
+.....................................................`;
     Logger.info(logFormat);
     response.status(status).json({
       code: status,

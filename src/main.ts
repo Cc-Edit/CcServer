@@ -76,12 +76,8 @@ async function bootstrap() {
   SwaggerModule.setup(AppConfig.SWAGGER.path, app, document);
 
   await app.listen(AppConfig.APP.port);
-  Logger.log(
-    chalk.green(`Nest-Admin 服务启动成功 `),
-    `http://localhost:${AppConfig.APP.port}${AppConfig.APP.prefix}/`,
-    '\n',
-    chalk.green('swagger 文档地址'),
-    `http://localhost:${AppConfig.APP.port}/${AppConfig.SWAGGER.path}/`,
+  Logger.info(`CcServer 服务启动成功: http://localhost:${AppConfig.APP.port}${AppConfig.APP.prefix}/ `,
+    `swagger 文档地址: http://localhost:${AppConfig.APP.port}/${AppConfig.SWAGGER.path}/`
   );
 }
 bootstrap();

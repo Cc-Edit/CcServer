@@ -17,13 +17,12 @@ export class TransformInterceptor implements NestInterceptor {
     const req = context.getArgByIndex(1).req;
     return next.handle().pipe(
       map((data) => {
-        const logFormat = `-----------------------------------------------------------------------
-        Request original url: ${req.originalUrl}
-        Method: ${req.method}
-        IP: ${req.ip}
-        User: ${JSON.stringify(req.user)}
-        Response data: ${JSON.stringify(data.data)}
-        -----------------------------------------------------------------------`;
+        const logFormat =
+`.....................................................
+    Request original url: ${req.originalUrl} - Method: ${req.method}
+    IP: ${req.ip} - User: ${JSON.stringify(req.user)}
+    Response data: ${JSON.stringify(data.data)}
+.....................................................`;
         Logger.info(logFormat);
         Logger.access(logFormat);
         return data;
