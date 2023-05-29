@@ -1,6 +1,6 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import { Document } from 'mongoose';
-import { Logger } from "../../lib/logger/logger.util";
+import { Logger } from '../../lib/logger/logger.util';
 
 export type UserDocument = User & Document;
 export enum UserStatus {
@@ -66,14 +66,14 @@ export class User extends Document {
 const schema = SchemaFactory.createForClass(User);
 
 schema.pre(['updateOne', 'save', 'findOneAndUpdate'], function (next) {
-  Logger.log('updateOne、save之前，补充默认值')
+  Logger.log('updateOne、save之前，补充默认值');
   const that = this as User;
   if (that.avatar) that.avatar = '';
   next();
 });
 
 schema.post(['updateOne', 'save', 'findOneAndUpdate'], function () {
-  Logger.log('updateOne、save、findOneAndUpdate之后，更新数据更新时间字段值')
+  Logger.log('updateOne、save、findOneAndUpdate之后，更新数据更新时间字段值');
   const that = this as User;
   that.updateDate = new Date().getTime();
 });

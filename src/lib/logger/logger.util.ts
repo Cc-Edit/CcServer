@@ -1,7 +1,7 @@
 import * as Path from 'path';
 import * as Util from 'util';
 import * as dayjs from 'dayjs'; // 处理时间的工具
-import * as StackTrace from 'stacktrace-js'
+import * as StackTrace from 'stacktrace-js';
 import * as chalk from 'chalk';
 import * as Log4js from 'log4js';
 import { AppConfig } from '../../../config/app.config';
@@ -207,10 +207,10 @@ export class Logger {
     const stackList = StackTrace.getSync();
     const stackInfo = stackList[deep];
 
-    const lineNumber: number = stackInfo.lineNumber
-    const columnNumber: number = stackInfo.columnNumber
-    const fileName: string = stackInfo.fileName
-    const basename: string = Path.basename(fileName)
-    return `${basename}(line: ${lineNumber}, column: ${columnNumber}): \n`
+    const lineNumber: number = stackInfo.lineNumber;
+    const columnNumber: number = stackInfo.columnNumber;
+    const fileName: string = stackInfo.fileName;
+    const basename: string = Path.basename(fileName);
+    return `${basename}(line: ${lineNumber}, column: ${columnNumber}): \n`;
   }
 }

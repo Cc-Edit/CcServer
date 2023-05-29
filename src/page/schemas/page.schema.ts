@@ -62,7 +62,7 @@ export class Page extends Document {
 const schema = SchemaFactory.createForClass(Page);
 
 schema.post(['updateOne', 'save', 'findOneAndUpdate'], function () {
-  Logger.log('updateOne、save、findOneAndUpdate之后，更新数据更新时间字段值')
+  Logger.log('updateOne、save、findOneAndUpdate之后，更新数据更新时间字段值');
   const that = this as Page;
   that.updateDate = new Date().getTime();
 });
