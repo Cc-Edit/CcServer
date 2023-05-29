@@ -14,8 +14,7 @@ export class HttpExceptionsFilter implements ExceptionFilter {
     const request = ctx.getRequest();
     const status = exception.getStatus();
     const exceptionResponse = exception.getResponse();
-    const logFormat =
-`.....................................................
+    const logFormat = `.....................................................
     Request original url: ${request.originalUrl} - Method: ${request.method}
     IP: ${request.ip} - Status code: ${status}
     Response: ${

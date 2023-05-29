@@ -76,8 +76,9 @@ async function bootstrap() {
   SwaggerModule.setup(AppConfig.SWAGGER.path, app, document);
 
   await app.listen(AppConfig.APP.port);
-  Logger.info(`CcServer 服务启动成功: http://localhost:${AppConfig.APP.port}${AppConfig.APP.prefix}/ `,
-    `swagger 文档地址: http://localhost:${AppConfig.APP.port}/${AppConfig.SWAGGER.path}/`
+  Logger.info(
+    `CcServer 服务启动成功: http://localhost:${AppConfig.APP.port}${AppConfig.APP.prefix}/ `,
+    `swagger 文档地址: http://localhost:${AppConfig.APP.port}/${AppConfig.SWAGGER.path}/`,
   );
 }
 bootstrap();
