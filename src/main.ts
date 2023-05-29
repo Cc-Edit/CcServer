@@ -5,6 +5,9 @@ import helmet from 'helmet';
 import rateLimit from 'express-rate-limit';
 import { LoggerMiddleware } from './lib/logger/logger.middleware';
 import { Logger } from './lib/logger/logger.util';
+import { ExceptionsFilter } from './lib/logger/exceptions-filter';
+import { HttpExceptionsFilter } from './lib/logger/http-exceptions-filter';
+import { TransformInterceptor } from './lib/logger/transform.interceptor';
 import { AuthGuard } from './lib/guard/auth.guard';
 import { ApplicationModule } from './app.module';
 import { AppConfig } from '../config/app.config';
@@ -51,7 +54,11 @@ async function bootstrap() {
 
   // 全局 logger
   app.use(LoggerMiddleware);
-
+  // 使用全局拦截器打印出参
+  app.useGlobalInterceptors(new TransformInterceptor())
+  // 所有异常
+  app.useGlobalFilters(new ExceptionsFilter())
+  app.useGlobalFilters(new HttpExceptionsFilter())
   // 全局路由守卫
   app.useGlobalGuards(new AuthGuard());
 
