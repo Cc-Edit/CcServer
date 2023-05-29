@@ -7,7 +7,7 @@ import { v4 as UuidV4 } from 'uuid';
 import * as fs from 'fs';
 import mime from 'mime-types';
 import { AppConfig } from '../../config/app.config';
-import { FindOss } from "./dto/find-oss";
+import { FindOss } from './dto/find-oss';
 
 @Injectable()
 export class OssService {
@@ -49,14 +49,14 @@ export class OssService {
     return ResultData.success(result, '上传完成');
   }
 
-  async findList (search: FindOss): Promise<ResultData> {
+  async findList(search: FindOss): Promise<ResultData> {
     const { startDay, endDay } = search;
     const fileList = this.OssModel.find({
       createDate: {
         $lte: endDay,
-        $gte: startDay
-      }
+        $gte: startDay,
+      },
     }).exec();
-   return ResultData.success(fileList)
+    return ResultData.success(fileList);
   }
 }
