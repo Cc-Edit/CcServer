@@ -4,10 +4,12 @@ import { ValidationPipe } from '@nestjs/common';
 import helmet from 'helmet';
 import rateLimit from 'express-rate-limit';
 import { LoggerMiddleware } from './lib/logger/logger.middleware';
+import { Logger } from './lib/logger/logger.util';
 import { AuthGuard } from './lib/guard/auth.guard';
 import { ApplicationModule } from './app.module';
 import { AppConfig } from '../config/app.config';
 import { mw as requestIpMw } from 'request-ip';
+import chalk from 'chalk'
 
 async function bootstrap() {
   const app = await NestFactory.create(ApplicationModule, {
@@ -65,6 +67,14 @@ async function bootstrap() {
     .build();
   const document = SwaggerModule.createDocument(app, options);
   SwaggerModule.setup(AppConfig.SWAGGER.path, app, document);
+
   await app.listen(AppConfig.APP.port);
+  Logger.log(
+    chalk.green(`Nest-Admin 服务启动成功 `),
+    `http://localhost:${AppConfig.APP.port}${AppConfig.APP.prefix}/`,
+    '\n',
+    chalk.green('swagger 文档地址'),
+    `http://localhost:${AppConfig.APP.port}/${AppConfig.SWAGGER.path}/`,
+  )
 }
 bootstrap();
