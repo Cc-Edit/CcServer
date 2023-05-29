@@ -12,7 +12,7 @@ export class TaskService {
   @Cron('59 59 23 * * *')
   async handleCron() {
     await this.authService.cleanExpireToken();
-    this.logger.debug('Called when the second is 15');
+    this.logger.debug('token 黑名单清空');
   }
 
   // @Interval(10000)

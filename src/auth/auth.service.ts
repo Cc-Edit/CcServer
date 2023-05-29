@@ -57,7 +57,7 @@ export class AuthService {
     });
     return disabledToken.save();
   }
-
+  // 清空黑名单中过期的token
   async cleanExpireToken() {
     const now = new Date().getTime();
     await this.AuthModel.deleteMany({
