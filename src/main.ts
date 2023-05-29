@@ -55,10 +55,10 @@ async function bootstrap() {
   // 全局 logger
   app.use(LoggerMiddleware);
   // 使用全局拦截器打印出参
-  app.useGlobalInterceptors(new TransformInterceptor())
+  app.useGlobalInterceptors(new TransformInterceptor());
   // 所有异常
-  app.useGlobalFilters(new ExceptionsFilter())
-  app.useGlobalFilters(new HttpExceptionsFilter())
+  app.useGlobalFilters(new ExceptionsFilter());
+  app.useGlobalFilters(new HttpExceptionsFilter());
   // 全局路由守卫
   app.useGlobalGuards(new AuthGuard());
 
