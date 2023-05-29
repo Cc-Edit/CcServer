@@ -1,6 +1,6 @@
 import { NestFactory } from '@nestjs/core';
 import { SwaggerModule, DocumentBuilder } from '@nestjs/swagger';
-import { ValidationPipe } from '@nestjs/common'
+import { ValidationPipe } from '@nestjs/common';
 import helmet from 'helmet';
 import rateLimit from 'express-rate-limit';
 import { LoggerMiddleware } from './lib/middleware/logger.middleware';
@@ -45,7 +45,7 @@ async function bootstrap() {
       disableErrorMessages: false,
       forbidUnknownValues: false,
     }),
-  )
+  );
 
   // 全局 logger
   app.use(LoggerMiddleware);
