@@ -5,15 +5,16 @@ import {
   Query,
   UseInterceptors,
   UploadedFiles,
-  Request, Body,
-  StreamableFile
-} from "@nestjs/common";
+  Request,
+  Body,
+  StreamableFile,
+} from '@nestjs/common';
 import { FilesInterceptor } from '@nestjs/platform-express';
 import { ApiOperation } from '@nestjs/swagger';
 import { OssService } from './oss.service';
 import { FindOss } from './dto/find-oss';
 import { ResultData } from '../lib/utils/result';
-import { AppConfig } from "../../config/app.config";
+import { AppConfig } from '../../config/app.config';
 import { createReadStream } from 'fs';
 
 @Controller('oss')
