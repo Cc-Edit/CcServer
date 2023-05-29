@@ -1,8 +1,7 @@
-import { Controller, Get, Post, Body, UsePipes } from '@nestjs/common';
+import { Controller, Get, Post, Body } from '@nestjs/common';
 import { ApiOperation } from '@nestjs/swagger';
 import { UserCreate } from './dto/user-create';
 import { UserService } from './user.service';
-import { ValidationPipe } from '../lib/pipe/validate.pipe';
 import * as md5 from 'crypto-js/md5';
 
 @Controller('user')
@@ -11,7 +10,6 @@ export class UserController {
 
   @Post('creat')
   @ApiOperation({ summary: '创建用户' })
-  @UsePipes(ValidationPipe)
   async create(@Body() user: UserCreate) {
     // 判断用户是否重复
     let findUsers = await this.userService.findBy([{ name: user.name }]);
@@ -57,7 +55,6 @@ export class UserController {
   }
 
   @Post('update')
-  @UsePipes(ValidationPipe)
   async update(@Body() user: UserCreate) {
     const { uuid, name, phone, email, password } = user;
     if (!uuid) {

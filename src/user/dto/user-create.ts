@@ -9,7 +9,7 @@ import { ApiProperty } from '@nestjs/swagger';
 
 export class UserCreate {
   @ApiProperty({ description: '用户账号', required: true })
-  @IsString({ message: '类型错误' })
+  @IsString({ message: '用户名类型错误' })
   @IsNotEmpty({
     message: '用户名不能为空',
   })
@@ -22,7 +22,7 @@ export class UserCreate {
   name: string;
 
   @ApiProperty({ description: '手机号', required: true })
-  @IsString({ message: '类型错误' })
+  @IsString({ message: '手机号类型错误' })
   @IsNotEmpty({
     message: '手机号不能为空',
   })
@@ -32,7 +32,7 @@ export class UserCreate {
   phone: string;
 
   @ApiProperty({ description: '邮箱', required: true })
-  @IsString({ message: '类型错误' })
+  @IsString({ message: '邮箱类型错误' })
   @Matches(
     /^[a-zA-Z0-9_.-]+@[a-zA-Z0-9-]+(\\.[a-zA-Z0-9-]+)*\.[a-zA-Z0-9]{2,6}$/,
     {
@@ -42,7 +42,7 @@ export class UserCreate {
   email: string;
 
   @ApiProperty({ description: '密码', required: true })
-  @IsString({ message: '类型错误' })
+  @IsString({ message: '密码类型错误' })
   @Matches(
     /^(?=.*[a-zA-Z])(?=.*[0-9])(?=.*[._~!@#$^&*])[A-Za-z0-9._~!@#$^&*]{6,}$/,
     {
@@ -52,7 +52,6 @@ export class UserCreate {
   password: string;
 
   @ApiProperty({ description: '头像', required: false })
-  @IsString({ message: '类型错误' })
   avatar?: string;
 
   @ApiProperty({ description: '角色', required: false })
@@ -62,6 +61,5 @@ export class UserCreate {
   status?: number;
 
   @ApiProperty({ description: '更新uuid', required: false })
-  @IsString({ message: '类型错误' })
   uuid?: string;
 }

@@ -1,6 +1,5 @@
-import { Body, Controller, Get, Post, UsePipes, Request } from '@nestjs/common';
+import { Body, Controller, Get, Post, Request } from '@nestjs/common';
 import { PageService } from './page.service';
-import { ValidationPipe } from '../lib/pipe/validate.pipe';
 import { PageCreate } from './dto/page-create';
 import { FolderCreate } from './dto/folder-create';
 import { PageStatus, FileType, RootId } from './schemas/page.schema';
@@ -10,7 +9,6 @@ export class PageController {
   constructor(private pageService: PageService) {}
 
   @Post('creatPage')
-  @UsePipes(ValidationPipe)
   async create(@Body() page: PageCreate, @Request() req) {
     const { uuid: currentUser } = req.user || {};
     // 判断用户是否重复
@@ -55,7 +53,6 @@ export class PageController {
   }
 
   @Post('creatFolder')
-  @UsePipes(ValidationPipe)
   async createFolder(@Body() folder: FolderCreate, @Request() req) {
     const { uuid: currentUser } = req.user || {};
     // 判断用户是否重复
@@ -100,7 +97,6 @@ export class PageController {
   }
 
   @Post('update')
-  @UsePipes(ValidationPipe)
   async update(@Body() page: PageCreate | FolderCreate) {
     const { uuid, title, cover, parent } = page;
     if (!uuid) {
