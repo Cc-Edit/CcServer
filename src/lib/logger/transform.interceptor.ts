@@ -20,7 +20,7 @@ export class TransformInterceptor implements NestInterceptor {
         const logFormat = `.....................................................
     Request original url: ${req.originalUrl} - Method: ${req.method}
     IP: ${req.ip} - User: ${JSON.stringify(req.user)}
-    Response data: ${JSON.stringify(data.data)}
+    Response data: ${JSON.stringify(data?.data)}
 .....................................................`;
         Logger.info(logFormat);
         return data;

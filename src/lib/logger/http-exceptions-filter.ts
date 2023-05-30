@@ -19,7 +19,7 @@ export class HttpExceptionsFilter implements ExceptionFilter {
     IP: ${request.ip} - Status code: ${status}
     Response: ${
       exception.toString() +
-      `（${exceptionResponse?.message || exception.message}）`
+      `（${exceptionResponse?.message || exception?.message}）`
     }
 .....................................................`;
     Logger.info(logFormat);

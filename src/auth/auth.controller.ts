@@ -1,9 +1,10 @@
-import { Controller, Post, Headers, Get, Body } from '@nestjs/common';
+import { Controller, Post, Headers, Get, Body, Session, Response, HttpStatus } from '@nestjs/common';
 import { AuthService } from './auth.service';
 import { LoginUser } from './dto/login-user.dto';
 import { AllowAccess } from '../common/decorators/allow-access.decorator';
 import { AppConfig } from '../../config/app.config';
 import { ResultData } from '../lib/utils/result';
+import * as svgCaptcha from 'svg-captcha';
 
 @Controller('auth')
 export class AuthController {
@@ -16,6 +17,20 @@ export class AuthController {
       await this.authService.login(userLogin),
       '登录成功',
     );
+  }
+
+  @AllowAccess()
+  @Get('captcha')
+  captcha(@Response() res, @Session() session) {
+    const captcha = svgCaptcha.create({
+      size: 4,
+      noise: 1,
+      ignoreChars: '0OoLl1J8BiI9g',
+      background: '#2d2d2d'
+    });
+    // session.captcha = captcha.text;
+    res.type('svg');
+    res.status(HttpStatus.OK).send(captcha.data);
   }
 
   @Get('logout')
