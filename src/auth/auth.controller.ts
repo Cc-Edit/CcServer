@@ -1,4 +1,13 @@
-import { Controller, Post, Headers, Get, Body, Session, Response, HttpStatus } from '@nestjs/common';
+import {
+  Controller,
+  Post,
+  Headers,
+  Get,
+  Body,
+  Session,
+  Response,
+  HttpStatus,
+} from '@nestjs/common';
 import { AuthService } from './auth.service';
 import { LoginUser } from './dto/login-user.dto';
 import { AllowAccess } from '../common/decorators/allow-access.decorator';
@@ -26,7 +35,7 @@ export class AuthController {
       size: 4,
       noise: 1,
       ignoreChars: '0OoLl1J8BiI9g',
-      background: '#2d2d2d'
+      background: '#2d2d2d',
     });
     // session.captcha = captcha.text;
     res.type('svg');
