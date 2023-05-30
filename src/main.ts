@@ -12,6 +12,7 @@ import { AuthGuard } from './lib/guard/auth.guard';
 import { ApplicationModule } from './app.module';
 import { AppConfig } from '../config/app.config';
 import { mw as requestIpMw } from 'request-ip';
+import * as session from 'express-session';
 
 async function bootstrap() {
   const app = await NestFactory.create(ApplicationModule, {
@@ -51,18 +52,32 @@ async function bootstrap() {
     }),
   );
 
+  // session
+  app.use(
+    session({
+      secret: AppConfig.SESSION.secret,
+      resave: false,
+      saveUninitialized: false,
+    }),
+  );
+
   // 全局 logger
   app.use(LoggerMiddleware);
+
   // 使用全局拦截器打印出参
   app.useGlobalInterceptors(new TransformInterceptor());
   // 所有异常
   app.useGlobalFilters(new ExceptionsFilter());
   app.useGlobalFilters(new HttpExceptionsFilter());
+
   // 全局路由守卫
   app.useGlobalGuards(new AuthGuard());
 
   // 获取真实 ip
   app.use(requestIpMw({ attributeName: 'ip' }));
+
+  // 启用cors
+  app.enableCors();
 
   // swagger 配置
   const options = new DocumentBuilder()

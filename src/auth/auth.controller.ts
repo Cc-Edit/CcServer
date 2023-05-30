@@ -21,7 +21,10 @@ export class AuthController {
 
   @AllowAccess()
   @Post('login')
-  async login(@Body() userLogin: LoginUser) {
+  async login(@Body() userLogin: LoginUser, @Session() session) {
+    if (session.captcha.toLowerCase() !== userLogin.captcha.toLowerCase()) {
+      return ResultData.fail('验证码不正确');
+    }
     return ResultData.success(
       await this.authService.login(userLogin),
       '登录成功',
@@ -37,7 +40,7 @@ export class AuthController {
       ignoreChars: '0OoLl1J8BiI9g',
       background: '#2d2d2d',
     });
-    // session.captcha = captcha.text;
+    session.captcha = captcha.text;
     res.type('svg');
     res.status(HttpStatus.OK).send(captcha.data);
   }
