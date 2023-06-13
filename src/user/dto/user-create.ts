@@ -38,9 +38,9 @@ export class UserCreate {
   @ApiProperty({ description: '密码', required: true })
   @IsString({ message: '密码类型错误' })
   @Matches(
-    /^(?=.*[a-zA-Z])(?=.*[0-9])(?=.*[._~!@#$^&*])[A-Za-z0-9._~!@#$^&*]{6,}$/,
+    /^(?=.*[a-zA-Z])(?=.*[0-9])(?=.*[._~!@#$^&*])[A-Za-z0-9._~!@#$^&*]{6,30}$/,
     {
-      message: '密码中必须包含字母、数字和特殊字符, 长度大于6位',
+      message: '密码中必须包含字母、数字和特殊字符, 长度大于6位小于30位',
     },
   )
   password: string;
