@@ -16,7 +16,7 @@ import { AllowAccess } from '../common/decorators/allow-access.decorator';
 import { AppConfig } from '../../config/app.config';
 import { ResultData } from '../lib/utils/result';
 import * as svgCaptcha from 'svg-captcha';
-import { GetCaptchaDto} from "./dto/get-capture.dto";
+import { GetCaptchaDto } from './dto/get-capture.dto';
 
 @Controller('auth')
 export class AuthController {
