@@ -1,7 +1,6 @@
-import { Max, IsNumberString, Min } from 'class-validator';
 import { ApiProperty } from '@nestjs/swagger';
 
-export class GetCaptureDto {
+export class GetCaptchaDto {
   @ApiProperty({ description: '图片宽度', required: false })
   readonly w?: string;
 

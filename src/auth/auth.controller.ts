@@ -16,8 +16,7 @@ import { AllowAccess } from '../common/decorators/allow-access.decorator';
 import { AppConfig } from '../../config/app.config';
 import { ResultData } from '../lib/utils/result';
 import * as svgCaptcha from 'svg-captcha';
-import { GetCaptureDto } from './dto/get-capture.dto';
-import { Logger } from '../lib/logger/logger.util';
+import { GetCaptchaDto} from "./dto/get-capture.dto";
 
 @Controller('auth')
 export class AuthController {
@@ -38,12 +37,12 @@ export class AuthController {
   @AllowAccess()
   @Get('captcha')
   captcha(
-    @Query() getCaptureParam: GetCaptureDto,
+    @Query() getCaptchaParam: GetCaptchaDto,
     @Response() res,
     @Session() session,
   ) {
-    const w = parseInt(getCaptureParam.w) || 150;
-    const h = parseInt(getCaptureParam.h) || 50;
+    const w = parseInt(getCaptchaParam.w) || 150;
+    const h = parseInt(getCaptchaParam.h) || 50;
     const captcha = svgCaptcha.create({
       size: 4,
       noise: 1,
