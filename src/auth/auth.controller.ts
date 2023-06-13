@@ -6,14 +6,16 @@ import {
   Body,
   Session,
   Response,
-  HttpStatus,
-} from '@nestjs/common';
+  HttpStatus, Param, Query
+} from "@nestjs/common";
 import { AuthService } from './auth.service';
 import { LoginUser } from './dto/login-user.dto';
 import { AllowAccess } from '../common/decorators/allow-access.decorator';
 import { AppConfig } from '../../config/app.config';
 import { ResultData } from '../lib/utils/result';
 import * as svgCaptcha from 'svg-captcha';
+import { GetCaptureDto } from "./dto/get-capture.dto";
+import { Logger } from '../lib/logger/logger.util';
 
 @Controller('auth')
 export class AuthController {
@@ -33,12 +35,16 @@ export class AuthController {
 
   @AllowAccess()
   @Get('captcha')
-  captcha(@Response() res, @Session() session) {
+  captcha(@Query() getCaptureParam: GetCaptureDto, @Response() res, @Session() session) {
+    const w = parseInt(getCaptureParam.w) || 150;
+    const h = parseInt(getCaptureParam.h) || 50;
     const captcha = svgCaptcha.create({
       size: 4,
       noise: 1,
+      width: w, // width of captcha
+      height: h, // height of captcha
       ignoreChars: '0OoLl1J8BiI9g',
-      background: '#2d2d2d',
+      background: 'rgba(0,0,0,0)',
     });
     session.captcha = captcha.text;
     res.type('svg');
