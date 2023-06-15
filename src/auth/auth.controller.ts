@@ -7,7 +7,6 @@ import {
   Session,
   Response,
   HttpStatus,
-  Param,
   Query,
 } from '@nestjs/common';
 import { AuthService } from './auth.service';
