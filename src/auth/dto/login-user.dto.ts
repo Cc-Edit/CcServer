@@ -20,7 +20,7 @@ export class LoginUser {
 
   @ApiProperty({ description: '图形验证码', required: true })
   @IsString({ message: '类型错误' })
-  @Matches(/^[a-zA-Z0-9]{4, 6}$/, {
+  @Matches(/^[a-zA-Z0-9]{4,6}$/, {
     message: '图形验证码格式不正确',
   })
   @IsNotEmpty({ message: '图形验证码不能为空' })

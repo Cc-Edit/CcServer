@@ -51,6 +51,7 @@ export class AuthController {
       background: 'rgba(0,0,0,0)',
     });
     session.captcha = captcha.text;
+    console.log(session, 2222222222);
     res.type('svg');
     res.status(HttpStatus.OK).send(captcha.data);
   }
