@@ -35,7 +35,7 @@ export class Oss extends Document {
     required: true,
     comment: '上传用户id',
   })
-  userId: string;
+  createUser: string;
 
   @Prop({
     required: true,

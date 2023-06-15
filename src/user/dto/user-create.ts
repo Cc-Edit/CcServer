@@ -56,4 +56,7 @@ export class UserCreate {
 
   @ApiProperty({ description: '更新uuid', required: false })
   uuid?: string;
+
+  @ApiProperty({ description: '创建者uuid', required: false })
+  createUser?: string;
 }

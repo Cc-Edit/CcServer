@@ -1,11 +1,11 @@
-import { Controller, Get, Post, Body } from '@nestjs/common';
+import { Controller, Get, Post, Body, Request } from '@nestjs/common';
 import { ApiOperation } from '@nestjs/swagger';
 import { UserCreate } from './dto/user-create';
 import { UserService } from './user.service';
 import * as md5 from 'crypto-js/md5';
 import { ResultData } from '../lib/utils/result';
 import { AllowAccess } from '../common/decorators/allow-access.decorator';
-
+import { UserRole } from './schemas/user.schema';
 @Controller('user')
 export class UserController {
   constructor(private userService: UserService) {}
@@ -13,7 +13,14 @@ export class UserController {
   @Post('creat')
   @AllowAccess()
   @ApiOperation({ summary: '创建用户' })
-  async create(@Body() user: UserCreate) {
+  async create(@Body() user: UserCreate, @Request() req) {
+    const { uuid: currentUuid } = req.user || {};
+    const currentUser = await this.userService.findByUuid(currentUuid);
+    if (currentUser.role !== UserRole.Admin) {
+      return ResultData.fail('当前用户没有新增用户的权限');
+    } else {
+      user.createUser = currentUuid;
+    }
     // 判断用户是否重复
     let findUsers = await this.userService.findBy([{ name: user.name }]);
     if (findUsers.length > 0) {

@@ -16,7 +16,7 @@ export class OssService {
     @InjectModel(Oss.name, 'ccServer') private OssModel: Model<OssDocument>,
   ) {}
 
-  async create(files: Array<Express.Multer.File>, userId: string) {
+  async create(files: Array<Express.Multer.File>, createUser: string) {
     const result = [];
     files.map(async (file) => {
       const uuid = UuidV4();
@@ -37,7 +37,7 @@ export class OssService {
         ossName: newFileName,
         name: file.filename,
         uuid,
-        userId,
+        createUser,
         size: file.size,
         type: file.mimetype,
         location: `/${newFileName}`,
