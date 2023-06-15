@@ -1,4 +1,4 @@
-import { extractKey } from "../../src/lib/utils/common";
+import { extractKey } from '../../src/lib/utils/common';
 
 const Config = {
   DB: {
@@ -6,19 +6,17 @@ const Config = {
     password: '123456',
     ip: '127.0.0.1',
     port: 27017,
-    url: ''
+    url: '',
   },
   APP: {
     prefix: '/api',
     port: 8080,
-    logDir: '/Users/wenqiang/Documents/work/personal/gitHub/CcServer/logs'
+    logDir: '/Users/wenqiang/Documents/work/personal/gitHub/CcServer/logs',
   },
   OSS: {
-    RootPath: '/Users/wenqiang/Documents/work/personal/gitHub/CcServer/static'
+    RootPath: '/Users/wenqiang/Documents/work/personal/gitHub/CcServer/static',
   },
-  SESSION: {
-    secret: '258c75b9-1c35-bde0-367f-79ea7672fd9c',
-  },
+  AesKey: '258c75b9-1c35-bde0-367f-79ea7672fd9c',
   JWT: {
     header_key: 't',
     secret: '4a06595b-c385-eeb7-0a58-ad81dec0278e',
@@ -35,7 +33,7 @@ const Config = {
     description: '',
     version: '1.0.0',
     tag: '',
-  }
+  },
 };
 Config.DB.url = `mongodb://${Config.DB.user}:${Config.DB.password}@${Config.DB.ip}:${Config.DB.port}`;
 

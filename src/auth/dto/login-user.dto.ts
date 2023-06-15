@@ -25,4 +25,8 @@ export class LoginUser {
   })
   @IsNotEmpty({ message: '图形验证码不能为空' })
   readonly captcha: string;
+
+  @ApiProperty({ description: '图形验证码编码', required: true })
+  @IsNotEmpty({ message: '图形验证码编码不能为空' })
+  readonly captureEncode: string;
 }

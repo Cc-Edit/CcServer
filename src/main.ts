@@ -12,7 +12,6 @@ import { AuthGuard } from './lib/guard/auth.guard';
 import { ApplicationModule } from './app.module';
 import { AppConfig } from '../config/app.config';
 import { mw as requestIpMw } from 'request-ip';
-import * as session from 'express-session';
 
 async function bootstrap() {
   const app = await NestFactory.create(ApplicationModule, {
@@ -49,15 +48,6 @@ async function bootstrap() {
       enableDebugMessages: true, // 开发环境
       disableErrorMessages: false,
       forbidUnknownValues: false,
-    }),
-  );
-
-  // session
-  app.use(
-    session({
-      secret: AppConfig.SESSION.secret,
-      resave: false,
-      saveUninitialized: false,
     }),
   );
 

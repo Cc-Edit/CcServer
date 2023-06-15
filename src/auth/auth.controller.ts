@@ -1,14 +1,4 @@
-import {
-  Controller,
-  Post,
-  Headers,
-  Get,
-  Body,
-  Session,
-  Response,
-  HttpStatus,
-  Query,
-} from '@nestjs/common';
+import { Controller, Post, Headers, Get, Body, Query } from '@nestjs/common';
 import { AuthService } from './auth.service';
 import { LoginUser } from './dto/login-user.dto';
 import { AllowAccess } from '../common/decorators/allow-access.decorator';
@@ -16,6 +6,8 @@ import { AppConfig } from '../../config/app.config';
 import { ResultData } from '../lib/utils/result';
 import * as svgCaptcha from 'svg-captcha';
 import { GetCaptchaDto } from './dto/get-capture.dto';
+import * as AES from 'crypto-js/aes';
+import * as Utf8 from 'crypto-js/enc-utf8';
 
 @Controller('auth')
 export class AuthController {
@@ -23,8 +15,12 @@ export class AuthController {
 
   @AllowAccess()
   @Post('login')
-  async login(@Body() userLogin: LoginUser, @Session() session) {
-    if (session.captcha.toLowerCase() !== userLogin.captcha.toLowerCase()) {
+  async login(@Body() userLogin: LoginUser) {
+    const captcha = AES.decrypt(
+      userLogin.captureEncode,
+      AppConfig.AesKey,
+    ).toString(Utf8);
+    if (captcha.toLowerCase() !== userLogin.captcha.toLowerCase()) {
       return ResultData.fail('验证码不正确');
     }
     return ResultData.success(
@@ -35,11 +31,7 @@ export class AuthController {
 
   @AllowAccess()
   @Get('captcha')
-  captcha(
-    @Query() getCaptchaParam: GetCaptchaDto,
-    @Response() res,
-    @Session() session,
-  ) {
+  captcha(@Query() getCaptchaParam: GetCaptchaDto) {
     const w = parseInt(getCaptchaParam.w) || 150;
     const h = parseInt(getCaptchaParam.h) || 50;
     const captcha = svgCaptcha.create({
@@ -50,10 +42,14 @@ export class AuthController {
       ignoreChars: '0OoLl1J8BiI9g',
       background: 'rgba(0,0,0,0)',
     });
-    session.captcha = captcha.text;
-    console.log(session, 2222222222);
-    res.type('svg');
-    res.status(HttpStatus.OK).send(captcha.data);
+    const key = AES.encrypt(captcha.text, AppConfig.AesKey).toString();
+    return ResultData.success(
+      {
+        captureEncode: key,
+        image: captcha.data,
+      },
+      '获取成功',
+    );
   }
 
   @Get('logout')
