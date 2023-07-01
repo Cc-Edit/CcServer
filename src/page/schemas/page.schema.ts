@@ -33,6 +33,13 @@ export class Page extends Document {
   })
   title: string;
 
+  @Prop({
+    required: true,
+    trim: true,
+    comment: '说明',
+  })
+  desc: string;
+
   @Prop({ required: true, comment: '唯一id' })
   uuid: string;
 

@@ -107,7 +107,10 @@ export class UserController {
   }
 
   @Post('findByUuid')
-  async findByUuid(@Body('uuid') uuid: string) {
-    return ResultData.success(await this.userService.findByUuid(uuid));
+  async findByUuid(@Body('uuid') uuid: string, @Request() req) {
+    const { uuid: currentUuid } = req.user || {};
+    return ResultData.success(
+      await this.userService.findByUuid(uuid || currentUuid),
+    );
   }
 }

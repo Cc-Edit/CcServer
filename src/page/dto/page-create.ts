@@ -22,6 +22,16 @@ export class PageCreate {
   })
   title: string;
 
+  @ApiProperty({ description: '说明', required: false })
+  @IsString({ message: '类型错误' })
+  @IsNotEmpty({
+    message: '标题不能为空',
+  })
+  @Length(0, 100, {
+    message: '标题最长100个字符',
+  })
+  desc: string;
+
   @ApiProperty({ description: '上级目录', required: false })
   parent?: string;
 
