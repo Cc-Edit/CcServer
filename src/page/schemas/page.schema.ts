@@ -60,7 +60,7 @@ export class Page extends Document {
 
   // 页面独有属性
   @Prop({ enum: PublishStatus, comment: '发布状态' })
-  publish?: boolean;
+  publish?: number;
 
   @Prop({ enum: PageStatus, comment: '页面状态' })
   status?: number;

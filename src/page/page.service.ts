@@ -1,6 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { FilterQuery, Model } from 'mongoose';
+import * as md5 from 'crypto-js/md5';
 import {
   Page,
   PageDocument,
@@ -24,8 +25,9 @@ export class PageService {
     const newPage = new this.PageModel({
       ...createData,
       createUser,
-      uuid: UuidV4(),
+      uuid: md5(UuidV4()).toString(),
       createDate: new Date().getTime(),
+      updateDate: new Date().getTime(),
       publish: PublishStatus.None,
       status: PageStatus.Open,
     });
