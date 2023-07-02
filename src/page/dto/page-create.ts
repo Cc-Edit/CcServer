@@ -17,7 +17,7 @@ export class PageCreate {
   @IsNotEmpty({
     message: '标题不能为空',
   })
-  @Length(5, 20, {
+  @Length(2, 10, {
     message: '标题需要5-20个字符',
   })
   title: string;
