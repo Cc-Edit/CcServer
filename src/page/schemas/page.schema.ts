@@ -34,11 +34,11 @@ export class Page extends Document {
   title: string;
 
   @Prop({
-    required: true,
+    required: false,
     trim: true,
     comment: '说明',
   })
-  desc: string;
+  desc?: string;
 
   @Prop({ required: true, comment: '唯一id' })
   uuid: string;

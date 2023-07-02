@@ -104,7 +104,7 @@ export class PageController {
 
   @Get('getFolder')
   async getFolder(@Body('uuid') uuid: string) {
-    return ResultData.success(await this.pageService.findAll(uuid));
+    return ResultData.success(await this.pageService.findAll(uuid || 'root'));
   }
 
   @Post('move')

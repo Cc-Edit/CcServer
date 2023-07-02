@@ -1,4 +1,10 @@
-import { IsString, IsNotEmpty, Equals, Length } from 'class-validator';
+import {
+  IsString,
+  IsNotEmpty,
+  Equals,
+  Length,
+  MaxLength,
+} from 'class-validator';
 import { ApiProperty } from '@nestjs/swagger';
 import { FileType } from '../schemas/page.schema';
 
@@ -23,11 +29,10 @@ export class FolderCreate {
   title: string;
 
   @ApiProperty({ description: '说明', required: false })
-  @IsString({ message: '类型错误' })
-  @Length(0, 100, {
+  @MaxLength(100, {
     message: '说明最长100个字符',
   })
-  desc: string;
+  desc?: string;
 
   @ApiProperty({ description: '上级目录', required: false })
   parent?: string;
