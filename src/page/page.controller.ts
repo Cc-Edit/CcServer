@@ -12,7 +12,7 @@ export class PageController {
   @Post('creatPage')
   async create(@Body() page: PageCreate, @Request() req) {
     const { uuid: currentUser } = req.user || {};
-    // 判断用户是否重复
+    // 判断是否重复
     const findPage = await this.pageService.find({
       $and: [
         {
@@ -32,7 +32,7 @@ export class PageController {
       ],
     });
     if (!currentUser) {
-      return ResultData.fail('登录消息已失效');
+      return ResultData.fail('登录token已失效');
     }
     if (findPage.length > 0) {
       return ResultData.fail('页面已存在');
@@ -64,7 +64,7 @@ export class PageController {
       ],
     });
     if (!currentUser) {
-      return ResultData.fail('登录消息已失效');
+      return ResultData.fail('登录token已失效');
     }
     if (findFolder.length > 0) {
       return ResultData.fail('文件夹已存在');
@@ -75,7 +75,7 @@ export class PageController {
 
   @Post('update')
   async update(@Body() page: PageCreate | FolderCreate) {
-    const { uuid, title, cover, parent } = page;
+    const { uuid, title, cover, parent, desc } = page;
     if (!uuid) {
       return ResultData.fail('参数uuid不能为空');
     }
@@ -85,6 +85,7 @@ export class PageController {
     }
     Object.assign(current, {
       title,
+      desc,
       cover,
       parent,
     });
@@ -92,7 +93,7 @@ export class PageController {
     return ResultData.success({}, '更新成功');
   }
 
-  @Post('delete')
+  @Get('delete')
   async remove(@Body('uuid') uuid: string) {
     const deleteUser = await this.pageService.delete(uuid);
     return ResultData.success(
@@ -124,7 +125,7 @@ export class PageController {
     return ResultData.success({}, '操作完成');
   }
 
-  @Post('getPage')
+  @Get('getPage')
   async getPage(@Body('uuid') uuid: string) {
     return ResultData.success(await this.pageService.findByUuid(uuid));
   }
