@@ -24,11 +24,8 @@ export class FolderCreate {
 
   @ApiProperty({ description: '说明', required: false })
   @IsString({ message: '类型错误' })
-  @IsNotEmpty({
-    message: '标题不能为空',
-  })
   @Length(0, 100, {
-    message: '标题最长100个字符',
+    message: '说明最长100个字符',
   })
   desc: string;
 
