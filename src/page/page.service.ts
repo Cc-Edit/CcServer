@@ -23,6 +23,7 @@ export class PageService {
   async create(
     createData: PageCreate | FolderCreate,
     createUserId: string,
+    origin = '',
   ): Promise<Page> {
     const createUser = await this.usersService.findByUuid(createUserId);
     const newPage = new this.PageModel({
@@ -33,6 +34,7 @@ export class PageService {
       updateDate: new Date().getTime(),
       publish: PublishStatus.None,
       status: PageStatus.Open,
+      origin,
     });
     return newPage.save();
   }

@@ -50,6 +50,9 @@ export class Page extends Document {
   @Prop({ comment: '封面' })
   cover?: string;
 
+  @Prop({ comment: '来源（复制）' })
+  origin?: string;
+
   @Prop({ type: Types.ObjectId, ref: 'User' })
   createUser: User;
 
@@ -69,10 +72,11 @@ export class Page extends Document {
 
 const schema = SchemaFactory.createForClass(Page);
 
-schema.post(['updateOne', 'save', 'findOneAndUpdate'], function () {
-  Logger.info('updateOne、save、findOneAndUpdate之后，更新数据更新时间字段值');
+schema.pre(['updateOne', 'save', 'findOneAndUpdate'], function (next) {
+  Logger.info('updateOne、save之前，补充默认值');
   const that = this as Page;
   that.updateDate = new Date().getTime();
+  next();
 });
 
 export const PageSchema = schema;

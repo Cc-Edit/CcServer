@@ -157,6 +157,64 @@ export class PageController {
     return ResultData.success({}, '操作完成');
   }
 
+  @Get('copy')
+  async copy(@Query('uuid') uuid: string, @Request() req) {
+    const { uuid: currentUserId } = req.user || {};
+    const current = await this.pageService.findByUuid(uuid);
+    let newTitle = `${current.title}_副本`;
+    let count = 0;
+    // 判断是否重复
+    const findPage = await this.pageService.find({
+      $or: [
+        {
+          title: {
+            $regex: new RegExp(newTitle),
+          },
+        },
+        {
+          $and: [
+            {
+              type: current.type,
+            },
+            {
+              status: {
+                $ne: PageStatus.Delete,
+              },
+            },
+            {
+              origin: {
+                $eq: current.uuid,
+              },
+            },
+            {
+              parent: current.parent || RootId,
+            },
+          ],
+        },
+      ],
+    });
+    while (
+      findPage.find(
+        (element) => element.title === `${newTitle}${count === 0 ? '' : count}`,
+      )
+    ) {
+      ++count;
+    }
+    newTitle = `${newTitle}${count === 0 ? '' : count}`;
+    await this.pageService.create(
+      {
+        title: newTitle,
+        type: current.type,
+        desc: current.desc,
+        parent: current.parent,
+        cover: current.cover,
+      },
+      currentUserId,
+      current.uuid,
+    );
+    return ResultData.success({}, '复制成功');
+  }
+
   @Get('getPage')
   async getPage(@Body('uuid') uuid: string) {
     return ResultData.success(await this.pageService.findByUuid(uuid));
