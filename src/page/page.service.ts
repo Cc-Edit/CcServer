@@ -11,20 +11,23 @@ import {
 import { PageCreate } from './dto/page-create';
 import { FolderCreate } from './dto/folder-create';
 import { v4 as UuidV4 } from 'uuid';
-
+import { UserService } from '../user/user.service';
+import { UserFields } from '../lib/constant';
 @Injectable()
 export class PageService {
   constructor(
     @InjectModel(Page.name, 'ccServer') private PageModel: Model<PageDocument>,
+    private readonly usersService: UserService,
   ) {}
 
   async create(
     createData: PageCreate | FolderCreate,
-    createUser: string,
+    createUserId: string,
   ): Promise<Page> {
+    const createUser = await this.usersService.findByUuid(createUserId);
     const newPage = new this.PageModel({
       ...createData,
-      createUser,
+      createUser: createUser._id,
       uuid: md5(UuidV4()).toString(),
       createDate: new Date().getTime(),
       updateDate: new Date().getTime(),
@@ -50,7 +53,9 @@ export class PageService {
         $ne: PageStatus.Delete,
       },
       parent: uuid,
-    }).exec();
+    })
+      .populate('createUser', UserFields)
+      .exec();
   }
 
   async findByUuid(uuid: string): Promise<Page> {

@@ -6,6 +6,7 @@ import { User, UserDocument, UserStatus } from './schemas/user.schema';
 import { v4 as UuidV4 } from 'uuid';
 import * as md5 from 'crypto-js/md5';
 import { getRandomString } from '../lib/utils/common';
+import { UserFields } from '../lib/constant';
 
 @Injectable()
 export class UserService {
@@ -39,15 +40,21 @@ export class UserService {
   }
 
   async findAll(): Promise<User[]> {
-    return this.UserModel.find({
-      status: UserStatus.Open,
-    }).exec();
+    return this.UserModel.find(
+      {
+        status: UserStatus.Open,
+      },
+      UserFields,
+    ).exec();
   }
 
   async findByUuid(uuid: string): Promise<User> {
-    return this.UserModel.findOne({
-      uuid,
-    });
+    return this.UserModel.findOne(
+      {
+        uuid,
+      },
+      UserFields,
+    );
   }
 
   async findBy(queryArr: Condition<any>): Promise<User[]> {

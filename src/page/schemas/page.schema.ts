@@ -1,5 +1,5 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
-import { Document } from 'mongoose';
+import { Document, Types } from 'mongoose';
 import { Logger } from '../../lib/logger/logger.util';
 export type PageDocument = Page & Document;
 
@@ -49,8 +49,8 @@ export class Page extends Document {
   @Prop({ comment: '封面' })
   cover?: string;
 
-  @Prop({ required: true, comment: '创建者uuid' })
-  createUser: string;
+  @Prop({ type: Types.ObjectId, ref: 'User' })
+  createUser: Types.ObjectId;
 
   @Prop({ required: true, comment: '创建时间' })
   createDate: number;
