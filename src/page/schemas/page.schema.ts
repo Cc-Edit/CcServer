@@ -1,6 +1,7 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import { Document, Types } from 'mongoose';
 import { Logger } from '../../lib/logger/logger.util';
+import { User } from '../../user/schemas/user.schema';
 export type PageDocument = Page & Document;
 
 export enum PageStatus {
@@ -50,7 +51,7 @@ export class Page extends Document {
   cover?: string;
 
   @Prop({ type: Types.ObjectId, ref: 'User' })
-  createUser: Types.ObjectId;
+  createUser: User;
 
   @Prop({ required: true, comment: '创建时间' })
   createDate: number;

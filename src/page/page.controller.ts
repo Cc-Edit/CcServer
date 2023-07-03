@@ -1,4 +1,4 @@
-import { Body, Controller, Get, Post, Request } from '@nestjs/common';
+import { Body, Controller, Get, Post, Query, Request } from '@nestjs/common';
 import { PageService } from './page.service';
 import { PageCreate } from './dto/page-create';
 import { FolderCreate } from './dto/folder-create';
@@ -94,11 +94,16 @@ export class PageController {
   }
 
   @Get('delete')
-  async remove(@Body('uuid') uuid: string) {
-    const deleteUser = await this.pageService.delete(uuid);
+  async remove(@Query('uuid') uuid: string, @Request() req) {
+    const { uuid: currentUserId } = req.user || {};
+    const currentPage = await this.pageService.findByUuid(uuid);
+    if (currentPage.createUser.uuid !== currentUserId) {
+      return ResultData.fail('只有创建者有权限删除~');
+    }
+    const deletePage = await this.pageService.delete(uuid);
     return ResultData.success(
       {},
-      deleteUser ? '删除成功' : '页面/文件夹不存在',
+      deletePage ? '删除成功' : '页面/文件夹不存在',
     );
   }
 

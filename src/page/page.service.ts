@@ -61,7 +61,9 @@ export class PageService {
   async findByUuid(uuid: string): Promise<Page> {
     return this.PageModel.findOne({
       uuid,
-    });
+    })
+      .populate('createUser', UserFields)
+      .exec();
   }
 
   async find(query: FilterQuery<any>): Promise<Page[]> {
