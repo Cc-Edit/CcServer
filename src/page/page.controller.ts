@@ -83,6 +83,28 @@ export class PageController {
     if (!current) {
       return ResultData.fail('目标不存在');
     }
+    // 判断是否重复
+    const findPage = await this.pageService.find({
+      $and: [
+        {
+          type: current.type,
+        },
+        {
+          status: {
+            $ne: PageStatus.Delete,
+          },
+        },
+        {
+          title: page.title,
+        },
+        {
+          parent: current.parent || RootId,
+        },
+      ],
+    });
+    if (findPage.length > 0) {
+      return ResultData.fail('页面已存在');
+    }
     Object.assign(current, {
       title,
       desc,
