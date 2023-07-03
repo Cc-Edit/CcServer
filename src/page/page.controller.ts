@@ -167,9 +167,18 @@ export class PageController {
     const findPage = await this.pageService.find({
       $or: [
         {
-          title: {
-            $regex: new RegExp(newTitle),
-          },
+          $and: [
+            {
+              title: {
+                $regex: new RegExp(newTitle),
+              },
+            },
+            {
+              status: {
+                $ne: PageStatus.Delete,
+              },
+            },
+          ],
         },
         {
           $and: [
