@@ -39,7 +39,7 @@ export class UserController {
   }
 
   @Post('delete')
-  async remove(@Body('uuid') uuid: string) {
+  async remove(@Body('uuid') uuid: string, @Request() req) {
     const deleteUser = await this.userService.delete(uuid);
     return ResultData.success({}, deleteUser ? '删除成功' : '用户不存在');
   }
