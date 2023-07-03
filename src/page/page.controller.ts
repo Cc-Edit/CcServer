@@ -90,6 +90,11 @@ export class PageController {
           type: current.type,
         },
         {
+          uuid: {
+            $ne: current.uuid,
+          },
+        },
+        {
           status: {
             $ne: PageStatus.Delete,
           },
