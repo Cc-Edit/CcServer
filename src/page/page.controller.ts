@@ -12,8 +12,7 @@ export class PageController {
   @Post('creatPage')
   async create(@Body() page: PageCreate, @Request() req) {
     const { uuid: currentUser } = req.user || {};
-    // 判断是否重复
-    const findPage = await this.pageService.find({
+    const findPages = await this.pageService.find({
       $and: [
         {
           type: FileType.Page,
@@ -24,17 +23,21 @@ export class PageController {
           },
         },
         {
-          title: page.title,
-        },
-        {
           parent: page.parent || RootId,
         },
       ],
     });
+    // 判断是否重复
+    const repeatTitle = findPages.find((item) => {
+      return item.title === page.title;
+    });
     if (!currentUser) {
       return ResultData.fail('登录token已失效');
     }
-    if (findPage.length > 0) {
+    if (findPages.length >= 40) {
+      return ResultData.fail('一个目录下最多创建40个页面');
+    }
+    if (repeatTitle) {
       return ResultData.fail('页面已存在');
     }
     await this.pageService.create(page, currentUser);
@@ -44,8 +47,7 @@ export class PageController {
   @Post('creatFolder')
   async createFolder(@Body() folder: FolderCreate, @Request() req) {
     const { uuid: currentUser } = req.user || {};
-    // 判断用户是否重复
-    const findFolder = await this.pageService.find({
+    const findFolders = await this.pageService.find({
       $and: [
         {
           type: FileType.Folder,
@@ -56,18 +58,22 @@ export class PageController {
           },
         },
         {
-          title: folder.title,
-        },
-        {
           parent: folder.parent || RootId,
         },
       ],
     });
+    // 判断是否重复
+    const repeatTitle = findFolders.find((item) => {
+      return item.title === folder.title;
+    });
     if (!currentUser) {
       return ResultData.fail('登录token已失效');
     }
-    if (findFolder.length > 0) {
+    if (repeatTitle) {
       return ResultData.fail('文件夹已存在');
+    }
+    if (findFolders.length >= 20) {
+      return ResultData.fail('最多创建20个应用');
     }
     await this.pageService.create(folder, currentUser);
     return ResultData.success({}, '文件夹创建成功');
@@ -135,7 +141,7 @@ export class PageController {
   }
 
   @Get('getFolder')
-  async getFolder(@Body('uuid') uuid: string) {
+  async getFolder(@Query('uuid') uuid: string) {
     return ResultData.success(await this.pageService.findAll(uuid || 'root'));
   }
 
@@ -163,6 +169,27 @@ export class PageController {
     const current = await this.pageService.findByUuid(uuid);
     let newTitle = `${current.title}_副本`;
     let count = 0;
+    const limitPage = await this.pageService.find({
+      $and: [
+        {
+          type: current.type,
+        },
+        {
+          parent: current.parent || RootId,
+        },
+        {
+          status: {
+            $ne: PageStatus.Delete,
+          },
+        },
+      ],
+    });
+    if (current.type === FileType.Folder && limitPage.length >= 20) {
+      return ResultData.fail('最多创建20个应用');
+    }
+    if (current.type === FileType.Page && limitPage.length >= 40) {
+      return ResultData.fail('一个目录下最多创建40个页面');
+    }
     // 判断是否重复
     const findPage = await this.pageService.find({
       $or: [
@@ -225,7 +252,7 @@ export class PageController {
   }
 
   @Get('getPage')
-  async getPage(@Body('uuid') uuid: string) {
+  async getPage(@Query('uuid') uuid: string, @Request() req) {
     return ResultData.success(await this.pageService.findByUuid(uuid));
   }
 }
