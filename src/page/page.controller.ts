@@ -145,8 +145,8 @@ export class PageController {
     return ResultData.success(await this.pageService.findAll(uuid || 'root'));
   }
 
-  @Post('move')
-  async move(@Body('origin') origin: string, @Body('target') target: string) {
+  @Get('move')
+  async move(@Query('origin') origin: string, @Query('target') target: string) {
     if (target) {
       const current = await this.pageService.findByUuid(target);
       if (current.type !== FileType.Folder) {
