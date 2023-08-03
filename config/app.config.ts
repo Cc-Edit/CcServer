@@ -6,7 +6,7 @@ switch (ENV) {
     // tslint:disable-next-line:no-var-requires
     Config = require('./env/base.dev.config').BaseConfig;
     break;
-  case 'prod':
+  case 'production':
     // tslint:disable-next-line:no-var-requires
     Config = require('./env/base.prod.config').BaseConfig;
     break;
