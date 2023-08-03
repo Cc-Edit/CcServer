@@ -1,3 +1,4 @@
+// 修改后记得同步生产配置副本文件
 import { extractKey } from '../../src/lib/utils/common';
 
 const Config = {
