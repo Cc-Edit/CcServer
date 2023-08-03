@@ -13,6 +13,6 @@ switch (ENV) {
   default:
     throw new Error('Env config could not be found for environment');
 }
-
+console.log(Config);
 // Custom application configuration
 export const AppConfig = Config;
