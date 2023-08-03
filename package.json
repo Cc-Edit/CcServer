@@ -11,7 +11,7 @@
     "start": "nest start --watch",
     "start:dev": "nest start --watch",
     "start:debug": "nest start --debug --watch",
-    "prod": "nest build && NODE_ENV=prod node dist/src/main",
+    "prod": "nest build && cross-env NODE_ENV=prod node dist/src/main",
     "lint": "eslint \"{src,apps,libs,test}/**/*.ts\" --fix",
     "test": "jest",
     "test:watch": "jest --watch",
@@ -49,12 +49,13 @@
     "uuid": "^9.0.0"
   },
   "devDependencies": {
-    "@types/multer": "^1.4.7",
+    "cross-env": "^7.0.3",
     "@nestjs/cli": "^9.0.0",
     "@nestjs/schematics": "^9.0.0",
     "@nestjs/testing": "^9.0.0",
     "@types/express": "^4.17.13",
     "@types/jest": "29.5.0",
+    "@types/multer": "^1.4.7",
     "@types/node": "18.15.11",
     "@types/passport-jwt": "^3.0.8",
     "@types/passport-local": "^1.0.35",
