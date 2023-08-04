@@ -42,8 +42,7 @@ export class AuthController {
       ignoreChars: '0OoLl1J8BiI9g',
       background: 'rgba(0,0,0,0)',
     });
-    console.log(AppConfig.AesKey);
-    const key = AES.encrypt(captcha.text, AppConfig.AesKey) + '';
+    const key = AES.encrypt(captcha.text, AppConfig.AesKey).toString();
     return ResultData.success(
       {
         captureEncode: key,
