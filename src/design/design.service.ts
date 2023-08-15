@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
-import { Model } from 'mongoose';
+import { FilterQuery, Model } from 'mongoose';
 import { Design, DesignStatus, DesignDocument } from './schemas/design.schema';
 import { DesignCreate } from './dto/design-create';
 import { UserService } from '../user/user.service';
@@ -47,5 +47,9 @@ export class DesignService {
     })
       .populate('createUser', UserFields)
       .exec();
+  }
+
+  async find(query: FilterQuery<any>): Promise<Design[]> {
+    return this.DesignModel.find(query).exec();
   }
 }
