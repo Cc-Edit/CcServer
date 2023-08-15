@@ -54,5 +54,5 @@ schema.pre(['updateOne', 'save', 'findOneAndUpdate'], function (next) {
   that.updateDate = new Date().getTime();
   next();
 });
-
+export type DesignDocument = Design & Document;
 export const DesignSchema = schema;
