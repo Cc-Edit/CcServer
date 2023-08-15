@@ -1,6 +1,13 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import { Document, Types } from 'mongoose';
 import { Logger } from '../../lib/logger/logger.util';
+import { User } from '../../user/schemas/user.schema';
+
+export enum DesignStatus {
+  Delete, // 已删除
+  Lock, // 锁定编辑
+  Open, // 正常可编辑
+}
 
 @Schema()
 export class Design extends Document {
@@ -41,6 +48,15 @@ export class Design extends Document {
     comment: '页面配置',
   })
   page: string;
+
+  @Prop({ enum: DesignStatus, comment: '设计状态' })
+  status?: number;
+
+  @Prop({ type: Types.ObjectId, ref: 'User' })
+  createUser: User;
+
+  @Prop({ required: true, comment: '创建时间' })
+  createDate: number;
 
   @Prop({ required: true, comment: '最后更新时间' })
   updateDate: number;
