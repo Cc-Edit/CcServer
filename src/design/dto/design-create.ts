@@ -1,10 +1,4 @@
-import {
-  IsString,
-  IsNotEmpty,
-  Equals,
-  Length,
-  MaxLength,
-} from 'class-validator';
+import { IsString, IsNotEmpty } from 'class-validator';
 import { ApiProperty } from '@nestjs/swagger';
 
 export class DesignCreate {
@@ -17,21 +11,21 @@ export class DesignCreate {
 
   @ApiProperty({ description: 'layout 结构json', required: true })
   @IsString({ message: '类型错误' })
-  layout: string;
+  layout?: string;
 
   @ApiProperty({ description: 'attribute 结构json', required: true })
   @IsString({ message: '类型错误' })
-  attribute: string;
+  attribute?: string;
 
   @ApiProperty({ description: 'event 结构json', required: true })
   @IsString({ message: '类型错误' })
-  event: string;
+  event?: string;
 
   @ApiProperty({ description: 'api 结构json', required: true })
   @IsString({ message: '类型错误' })
-  api: string;
+  api?: string;
 
   @ApiProperty({ description: 'page 结构json', required: true })
   @IsString({ message: '类型错误' })
-  page: string;
+  page?: string;
 }
