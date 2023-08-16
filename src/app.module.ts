@@ -1,6 +1,7 @@
 import { Module } from '@nestjs/common';
 import { MongooseModule } from '@nestjs/mongoose';
 import { UserModule } from './user/user.module';
+import { DesignModule } from './design/design.module';
 import { AuthModule } from './auth/auth.module';
 import { PageModule } from './page/page.module';
 import { APP_GUARD } from '@nestjs/core';
@@ -20,6 +21,7 @@ import { JwtAuthGuard } from './common/guards/auth.guard';
     AuthModule,
     TaskModule,
     PageModule,
+    DesignModule,
   ],
   providers: [
     {
