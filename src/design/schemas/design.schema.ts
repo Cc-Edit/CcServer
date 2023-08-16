@@ -15,35 +15,30 @@ export class Design extends Document {
   id: string;
 
   @Prop({
-    required: true,
     trim: true,
     comment: '结构json',
   })
   layout: string;
 
   @Prop({
-    required: true,
     trim: true,
     comment: '属性json',
   })
   attribute: string;
 
   @Prop({
-    required: true,
     trim: true,
     comment: '事件json',
   })
   event: string;
 
   @Prop({
-    required: true,
     trim: true,
     comment: '接口json',
   })
   api: string;
 
   @Prop({
-    required: true,
     trim: true,
     comment: '页面配置',
   })
