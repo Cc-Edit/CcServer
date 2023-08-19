@@ -3,15 +3,20 @@ import { DesignService } from './design.service';
 import { DesignCreate } from './dto/design-create';
 import { ResultData } from '../lib/utils/result';
 import { DesignStatus } from './schemas/design.schema';
+import { PageService } from '../page/page.service';
+import { PageStatus } from '../page/schemas/page.schema';
 
 @Controller('design')
 export class DesignController {
-  constructor(private designService: DesignService) {}
+  constructor(
+    private designService: DesignService,
+    private pageService: PageService,
+  ) {}
 
   @Post('saveDesign')
   async saveDesign(@Body() design: DesignCreate, @Request() req) {
     const { uuid: currentUser } = req.user || {};
-    const { id } = design;
+    const { id, page } = design;
     const designList = await this.designService.find({
       $and: [
         {
@@ -32,6 +37,19 @@ export class DesignController {
       Object.assign(designItem, design);
       await designItem.save();
     }
+    // 内部修改标题时同步修改page数据
+    try {
+      const pageData = JSON.parse(page);
+      const { title, cover } = pageData;
+      const pageIns = await this.pageService.findByUuid(id);
+      if (pageIns) {
+        Object.assign(pageIns, {
+          title,
+          cover,
+        });
+        await pageIns.save();
+      }
+    } catch (e) {}
     return ResultData.success({}, '保存成功');
   }
 

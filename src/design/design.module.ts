@@ -4,6 +4,7 @@ import { DesignService } from './design.service';
 import { MongooseModule } from '@nestjs/mongoose';
 import { Design, DesignSchema } from './schemas/design.schema';
 import { UserModule } from '../user/user.module';
+import { PageModule } from '../page/page.module';
 
 @Module({
   controllers: [DesignController],
@@ -15,6 +16,7 @@ import { UserModule } from '../user/user.module';
       'ccServer',
     ),
     UserModule,
+    PageModule,
   ],
 })
 export class DesignModule {}
