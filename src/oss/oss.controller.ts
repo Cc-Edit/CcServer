@@ -21,7 +21,7 @@ import { createReadStream } from 'fs';
 export class OssController {
   constructor(private readonly ossService: OssService) {}
 
-  @Post('upload')
+  @Post('uploadFile')
   @ApiOperation({ summary: '文件上传,返回 url 地址' })
   @UseInterceptors(FilesInterceptor('files', 10))
   async uploadFile(
@@ -38,7 +38,7 @@ export class OssController {
     return await this.ossService.findList(search);
   }
 
-  @Get('download')
+  @Get('getFile')
   async getFile(@Body('uuid') uuid: string) {
     const file = await this.ossService.getFile(uuid);
     if (!file) {
