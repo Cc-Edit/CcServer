@@ -22,9 +22,7 @@ export class OssService {
     files.map(async (file) => {
       const uuid = UuidV4();
       // 重新命名文件， uuid, 根据 mimeType 决定 文件扩展名， 直接拿后缀名不可靠
-      const newFileName = `${uuid.replace(/-/g, '')}.${mime.extension(
-        file.mimetype,
-      )}`;
+      const newFileName = `${uuid}.${mime.extension(file.mimetype)}`;
       // const newFileName = `${uuid.v4().replace(/-/g, '')}.${file.originalname.split('.').pop().toLowerCase()}`
       // 文件存储路径
       const fileLocation = `${AppConfig.OSS.RootPath}/${newFileName}`;
