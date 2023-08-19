@@ -14,7 +14,7 @@ const Config = {
     logDir: '/Users/wenqiang/Documents/work/personal/gitHub/CcServer/logs',
   },
   OSS: {
-    RootPath: '/Users/wenqiang/Documents/work/personal/gitHub/CcServer/static',
+    RootPath: '/Users/wenqiang/Documents/work/personal/gitHub/CcServer/oss',
   },
   AesKey: '258c75b9-1c35-bde0-367f-79ea7672fd9c',
   JWT: {
