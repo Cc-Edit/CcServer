@@ -5,7 +5,7 @@ import { Oss, OssDocument } from './schemas/oss.schema';
 import { ResultData } from '../lib/utils/result';
 import { v4 as UuidV4 } from 'uuid';
 import * as fs from 'fs';
-import mime from 'mime-types';
+import * as mime from 'mime-types';
 import { AppConfig } from '../../config/app.config';
 import { FindOss } from './dto/find-oss';
 
@@ -18,6 +18,7 @@ export class OssService {
 
   async create(files: Array<Express.Multer.File>, createUser: string) {
     const result = [];
+    console.log(2, files);
     files.map(async (file) => {
       const uuid = UuidV4();
       // 重新命名文件， uuid, 根据 mimeType 决定 文件扩展名， 直接拿后缀名不可靠
@@ -35,13 +36,14 @@ export class OssService {
       writeFile.close();
       const ossFile = new this.OssModel({
         ossName: newFileName,
-        name: file.filename,
+        name: file.fieldname || file.originalname,
         uuid,
         createUser,
         size: file.size,
         type: file.mimetype,
         location: `/${newFileName}`,
         createDate: new Date().getTime(),
+        updateDate: new Date().getTime(),
       });
       result.push(ossFile.uuid);
       await ossFile.save();

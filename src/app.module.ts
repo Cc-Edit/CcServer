@@ -4,6 +4,7 @@ import { UserModule } from './user/user.module';
 import { DesignModule } from './design/design.module';
 import { AuthModule } from './auth/auth.module';
 import { PageModule } from './page/page.module';
+import { OssModule } from './oss/oss.module';
 import { APP_GUARD } from '@nestjs/core';
 import { AppConfig } from '../config/app.config';
 import { ScheduleModule } from '@nestjs/schedule';
@@ -21,6 +22,7 @@ import { JwtAuthGuard } from './common/guards/auth.guard';
     AuthModule,
     TaskModule,
     PageModule,
+    OssModule,
     DesignModule,
   ],
   providers: [
