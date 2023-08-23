@@ -28,4 +28,8 @@ export class DesignCreate {
   @ApiProperty({ description: 'page 结构json', required: true })
   @IsString({ message: '类型错误' })
   page?: string;
+
+  @ApiProperty({ description: 'lines 结构json', required: true })
+  @IsString({ message: '类型错误' })
+  lines?: string;
 }

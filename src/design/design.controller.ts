@@ -4,7 +4,6 @@ import { DesignCreate } from './dto/design-create';
 import { ResultData } from '../lib/utils/result';
 import { DesignStatus } from './schemas/design.schema';
 import { PageService } from '../page/page.service';
-import { PageStatus } from '../page/schemas/page.schema';
 
 @Controller('design')
 export class DesignController {

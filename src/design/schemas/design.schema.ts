@@ -28,6 +28,12 @@ export class Design extends Document {
 
   @Prop({
     trim: true,
+    comment: 'lines json',
+  })
+  lines: string;
+
+  @Prop({
+    trim: true,
     comment: '事件json',
   })
   event: string;
