@@ -3,11 +3,9 @@ import { ApiProperty } from '@nestjs/swagger';
 
 export class TemplateCreate {
   @ApiProperty({ description: 'originId', required: false })
-  @IsString({ message: '类型错误' })
   originId?: string;
 
   @ApiProperty({ description: 'cover', required: false })
-  @IsString({ message: '类型错误' })
   cover?: string;
 
   @ApiProperty({ description: 'string', required: true })
@@ -32,6 +30,5 @@ export class TemplateCreate {
   type: number;
 
   @ApiProperty({ description: '模板json', required: false })
-  @IsString({ message: '类型错误' })
   templateStr?: string;
 }
