@@ -10,7 +10,7 @@ import { UserRole } from '../user/schemas/user.schema';
 import { DesignStatus } from '../design/schemas/design.schema';
 import { FileType, PageStatus, RootId } from '../page/schemas/page.schema';
 
-@Controller('design')
+@Controller('template')
 export class TemplateController {
   constructor(
     private templateService: TemplateService,
