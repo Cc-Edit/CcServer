@@ -47,6 +47,8 @@ export class TemplateService {
   }
 
   async find(query: FilterQuery<any>): Promise<Template[]> {
-    return this.TemplateModel.find(query).exec();
+    return this.TemplateModel.find(query)
+      .populate('createUser', UserFields)
+      .exec();
   }
 }
