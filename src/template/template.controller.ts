@@ -126,6 +126,9 @@ export class TemplateController {
     const { uuid: currentUser } = req.user || {};
     const templateIns = await this.templateService.findByUuid(uuid);
     const { name, cover, templateStr } = templateIns;
+    if (templateIns.type !== TemplateType.Page) {
+      return ResultData.fail('请使用页面模板创建新页面');
+    }
     if (!currentUser) {
       return ResultData.fail('登录token已失效');
     }
