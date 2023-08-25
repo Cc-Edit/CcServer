@@ -3,6 +3,7 @@ import { MongooseModule } from '@nestjs/mongoose';
 import { ServeStaticModule } from '@nestjs/serve-static';
 import { UserModule } from './user/user.module';
 import { DesignModule } from './design/design.module';
+import { TemplateModule } from './template/template.module';
 import { AuthModule } from './auth/auth.module';
 import { PageModule } from './page/page.module';
 import { OssModule } from './oss/oss.module';
@@ -27,6 +28,7 @@ import { join } from 'path';
     PageModule,
     OssModule,
     DesignModule,
+    TemplateModule,
   ],
   providers: [
     {

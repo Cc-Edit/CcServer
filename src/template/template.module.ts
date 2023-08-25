@@ -5,6 +5,7 @@ import { MongooseModule } from '@nestjs/mongoose';
 import { Template, TemplateSchema } from './schemas/template.schema';
 import { UserModule } from '../user/user.module';
 import { DesignModule } from '../design/design.module';
+import { PageModule } from '../page/page.module';
 
 @Module({
   controllers: [TemplateController],
@@ -17,6 +18,7 @@ import { DesignModule } from '../design/design.module';
     ),
     UserModule,
     DesignModule,
+    PageModule,
   ],
 })
 export class TemplateModule {}
