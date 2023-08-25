@@ -18,7 +18,6 @@ export class OssService {
 
   async create(files: Array<Express.Multer.File>, createUser: string) {
     const result = [];
-    console.log(2, files);
     files.map(async (file) => {
       const uuid = UuidV4();
       // 重新命名文件， uuid, 根据 mimeType 决定 文件扩展名， 直接拿后缀名不可靠

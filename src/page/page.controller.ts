@@ -10,7 +10,7 @@ export class PageController {
   constructor(private pageService: PageService) {}
 
   @Post('creatPage')
-  async create(@Body() page: PageCreate, @Request() req) {
+  async creatPage(@Body() page: PageCreate, @Request() req) {
     const { uuid: currentUser } = req.user || {};
     const findPages = await this.pageService.find({
       $and: [
@@ -45,7 +45,7 @@ export class PageController {
   }
 
   @Post('creatFolder')
-  async createFolder(@Body() folder: FolderCreate, @Request() req) {
+  async creatFolder(@Body() folder: FolderCreate, @Request() req) {
     const { uuid: currentUser } = req.user || {};
     const findFolders = await this.pageService.find({
       $and: [
@@ -127,7 +127,7 @@ export class PageController {
   }
 
   @Get('delete')
-  async remove(@Query('uuid') uuid: string, @Request() req) {
+  async delete(@Query('uuid') uuid: string, @Request() req) {
     const { uuid: currentUserId } = req.user || {};
     const currentPage = await this.pageService.findByUuid(uuid);
     if (currentPage.createUser.uuid !== currentUserId) {
