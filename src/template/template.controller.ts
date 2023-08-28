@@ -135,7 +135,7 @@ export class TemplateController {
     }
     const newPageData = {
       type: FileType.Page,
-      title: `${name}-模板-${dateFormat(new Date().getTime(), 'Y-M-D(h:m:s)')}`,
+      title: `模板创建：${name}`,
       parent: RootId,
       cover,
     };
