@@ -9,6 +9,7 @@ import { UserService } from '../user/user.service';
 import { UserRole } from '../user/schemas/user.schema';
 import { DesignStatus } from '../design/schemas/design.schema';
 import { FileType, PageStatus, RootId } from '../page/schemas/page.schema';
+import { dateFormat } from '../common/util/common';
 
 @Controller('template')
 export class TemplateController {
@@ -134,7 +135,7 @@ export class TemplateController {
     }
     const newPageData = {
       type: FileType.Page,
-      title: `${name}-${new Date().getTime()}`,
+      title: `${name}-模板-${dateFormat(new Date().getTime(), 'Y-M-D(h:m:s)')}`,
       parent: RootId,
       cover,
     };
