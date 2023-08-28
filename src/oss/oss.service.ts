@@ -55,7 +55,9 @@ export class OssService {
         $lte: endDay,
         $gte: startDay,
       },
-    }).exec();
+    })
+      .sort({ createDate: -1 })
+      .exec();
     return ResultData.success(fileList);
   }
 

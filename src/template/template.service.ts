@@ -48,6 +48,7 @@ export class TemplateService {
 
   async find(query: FilterQuery<any>): Promise<Template[]> {
     return this.TemplateModel.find(query)
+      .sort({ createDate: -1 })
       .populate('createUser', UserFields)
       .exec();
   }

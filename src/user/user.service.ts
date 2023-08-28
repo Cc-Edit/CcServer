@@ -45,7 +45,9 @@ export class UserService {
         status: UserStatus.Open,
       },
       UserFields,
-    ).exec();
+    )
+      .sort({ createDate: -1 })
+      .exec();
   }
 
   async findByUuid(uuid: string): Promise<User> {

@@ -56,6 +56,7 @@ export class PageService {
       },
       parent: uuid,
     })
+      .sort({ createDate: -1 })
       .populate('createUser', UserFields)
       .exec();
   }
