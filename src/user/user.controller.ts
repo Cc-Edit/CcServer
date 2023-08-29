@@ -101,8 +101,8 @@ export class UserController {
     return ResultData.success({}, '更新成功');
   }
 
-  @Get('findAll')
-  async findAll() {
+  @Get('list')
+  async list() {
     return ResultData.success(await this.userService.findAll());
   }
 
