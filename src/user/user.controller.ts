@@ -103,7 +103,10 @@ export class UserController {
 
   @Post('list')
   async list(@Body() query: UserQuery) {
-    return ResultData.success(await this.userService.findAll(query));
+    return ResultData.success({
+      list: await this.userService.findAll(query),
+      count: await this.userService.count({}),
+    });
   }
 
   @Post('findByUuid')

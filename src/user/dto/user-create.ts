@@ -16,6 +16,12 @@ export class UserQuery {
     start: number;
     end: number;
   };
+
+  @ApiProperty({ description: '页面条数', required: false })
+  pageSize?: number;
+
+  @ApiProperty({ description: '页码', required: false })
+  page?: number;
 }
 export class UserCreate {
   @ApiProperty({ description: '用户账号', required: true })

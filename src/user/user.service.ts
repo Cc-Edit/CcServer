@@ -40,7 +40,14 @@ export class UserService {
   }
 
   async findAll(query: UserQuery): Promise<User[]> {
-    const { status = -1, info = '', role = -1, createDate } = query;
+    const {
+      status = -1,
+      info = '',
+      role = -1,
+      createDate,
+      pageSize = 10,
+      page = 0,
+    } = query;
     const filter = {};
     if (status !== -1) {
       Object.assign(filter, { status });
@@ -58,10 +65,15 @@ export class UserService {
       const { start, end } = createDate;
       Object.assign(filter, { createDate: { $gte: start, $lt: end } });
     }
-    console.log(filter);
     return this.UserModel.find(filter, UserFields)
       .sort({ createDate: -1 })
+      .skip(pageSize * page)
+      .limit(pageSize)
       .exec();
+  }
+
+  async count(query: FilterQuery<any>): Promise<number> {
+    return this.UserModel.count(query).exec();
   }
 
   async findByUuid(uuid: string): Promise<User> {
