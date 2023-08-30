@@ -49,16 +49,16 @@ export class UserService {
       Object.assign(filter, { role });
     }
     if (info !== '') {
+      const reg = new RegExp(info);
       Object.assign(filter, {
-        name: /`${info}`/,
-        phone: /`${info}`/,
-        email: /`${info}`/,
+        $or: [{ name: reg }, { phone: reg }, { email: reg }],
       });
     }
     if (createDate) {
       const { start, end } = createDate;
       Object.assign(filter, { createDate: { $gte: start, $lt: end } });
     }
+    console.log(filter);
     return this.UserModel.find(filter, UserFields)
       .sort({ createDate: -1 })
       .exec();
