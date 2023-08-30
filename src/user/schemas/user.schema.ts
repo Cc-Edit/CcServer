@@ -6,7 +6,6 @@ export type UserDocument = User & Document;
 export enum UserStatus {
   Delete,
   Disable,
-  Expired,
   Open,
 }
 export enum UserRole {
