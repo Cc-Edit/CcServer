@@ -1,7 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { InjectModel, InjectConnection } from '@nestjs/mongoose';
 import { Model, Connection, FilterQuery, Condition } from 'mongoose';
-import { UserCreate } from './dto/user-create';
+import { UserCreate, UserQuery } from './dto/user-create';
 import { User, UserDocument, UserStatus } from './schemas/user.schema';
 import { v4 as UuidV4 } from 'uuid';
 import * as md5 from 'crypto-js/md5';
@@ -39,13 +39,27 @@ export class UserService {
     return null;
   }
 
-  async findAll(): Promise<User[]> {
-    return this.UserModel.find(
-      {
-        status: UserStatus.Open,
-      },
-      UserFields,
-    )
+  async findAll(query: UserQuery): Promise<User[]> {
+    const { status = -1, info = '', role = -1, createDate } = query;
+    const filter = {};
+    if (status !== -1) {
+      Object.assign(filter, { status });
+    }
+    if (role !== -1) {
+      Object.assign(filter, { role });
+    }
+    if (info !== '') {
+      Object.assign(filter, {
+        name: /`${info}`/,
+        phone: /`${info}`/,
+        email: /`${info}`/,
+      });
+    }
+    if (createDate) {
+      const { start, end } = createDate;
+      Object.assign(filter, { createDate: { $gte: start, $lt: end } });
+    }
+    return this.UserModel.find(filter, UserFields)
       .sort({ createDate: -1 })
       .exec();
   }

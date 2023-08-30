@@ -1,6 +1,22 @@
 import { IsString, IsNotEmpty, Length, Matches } from 'class-validator';
 import { ApiProperty } from '@nestjs/swagger';
 
+export class UserQuery {
+  @ApiProperty({ description: '用户状态', required: false })
+  status?: number;
+
+  @ApiProperty({ description: '用户信息', required: false })
+  info?: string;
+
+  @ApiProperty({ description: '用户状态', required: false })
+  role?: number;
+
+  @ApiProperty({ description: '创建时间', required: false })
+  createDate?: {
+    start: number;
+    end: number;
+  };
+}
 export class UserCreate {
   @ApiProperty({ description: '用户账号', required: true })
   @IsString({ message: '用户名类型错误' })

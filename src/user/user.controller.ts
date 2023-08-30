@@ -1,6 +1,6 @@
 import { Controller, Get, Post, Body, Request } from '@nestjs/common';
 import { ApiOperation } from '@nestjs/swagger';
-import { UserCreate } from './dto/user-create';
+import { UserCreate, UserQuery } from './dto/user-create';
 import { UserService } from './user.service';
 import * as md5 from 'crypto-js/md5';
 import { ResultData } from '../lib/utils/result';
@@ -101,9 +101,9 @@ export class UserController {
     return ResultData.success({}, '更新成功');
   }
 
-  @Get('list')
-  async list() {
-    return ResultData.success(await this.userService.findAll());
+  @Post('list')
+  async list(@Body() query: UserQuery) {
+    return ResultData.success(await this.userService.findAll(query));
   }
 
   @Post('findByUuid')
