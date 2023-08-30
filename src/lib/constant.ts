@@ -3,6 +3,7 @@ export const UserFields = [
   'phone',
   'email',
   'uuid',
+  'avatar',
   'createDate',
   'updateDate',
   'role',
