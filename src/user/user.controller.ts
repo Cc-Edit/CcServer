@@ -20,18 +20,18 @@ export class UserController {
       user.createUser = currentUuid;
     }
     // 判断用户是否重复
-    let findUsers = await this.userService.findBy([{ name: user.name }]);
+    const findUsers = await this.userService.findBy([{ name: user.name }]);
     if (findUsers.length > 0) {
       return ResultData.fail('用户名已存在');
     }
-    findUsers = await this.userService.findBy([{ phone: user.phone }]);
-    if (findUsers.length > 0) {
-      return ResultData.fail('手机号已注册');
-    }
-    findUsers = await this.userService.findBy([{ email: user.email }]);
-    if (findUsers.length > 0) {
-      return ResultData.fail('邮箱已注册');
-    }
+    // findUsers = await this.userService.findBy([{ phone: user.phone }]);
+    // if (findUsers.length > 0) {
+    //   return ResultData.fail('手机号已注册');
+    // }
+    // findUsers = await this.userService.findBy([{ email: user.email }]);
+    // if (findUsers.length > 0) {
+    //   return ResultData.fail('邮箱已注册');
+    // }
     await this.userService.create(user);
     return ResultData.success({}, '用户创建成功');
   }
@@ -62,7 +62,7 @@ export class UserController {
     if (!oldUser) {
       return ResultData.fail('用户不存在');
     }
-    let newUser = await this.userService.find({
+    const newUser = await this.userService.find({
       $and: [
         {
           name,
@@ -75,32 +75,32 @@ export class UserController {
     if (newUser.length > 0) {
       return ResultData.fail('用户名已存在');
     }
-    newUser = await this.userService.find({
-      $and: [
-        {
-          phone,
-        },
-        {
-          uuid: { $not: { $eq: oldUser.uuid } },
-        },
-      ],
-    });
-    if (newUser.length > 0) {
-      return ResultData.fail('手机号已注册');
-    }
-    newUser = await this.userService.find({
-      $and: [
-        {
-          email,
-        },
-        {
-          uuid: { $not: { $eq: oldUser.uuid } },
-        },
-      ],
-    });
-    if (newUser.length > 0) {
-      return ResultData.fail('邮箱已注册');
-    }
+    // newUser = await this.userService.find({
+    //   $and: [
+    //     {
+    //       phone,
+    //     },
+    //     {
+    //       uuid: { $not: { $eq: oldUser.uuid } },
+    //     },
+    //   ],
+    // });
+    // if (newUser.length > 0) {
+    //   return ResultData.fail('手机号已注册');
+    // }
+    // newUser = await this.userService.find({
+    //   $and: [
+    //     {
+    //       email,
+    //     },
+    //     {
+    //       uuid: { $not: { $eq: oldUser.uuid } },
+    //     },
+    //   ],
+    // });
+    // if (newUser.length > 0) {
+    //   return ResultData.fail('邮箱已注册');
+    // }
     if (password) {
       user.password = md5(`${oldUser.salt}${password}`).toString();
     }
