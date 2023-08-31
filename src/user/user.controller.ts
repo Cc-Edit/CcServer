@@ -54,7 +54,7 @@ export class UserController {
     if (currentUser.role !== UserRole.Admin) {
       return ResultData.fail('只有管理员有权限更新用户');
     }
-    const { uuid, name, phone, email, password } = user;
+    const { uuid, name, password } = user;
     if (!uuid) {
       return ResultData.fail('用户uuid不能为空');
     }
