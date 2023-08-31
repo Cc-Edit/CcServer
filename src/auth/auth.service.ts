@@ -5,6 +5,7 @@ import * as md5 from 'crypto-js/md5';
 import { Auth, AuthDocument } from './schemas/auth.schema';
 import { InjectConnection, InjectModel } from '@nestjs/mongoose';
 import { Connection, Model } from 'mongoose';
+import { ResultData } from '../lib/utils/result';
 
 @Injectable()
 export class AuthService {
@@ -23,22 +24,29 @@ export class AuthService {
     ]);
     if (users.length === 0) return null;
     const user = users.shift();
-    const { password, salt } = user;
-    if (password === md5(`${salt}${pass}`).toString()) {
+    const { password, salt, status } = user;
+    const isDisable = status !== 2;
+    if (isDisable) {
+      return { error: '用户已被禁用或删除' };
+    } else if (password === md5(`${salt}${pass}`).toString()) {
       return { uuid: user.uuid };
     } else {
-      return null;
+      return { error: '验证失败，用户名密码不匹配' };
     }
   }
 
   async login(user: any) {
     const payload = await this.validateUser(user.username, user.password);
-    if (!payload) {
-      throw new UnauthorizedException('验证失败，用户名密码不匹配');
+    const { error } = payload;
+    if (error) {
+      return ResultData.fail(error);
     }
-    return {
-      access_token: this.jwtService.sign(payload),
-    };
+    return ResultData.success(
+      {
+        access_token: this.jwtService.sign(payload),
+      },
+      '登录成功',
+    );
   }
 
   async logout(token: string) {

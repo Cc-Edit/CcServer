@@ -58,7 +58,7 @@ export class UserController {
     if (!uuid) {
       return ResultData.fail('用户uuid不能为空');
     }
-    const oldUser = await this.userService.findByUuid(uuid);
+    const oldUser = await this.userService.findByUuid(uuid, ['salt']);
     if (!oldUser) {
       return ResultData.fail('用户不存在');
     }

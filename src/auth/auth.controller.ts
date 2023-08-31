@@ -23,10 +23,7 @@ export class AuthController {
     if (captcha.toLowerCase() !== userLogin.captcha.toLowerCase()) {
       return ResultData.fail('验证码不正确');
     }
-    return ResultData.success(
-      await this.authService.login(userLogin),
-      '登录成功',
-    );
+    return await this.authService.login(userLogin);
   }
 
   @AllowAccess()

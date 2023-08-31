@@ -76,12 +76,12 @@ export class UserService {
     return this.UserModel.count(query).exec();
   }
 
-  async findByUuid(uuid: string): Promise<User> {
+  async findByUuid(uuid: string, otherKey?: string[]): Promise<User> {
     return this.UserModel.findOne(
       {
         uuid,
       },
-      UserFields,
+      [...UserFields, ...(otherKey ?? [])],
     );
   }
 
