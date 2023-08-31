@@ -51,12 +51,12 @@ export class UserController {
   async update(@Body() user: UserUpdate, @Request() req) {
     const { uuid: currentUuid } = req.user || {};
     const currentUser = await this.userService.findByUuid(currentUuid);
-    if (currentUser.role !== UserRole.Admin) {
-      return ResultData.fail('只有管理员有权限更新用户');
-    }
     const { uuid, name, password } = user;
     if (!uuid) {
       return ResultData.fail('用户uuid不能为空');
+    }
+    if (currentUuid !== uuid && currentUser.role !== UserRole.Admin) {
+      return ResultData.fail('只有管理员有权限更新用户');
     }
     const oldUser = await this.userService.findByUuid(uuid, ['salt']);
     if (!oldUser) {
