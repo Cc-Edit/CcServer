@@ -9,7 +9,6 @@ import { UserService } from '../user/user.service';
 import { UserRole } from '../user/schemas/user.schema';
 import { DesignStatus } from '../design/schemas/design.schema';
 import { FileType, PageStatus, RootId } from '../page/schemas/page.schema';
-import { dateFormat } from '../common/util/common';
 
 @Controller('template')
 export class TemplateController {
@@ -124,13 +123,14 @@ export class TemplateController {
 
   @Get('createTemplatePage')
   async createTemplatePage(@Query('uuid') uuid: string, @Request() req) {
-    const { uuid: currentUser } = req.user || {};
+    const { uuid: currentUuid } = req.user || {};
+    const currentUser = await this.userService.findByUuid(currentUuid);
     const templateIns = await this.templateService.findByUuid(uuid);
     const { name, cover, templateStr } = templateIns;
     if (templateIns.type !== TemplateType.Page) {
       return ResultData.fail('请使用页面模板创建新页面');
     }
-    if (!currentUser) {
+    if (!currentUuid) {
       return ResultData.fail('登录token已失效');
     }
     const newPageData = {
@@ -143,6 +143,9 @@ export class TemplateController {
       $and: [
         {
           type: FileType.Page,
+        },
+        {
+          createUser: currentUser._id,
         },
         {
           status: {
@@ -170,7 +173,7 @@ export class TemplateController {
         api,
         page,
       };
-      await this.designService.save(newDesign, currentUser);
+      await this.designService.save(newDesign, currentUuid);
       return ResultData.success({ uuid: newPage.uuid }, '创建成功');
     } catch (e) {
       return ResultData.fail('模板解析失败');

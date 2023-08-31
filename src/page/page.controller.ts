@@ -39,7 +39,7 @@ export class PageController {
     const repeatTitle = findPages.find((item) => {
       return item.title === page.title;
     });
-    if (!currentUser) {
+    if (!currentUuid) {
       return ResultData.fail('登录token已失效');
     }
     if (findPages.length >= 40) {
@@ -78,7 +78,7 @@ export class PageController {
     const repeatTitle = findFolders.find((item) => {
       return item.title === folder.title;
     });
-    if (!currentUser) {
+    if (!currentUuid) {
       return ResultData.fail('登录token已失效');
     }
     if (repeatTitle) {
