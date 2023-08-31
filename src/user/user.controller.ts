@@ -37,7 +37,7 @@ export class UserController {
   }
 
   @Post('delete')
-  async remove(@Body('uuid') uuid: string, @Request() req) {
+  async delete(@Body('uuid') uuid: string, @Request() req) {
     const { uuid: currentUuid } = req.user || {};
     const currentUser = await this.userService.findByUuid(currentUuid);
     if (currentUser.role !== UserRole.Admin) {
