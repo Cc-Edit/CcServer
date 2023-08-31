@@ -13,6 +13,7 @@ import { FolderCreate } from './dto/folder-create';
 import { v4 as UuidV4 } from 'uuid';
 import { UserService } from '../user/user.service';
 import { UserFields } from '../lib/constant';
+import { User } from '../user/schemas/user.schema';
 @Injectable()
 export class PageService {
   constructor(
@@ -22,10 +23,9 @@ export class PageService {
 
   async create(
     createData: PageCreate | FolderCreate,
-    createUserId: string,
+    createUser: User,
     origin = '',
   ): Promise<Page> {
-    const createUser = await this.usersService.findByUuid(createUserId);
     const newPage = new this.PageModel({
       ...createData,
       createUser: createUser._id,
@@ -49,8 +49,9 @@ export class PageService {
     return null;
   }
 
-  async findAll(uuid: string): Promise<Page[]> {
+  async findAll(uuid: string, currentUser: User): Promise<Page[]> {
     return this.PageModel.find({
+      createUser: currentUser._id,
       status: {
         $ne: PageStatus.Delete,
       },

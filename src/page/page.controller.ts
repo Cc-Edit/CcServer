@@ -4,18 +4,26 @@ import { PageCreate } from './dto/page-create';
 import { FolderCreate } from './dto/folder-create';
 import { PageStatus, FileType, RootId } from './schemas/page.schema';
 import { ResultData } from '../lib/utils/result';
+import { UserService } from '../user/user.service';
 
 @Controller('page')
 export class PageController {
-  constructor(private pageService: PageService) {}
+  constructor(
+    private pageService: PageService,
+    private userService: UserService,
+  ) {}
 
   @Post('creatPage')
   async creatPage(@Body() page: PageCreate, @Request() req) {
-    const { uuid: currentUser } = req.user || {};
+    const { uuid: currentUuid } = req.user || {};
+    const currentUser = await this.userService.findByUuid(currentUuid);
     const findPages = await this.pageService.find({
       $and: [
         {
           type: FileType.Page,
+        },
+        {
+          createUser: currentUser._id,
         },
         {
           status: {
@@ -46,11 +54,15 @@ export class PageController {
 
   @Post('creatFolder')
   async creatFolder(@Body() folder: FolderCreate, @Request() req) {
-    const { uuid: currentUser } = req.user || {};
+    const { uuid: currentUuid } = req.user || {};
+    const currentUser = await this.userService.findByUuid(currentUuid);
     const findFolders = await this.pageService.find({
       $and: [
         {
           type: FileType.Folder,
+        },
+        {
+          createUser: currentUser._id,
         },
         {
           status: {
@@ -80,7 +92,9 @@ export class PageController {
   }
 
   @Post('update')
-  async update(@Body() page: PageCreate | FolderCreate) {
+  async update(@Body() page: PageCreate | FolderCreate, @Request() req) {
+    const { uuid: currentUuid } = req.user || {};
+    const currentUser = await this.userService.findByUuid(currentUuid);
     const { uuid, title, cover, parent, desc } = page;
     if (!uuid) {
       return ResultData.fail('参数uuid不能为空');
@@ -89,11 +103,17 @@ export class PageController {
     if (!current) {
       return ResultData.fail('目标不存在');
     }
+    if (current.createUser.uuid !== currentUuid) {
+      return ResultData.fail('只能编辑自己创建的应用或页面');
+    }
     // 判断是否重复
     const findPage = await this.pageService.find({
       $and: [
         {
           type: current.type,
+        },
+        {
+          createUser: currentUser._id,
         },
         {
           uuid: {
@@ -141,8 +161,12 @@ export class PageController {
   }
 
   @Get('getFolder')
-  async getFolder(@Query('uuid') uuid: string) {
-    return ResultData.success(await this.pageService.findAll(uuid || 'root'));
+  async getFolder(@Query('uuid') uuid: string, @Request() req) {
+    const { uuid: currentUuid } = req.user || {};
+    const currentUser = await this.userService.findByUuid(currentUuid);
+    return ResultData.success(
+      await this.pageService.findAll(uuid || 'root', currentUser),
+    );
   }
 
   @Get('move')
@@ -165,7 +189,8 @@ export class PageController {
 
   @Get('copy')
   async copy(@Query('uuid') uuid: string, @Request() req) {
-    const { uuid: currentUserId } = req.user || {};
+    const { uuid: currentUuid } = req.user || {};
+    const currentUser = await this.userService.findByUuid(currentUuid);
     const current = await this.pageService.findByUuid(uuid);
     let newTitle = `${current.title}_副本`;
     let count = 0;
@@ -173,6 +198,9 @@ export class PageController {
       $and: [
         {
           type: current.type,
+        },
+        {
+          createUser: currentUser._id,
         },
         {
           parent: current.parent || RootId,
@@ -201,6 +229,9 @@ export class PageController {
               },
             },
             {
+              createUser: currentUser._id,
+            },
+            {
               status: {
                 $ne: PageStatus.Delete,
               },
@@ -211,6 +242,9 @@ export class PageController {
           $and: [
             {
               type: current.type,
+            },
+            {
+              createUser: currentUser._id,
             },
             {
               status: {
@@ -245,7 +279,7 @@ export class PageController {
         parent: current.parent,
         cover: current.cover,
       },
-      currentUserId,
+      currentUser,
       current.uuid,
     );
     return ResultData.success({}, '复制成功');
