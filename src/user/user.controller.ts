@@ -4,14 +4,12 @@ import { UserCreate, UserQuery } from './dto/user-create';
 import { UserService } from './user.service';
 import * as md5 from 'crypto-js/md5';
 import { ResultData } from '../lib/utils/result';
-import { AllowAccess } from '../common/decorators/allow-access.decorator';
 import { UserRole, UserStatus } from './schemas/user.schema';
 @Controller('user')
 export class UserController {
   constructor(private userService: UserService) {}
 
   @Post('creat')
-  @AllowAccess()
   @ApiOperation({ summary: '创建用户' })
   async create(@Body() user: UserCreate, @Request() req) {
     const { uuid: currentUuid } = req.user || {};
