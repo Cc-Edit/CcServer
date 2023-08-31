@@ -1,6 +1,6 @@
-import { Controller, Get, Post, Body, Request } from '@nestjs/common';
+import { Controller, Post, Body, Request } from '@nestjs/common';
 import { ApiOperation } from '@nestjs/swagger';
-import { UserCreate, UserQuery } from './dto/user-create';
+import { UserCreate, UserQuery, UserUpdate } from './dto/user-create';
 import { UserService } from './user.service';
 import * as md5 from 'crypto-js/md5';
 import { ResultData } from '../lib/utils/result';
@@ -48,7 +48,7 @@ export class UserController {
   }
 
   @Post('update')
-  async update(@Body() user: UserCreate, @Request() req) {
+  async update(@Body() user: UserUpdate, @Request() req) {
     const { uuid: currentUuid } = req.user || {};
     const currentUser = await this.userService.findByUuid(currentUuid);
     if (currentUser.role !== UserRole.Admin) {
@@ -102,6 +102,15 @@ export class UserController {
     //   return ResultData.fail('邮箱已注册');
     // }
     if (password) {
+      if (
+        !new RegExp(
+          /^(?=.*[a-zA-Z])(?=.*[0-9])(?=.*[._~!@#$^&*])[A-Za-z0-9._~!@#$^&*]{6,30}$/,
+        ).test(password)
+      ) {
+        return ResultData.fail(
+          '密码中必须包含字母、数字和特殊字符, 长度大于6位小于30位',
+        );
+      }
       user.password = md5(`${oldUser.salt}${password}`).toString();
     }
     Object.assign(oldUser, user);
