@@ -122,7 +122,7 @@ export class UserController {
   async list(@Body() query: UserQuery) {
     return ResultData.success({
       list: await this.userService.findAll(query),
-      count: await this.userService.count({}),
+      count: await this.userService.count(query),
     });
   }
 

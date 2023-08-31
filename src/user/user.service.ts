@@ -72,8 +72,26 @@ export class UserService {
       .exec();
   }
 
-  async count(query: FilterQuery<any>): Promise<number> {
-    return this.UserModel.count(query).exec();
+  async count(query: UserQuery): Promise<number> {
+    const { status = -1, info = '', role = -1, createDate } = query;
+    const filter = {};
+    if (status !== -1) {
+      Object.assign(filter, { status });
+    }
+    if (role !== -1) {
+      Object.assign(filter, { role });
+    }
+    if (info !== '') {
+      const reg = new RegExp(info);
+      Object.assign(filter, {
+        $or: [{ name: reg }, { phone: reg }, { email: reg }],
+      });
+    }
+    if (createDate) {
+      const { start, end } = createDate;
+      Object.assign(filter, { createDate: { $gte: start, $lt: end } });
+    }
+    return this.UserModel.count(filter).exec();
   }
 
   async findByUuid(uuid: string, otherKey?: string[]): Promise<User> {
