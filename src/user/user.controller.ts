@@ -5,7 +5,7 @@ import { UserService } from './user.service';
 import * as md5 from 'crypto-js/md5';
 import { ResultData } from '../lib/utils/result';
 import { AllowAccess } from '../common/decorators/allow-access.decorator';
-import { UserRole } from './schemas/user.schema';
+import { UserRole, UserStatus } from './schemas/user.schema';
 @Controller('user')
 export class UserController {
   constructor(private userService: UserService) {}
@@ -17,7 +17,7 @@ export class UserController {
     const { uuid: currentUuid } = req.user || {};
     const currentUser = await this.userService.findByUuid(currentUuid);
     if (currentUser.role !== UserRole.Admin) {
-      return ResultData.fail('当前用户没有新增用户的权限');
+      return ResultData.fail('只有管理员有权限创建用户');
     } else {
       user.createUser = currentUuid;
     }
@@ -40,12 +40,22 @@ export class UserController {
 
   @Post('delete')
   async remove(@Body('uuid') uuid: string, @Request() req) {
+    const { uuid: currentUuid } = req.user || {};
+    const currentUser = await this.userService.findByUuid(currentUuid);
+    if (currentUser.role !== UserRole.Admin) {
+      return ResultData.fail('只有管理员有权限删除用户');
+    }
     const deleteUser = await this.userService.delete(uuid);
     return ResultData.success({}, deleteUser ? '删除成功' : '用户不存在');
   }
 
   @Post('update')
-  async update(@Body() user: UserCreate) {
+  async update(@Body() user: UserCreate, @Request() req) {
+    const { uuid: currentUuid } = req.user || {};
+    const currentUser = await this.userService.findByUuid(currentUuid);
+    if (currentUser.role !== UserRole.Admin) {
+      return ResultData.fail('只有管理员有权限更新用户');
+    }
     const { uuid, name, phone, email, password } = user;
     if (!uuid) {
       return ResultData.fail('用户uuid不能为空');
@@ -115,5 +125,28 @@ export class UserController {
     return ResultData.success(
       await this.userService.findByUuid(uuid || currentUuid),
     );
+  }
+
+  @Post('updateUserStatus')
+  async updateUserStatus(
+    @Body('uuid') uuid: string,
+    @Body('status') status: number,
+    @Request() req,
+  ) {
+    const { uuid: currentUuid } = req.user || {};
+    const currentUser = await this.userService.findByUuid(currentUuid);
+    if (currentUser.role !== UserRole.Admin) {
+      return ResultData.fail('只有管理员有权限更新用户状态');
+    }
+    const oldUser = await this.userService.findByUuid(uuid);
+    if (!oldUser) {
+      return ResultData.fail('用户不存在');
+    }
+    if (!Object.values(UserStatus).includes(status)) {
+      return ResultData.fail('未知的用户状态');
+    }
+    oldUser.status = status;
+    await oldUser.save();
+    return ResultData.success('状态更新成功');
   }
 }
