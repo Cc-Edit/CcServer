@@ -36,17 +36,6 @@ export class UserController {
     return ResultData.success({}, '用户创建成功');
   }
 
-  @Post('delete')
-  async delete(@Body('uuid') uuid: string, @Request() req) {
-    const { uuid: currentUuid } = req.user || {};
-    const currentUser = await this.userService.findByUuid(currentUuid);
-    if (currentUser.role !== UserRole.Admin) {
-      return ResultData.fail('只有管理员有权限删除用户');
-    }
-    const deleteUser = await this.userService.delete(uuid);
-    return ResultData.success({}, deleteUser ? '删除成功' : '用户不存在');
-  }
-
   @Post('update')
   async update(@Body() user: UserUpdate, @Request() req) {
     const { uuid: currentUuid } = req.user || {};
