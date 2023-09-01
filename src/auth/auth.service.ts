@@ -6,6 +6,7 @@ import { Auth, AuthDocument } from './schemas/auth.schema';
 import { InjectConnection, InjectModel } from '@nestjs/mongoose';
 import { Connection, Model } from 'mongoose';
 import { ResultData } from '../lib/utils/result';
+import { UserStatus } from '../user/schemas/user.schema';
 
 @Injectable()
 export class AuthService {
@@ -85,10 +86,17 @@ export class AuthService {
    * token 校验
    * */
   async verify(token: string) {
+    const tokenDate = this.jwtService.decode(token);
     const isDisabled = await this.AuthModel.exists({
       token,
     });
     if (isDisabled) {
+      return null;
+    }
+    const { uuid } = tokenDate as Record<string, any>;
+    const user = await this.usersService.findByUuid(uuid);
+    if (user.status !== UserStatus.Open) {
+      await this.logout(token);
       return null;
     }
     try {
