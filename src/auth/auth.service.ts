@@ -23,7 +23,7 @@ export class AuthService {
         name: userName,
       },
     ]);
-    if (users.length === 0) return null;
+    if (users.length === 0) return { error: '用户不存在' };
     const user = users.shift();
     const { password, salt, status } = user;
     const isDisable = status !== 2;
