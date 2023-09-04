@@ -67,7 +67,7 @@ async function bootstrap() {
   app.use(requestIpMw({ attributeName: 'ip' }));
 
   // 启用cors
-  app.enableCors();
+  AppConfig.Cors && app.enableCors();
 
   // swagger 配置
   const options = new DocumentBuilder()

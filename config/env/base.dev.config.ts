@@ -1,6 +1,7 @@
 import { extractKey } from '../../src/lib/utils/common';
 
 const Config = {
+  Cors: true,
   DB: {
     user: 'root',
     password: '123456',
