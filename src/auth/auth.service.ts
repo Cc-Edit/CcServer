@@ -6,7 +6,7 @@ import { Auth, AuthDocument } from './schemas/auth.schema';
 import { InjectConnection, InjectModel } from '@nestjs/mongoose';
 import { Connection, Model } from 'mongoose';
 import { ResultData } from '../lib/utils/result';
-import { UserStatus } from '../user/schemas/user.schema';
+import { User, UserStatus } from '../user/schemas/user.schema';
 
 @Injectable()
 export class AuthService {
@@ -18,11 +18,13 @@ export class AuthService {
   ) {}
 
   async validateUser(userName: string, pass: string): Promise<any> {
+    console.log(userName, pass);
     const users = await this.usersService.findBy([
       {
         name: userName,
       },
     ]);
+    console.log(users);
     if (users.length === 0) return { error: '用户不存在' };
     const user = users.shift();
     const { password, salt, status } = user;
