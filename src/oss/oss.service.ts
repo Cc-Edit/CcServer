@@ -8,6 +8,7 @@ import * as fs from 'fs';
 import * as mime from 'mime-types';
 import { AppConfig } from '../../config/app.config';
 import { FindOss } from './dto/find-oss';
+import { Logger } from '../lib/logger/logger.util';
 
 @Injectable()
 export class OssService {
@@ -18,16 +19,16 @@ export class OssService {
 
   async create(files: Array<Express.Multer.File>, createUser: string) {
     const result = [];
-    console.log(files);
+    Logger.error(files);
     files.map(async (file) => {
       const uuid = UuidV4();
       // 重新命名文件， uuid, 根据 mimeType 决定 文件扩展名， 直接拿后缀名不可靠
       const newFileName = `${uuid}.${mime.extension(file.mimetype)}`;
-      console.log(newFileName);
+      Logger.error(newFileName);
       // const newFileName = `${uuid.v4().replace(/-/g, '')}.${file.originalname.split('.').pop().toLowerCase()}`
       // 文件存储路径
       const fileLocation = `${AppConfig.OSS.RootPath}/${newFileName}`;
-      console.log(fileLocation);
+      Logger.error(fileLocation);
       // fs 创建文件写入流
       const writeFile = fs.createWriteStream(fileLocation);
       // 写入文件
