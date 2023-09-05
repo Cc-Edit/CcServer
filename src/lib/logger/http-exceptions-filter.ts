@@ -22,7 +22,7 @@ export class HttpExceptionsFilter implements ExceptionFilter {
       `（${exceptionResponse?.message || exception?.message}）`
     }
 .....................................................`;
-    Logger.info(logFormat);
+    status !== 200 && Logger.info(logFormat);
     response.status(status).json({
       code: status,
       error: exceptionResponse?.message || exception.message,

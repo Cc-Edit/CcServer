@@ -69,7 +69,6 @@ export class Oss extends Document {
 const schema = SchemaFactory.createForClass(Oss);
 
 schema.pre(['updateOne', 'save', 'findOneAndUpdate'], function (next) {
-  Logger.info('updateOne、save、findOneAndUpdate之后，更新数据更新时间字段值');
   const that = this as Oss;
   that.updateDate = new Date().getTime();
   next();

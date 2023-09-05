@@ -26,18 +26,13 @@ export class OssService {
     if (size > 2048) {
       return ResultData.fail('文件大小超出限制');
     }
-    Logger.error(files);
-    Logger.error(AppConfig.OSS.RootPath);
     files.map(async (file) => {
       const uuid = UuidV4();
       // 重新命名文件， uuid, 根据 mimeType 决定 文件扩展名， 直接拿后缀名不可靠
       const newFileName = `${uuid}.${mime.extension(file.mimetype)}`;
-      Logger.error(newFileName);
       // const newFileName = `${uuid.v4().replace(/-/g, '')}.${file.originalname.split('.').pop().toLowerCase()}`
       // 文件存储路径
-      Logger.error(AppConfig.OSS.RootPath);
       const fileLocation = `${AppConfig.OSS.RootPath}/${newFileName}`;
-      Logger.error(fileLocation);
       // fs 创建文件写入流
       const writeFile = fs.createWriteStream(fileLocation);
       // 写入文件
@@ -58,7 +53,6 @@ export class OssService {
       result.push(ossFile.uuid);
       await ossFile.save();
     });
-    console.log(2);
     return ResultData.success(result, '上传完成');
   }
 

@@ -18,13 +18,11 @@ export class AuthService {
   ) {}
 
   async validateUser(userName: string, pass: string): Promise<any> {
-    console.log(userName, pass);
     const users = await this.usersService.findBy([
       {
         name: userName,
       },
     ]);
-    console.log(users);
     if (users.length === 0) return { error: '用户不存在' };
     const user = users.shift();
     const { password, salt, status } = user;

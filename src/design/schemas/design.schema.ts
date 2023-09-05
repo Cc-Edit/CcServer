@@ -66,7 +66,6 @@ export class Design extends Document {
 const schema = SchemaFactory.createForClass(Design);
 
 schema.pre(['updateOne', 'save', 'findOneAndUpdate'], function (next) {
-  Logger.info('updateOne、save之前，补充默认值');
   const that = this as Design;
   that.updateDate = new Date().getTime();
   next();

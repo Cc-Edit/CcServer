@@ -65,7 +65,6 @@ export class User extends Document {
 const schema = SchemaFactory.createForClass(User);
 
 schema.pre(['updateOne', 'save', 'findOneAndUpdate'], function (next) {
-  Logger.info('updateOne、save之前，补充默认值');
   const that = this as User;
   that.updateDate = new Date().getTime();
   next();
