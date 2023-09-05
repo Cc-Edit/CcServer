@@ -1,5 +1,6 @@
 import * as fs from 'fs';
 import * as path from 'path';
+import * as MD5 from 'crypto-js/md5';
 import { readFileSync } from 'fs';
 
 // 项目根路径
@@ -11,6 +12,14 @@ const Pwd = process.cwd();
  * */
 export function extractKey(path: string) {
   return readFileSync(`${Pwd}${path}`).toString();
+}
+/**
+ * 文件hash值
+ * @param {Express.Multer.File} file 文件内容
+ * @returns {String}
+ */
+export function getFileHash(file: Express.Multer.File) {
+  return MD5(file.buffer.toString()).toString();
 }
 
 /**

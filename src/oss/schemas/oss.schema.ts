@@ -48,6 +48,12 @@ export class Oss extends Document {
   })
   type: string;
 
+  @Prop({
+    required: true,
+    comment: '文件hash',
+  })
+  hash: string;
+
   @Prop({ required: true, comment: '存储路径' })
   location: string;
 
