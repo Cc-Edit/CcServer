@@ -27,6 +27,7 @@ export class OssService {
       Logger.error(newFileName);
       // const newFileName = `${uuid.v4().replace(/-/g, '')}.${file.originalname.split('.').pop().toLowerCase()}`
       // 文件存储路径
+      Logger.error(AppConfig.OSS.RootPath);
       const fileLocation = `${AppConfig.OSS.RootPath}/${newFileName}`;
       Logger.error(fileLocation);
       // fs 创建文件写入流
