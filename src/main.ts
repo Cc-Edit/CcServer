@@ -69,7 +69,7 @@ async function bootstrap() {
         return ResultData.fail('请求次数超限');
       },
       statusCode: 200,
-      max: 600, // 限制10分钟内最多只能访问300次
+      max: 6000, // 限制10分钟内最多只能访问300次
     }),
   );
   const uploadLimiter = rateLimit({
