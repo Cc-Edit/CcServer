@@ -18,13 +18,16 @@ export class OssService {
 
   async create(files: Array<Express.Multer.File>, createUser: string) {
     const result = [];
+    console.log(files);
     files.map(async (file) => {
       const uuid = UuidV4();
       // 重新命名文件， uuid, 根据 mimeType 决定 文件扩展名， 直接拿后缀名不可靠
       const newFileName = `${uuid}.${mime.extension(file.mimetype)}`;
+      console.log(newFileName);
       // const newFileName = `${uuid.v4().replace(/-/g, '')}.${file.originalname.split('.').pop().toLowerCase()}`
       // 文件存储路径
       const fileLocation = `${AppConfig.OSS.RootPath}/${newFileName}`;
+      console.log(fileLocation);
       // fs 创建文件写入流
       const writeFile = fs.createWriteStream(fileLocation);
       // 写入文件
@@ -45,6 +48,7 @@ export class OssService {
       result.push(ossFile.uuid);
       await ossFile.save();
     });
+    console.log(2);
     return ResultData.success(result, '上传完成');
   }
 
