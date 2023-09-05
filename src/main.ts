@@ -24,9 +24,16 @@ async function bootstrap() {
   app.use(
     rateLimit({
       windowMs: 10 * 60 * 1000, // 10分钟
-      max: 800, // 限制15分钟内最多只能访问1000次
+      message: '请求次数超限',
+      max: 300, // 限制10分钟内最多只能访问300次
     }),
   );
+  const uploadLimiter = rateLimit({
+    windowMs: 10 * 60 * 1000, // 10分钟
+    message: '请求次数超限',
+    max: 50, // 限制10分钟内最多只能访问50次
+  });
+  app.use('/uploadFile', uploadLimiter);
 
   // 设置 api 访问前缀
   app.setGlobalPrefix(AppConfig.APP.prefix);

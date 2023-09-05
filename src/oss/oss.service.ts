@@ -19,6 +19,13 @@ export class OssService {
 
   async create(files: Array<Express.Multer.File>, createUser: string) {
     const result = [];
+    let size = 0;
+    files.map((file) => {
+      size += file.size / 1000;
+    });
+    if (size > 2048) {
+      return ResultData.fail('文件大小超出限制');
+    }
     Logger.error(files);
     Logger.error(AppConfig.OSS.RootPath);
     files.map(async (file) => {
