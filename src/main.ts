@@ -12,6 +12,7 @@ import { AuthGuard } from './lib/guard/auth.guard';
 import { ApplicationModule } from './app.module';
 import { AppConfig } from '../config/app.config';
 import { mw as requestIpMw } from 'request-ip';
+import { ResultData } from './lib/utils/result';
 
 async function bootstrap() {
   const app = await NestFactory.create(ApplicationModule, {
@@ -19,21 +20,6 @@ async function bootstrap() {
     abortOnError: false, // 阻止程序异常退出
     logger: ['log', 'error', 'warn', 'debug'],
   });
-
-  // 设置访问频率
-  app.use(
-    rateLimit({
-      windowMs: 10 * 60 * 1000, // 10分钟
-      message: '请求次数超限',
-      max: 300, // 限制10分钟内最多只能访问300次
-    }),
-  );
-  const uploadLimiter = rateLimit({
-    windowMs: 10 * 60 * 1000, // 10分钟
-    message: '请求次数超限',
-    max: 50, // 限制10分钟内最多只能访问50次
-  });
-  app.use('/uploadFile', uploadLimiter);
 
   // 设置 api 访问前缀
   app.setGlobalPrefix(AppConfig.APP.prefix);
@@ -75,7 +61,26 @@ async function bootstrap() {
 
   // 启用cors
   AppConfig.Cors && app.enableCors();
-
+  // 设置访问频率
+  app.use(
+    rateLimit({
+      windowMs: 10 * 60 * 1000, // 10分钟
+      message: async () => {
+        return ResultData.fail('请求次数超限');
+      },
+      statusCode: 200,
+      max: 300, // 限制10分钟内最多只能访问300次
+    }),
+  );
+  const uploadLimiter = rateLimit({
+    windowMs: 10 * 60 * 1000, // 10分钟
+    message: async () => {
+      return ResultData.fail('请求次数超限');
+    },
+    statusCode: 200,
+    max: 5, // 限制10分钟内最多只能访问50次
+  });
+  app.use('/api/oss/uploadFile', uploadLimiter);
   // swagger 配置
   const options = new DocumentBuilder()
     .setTitle(AppConfig.SWAGGER.title)
